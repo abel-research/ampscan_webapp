@@ -13,7 +13,8 @@ div {
 </style>
 
 <h1> AmpScan </h1>
-<form method="post" enctype="multipart/form-data">
+<p>session:{{ session_id }}</p>
+<form name="upload_file" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <input type="file" name="user_file">
     <button type="submit">Upload</button>

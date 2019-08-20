@@ -1,22 +1,8 @@
 
-// import 'vtk.js/Sources/favicon';
-
-// import vtkActor from 'vtk.js/Sources/Rendering/Core/Actor';
-// import vtkFullScreenRenderWindow from 'vtk.js/Sources/Rendering/Misc/FullScreenRenderWindow';
-// import vtkMapper from 'vtk.js/Sources/Rendering/Core/Mapper';
-// import vtkSTLReader from 'vtk.js/Sources/IO/Geometry/STLReader';
-
-
-
-
-
-// ----------------------------------------------------------------------------
-//
-// ----------------------------------------------------------------------------
 var fullScreenRenderer = vtk.Rendering.Misc.vtkFullScreenRenderWindow.newInstance( {
     containerStyle: {
-      height: '50%',
-      width: '50%',
+      height: '500px',
+      width: '500px',
       overflow: 'hidden',
     }
   } );
@@ -25,6 +11,7 @@ var fullScreenRenderer = vtk.Rendering.Misc.vtkFullScreenRenderWindow.newInstanc
 //Set default options to renderer
 fullScreenRenderer.getRenderer().getActiveCamera().setParallelProjection(true);
 var prevActor = null;
+
 function update() {
     var mapper = vtk.Rendering.Core.vtkMapper.newInstance({ scalarVisibility: false });
     var actor = vtk.Rendering.Core.vtkActor.newInstance();
@@ -44,15 +31,61 @@ function update() {
         fullScreenRenderer.getRenderWindow().render();
     }
 
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "align", true);
-    xhttp.send();
-
-    reader.setUrl( "download/", { binary: true }).then(addActor);
+    reader.setUrl( "download", { binary: true }).then(addActor);
 }
 
+function rotate(x, y, z) {
+    // Add the data
+    var data  = new FormData();
+    data.append("x", String(x));
+    data.append("y", String(y));
+    data.append("z", String(z));
+
+    // Submit the request
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "align", true);
+    xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+    xhttp.send(data);
+    update();
+}
+
+function getCookie(name) {
+    // From Django docs
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+var csrftoken = getCookie('csrftoken');
+
 const container = document.querySelector('body');
-const btn = document.createElement('BUTTON');
-btn.innerHTML = 'Show';
-container.appendChild(btn);
-btn.addEventListener('click', update);
+
+// Add upload button
+const upload_button = document.createElement('BUTTON');
+upload_button.innerHTML = 'Show';
+container.appendChild(upload_button);
+upload_button.addEventListener('click', update);
+
+// Add rotate button
+const rotate_button = document.createElement('BUTTON');
+rotate_button.innerHTML = 'Rotate';
+container.appendChild(rotate_button);
+rotate_button.addEventListener('click', function(){ rotate(0.1, 0, 0); });
+
+// Add rotate2 button
+const rotate2_button = document.createElement('BUTTON');
+rotate2_button.innerHTML = 'Rotate Back';
+container.appendChild(rotate2_button);
+rotate2_button.addEventListener('click', function(){ rotate(-0.1, 0, 0); });
+
+
