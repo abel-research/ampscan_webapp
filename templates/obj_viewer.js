@@ -46,7 +46,12 @@ function rotate(x, y, z) {
     xhttp.open("POST", "align", true);
     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
     xhttp.send(data);
-    update();
+    // When reponse is recieved
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            update();
+        }
+    }
 }
 
 function getCookie(name) {
