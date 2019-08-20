@@ -91,6 +91,15 @@ rotate_button.addEventListener('click', function(){ rotate(0.1, 0, 0); });
 const rotate2_button = document.createElement('BUTTON');
 rotate2_button.innerHTML = 'Rotate Back';
 container.appendChild(rotate2_button);
-rotate2_button.addEventListener('click', function(){ rotate(-0.1, 0, 0); });
+var intervalId;
+rotate2_button.addEventListener("mousedown", function(){
+    intervalId = setInterval(function(){
+        console.log(123)
+        rotate(-0.1, 0, 0);
+    }, 150);  
+});
+rotate2_button.addEventListener("mouseup", function() {
+    clearInterval(intervalId);
+});;
 
 
