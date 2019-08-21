@@ -26,7 +26,7 @@ urlpatterns = [
     path('', home_view, name="home"),
     path('obj_viewer.js', obj_viewer_view),
     path('download', downloads_view),
-    path('align', align_view)
+    path('align', align_view, name="align")
 ]
 
 # Only use in development

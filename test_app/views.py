@@ -43,11 +43,18 @@ def downloads_view(request):
 
 def align_view(request):
     # AmpScan processing
-    obj = AmpObject(settings.BASE_DIR + uploaded_file_url)
-    obj.rotateAng([float(request.POST["x"]), float(request.POST["y"]), float(request.POST["z"])])
-    obj.save(settings.BASE_DIR + uploaded_file_url)
-    print(request.POST)
-    return JsonResponse({"success": True})
+    id = request.GET.get('id')
+    if id is None:
+        #create random session id and check if exsits
+        #obj = AmpObject(settings.BASE_DIR + uploaded_file_url)
+        #request.session[id] = obj
+    else:
+        #obj = request.session[id]
+        # obj = AmpObject(settings.BASE_DIR + uploaded_file_url)
+        obj.rotateAng([float(request.POST["x"]), float(request.POST["y"]), float(request.POST["z"])])
+        obj.save(settings.BASE_DIR + uploaded_file_url)
+        print(request.POST)
+        return JsonResponse({"success": True})
 
 
 def home_view(request):

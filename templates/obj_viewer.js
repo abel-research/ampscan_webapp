@@ -1,3 +1,4 @@
+let id;
 
 var fullScreenRenderer = vtk.Rendering.Misc.vtkFullScreenRenderWindow.newInstance( {
     containerStyle: {
@@ -12,13 +13,14 @@ var fullScreenRenderer = vtk.Rendering.Misc.vtkFullScreenRenderWindow.newInstanc
 fullScreenRenderer.getRenderer().getActiveCamera().setParallelProjection(true);
 var prevActor = null;
 
-function update() {
+function update(polyData) {
     var mapper = vtk.Rendering.Core.vtkMapper.newInstance({ scalarVisibility: false });
     var actor = vtk.Rendering.Core.vtkActor.newInstance();
     var reader = vtk.IO.Geometry.vtkSTLReader.newInstance();
 
     actor.setMapper(mapper);    
-    mapper.setInputConnection(reader.getOutputPort());
+    mapper.setInputData(polyData);
+    addActor()
 
     function addActor() {
         fullScreenRenderer.getRenderer().addActor(actor);
@@ -31,11 +33,34 @@ function update() {
         fullScreenRenderer.getRenderWindow().render();
     }
 
-    reader.setUrl( "download", { binary: true }).then(addActor);
+    // reader.setUrl( "download", { binary: true }).then(addActor);
 }
+
+function requestPoly(){
+    // Submit the request
+    var xhttp = new XMLHttpRequest();
+    //if id exsist
+    //xhttp.open("GET", '{% url "main:align" %}'.concat("id=".concat(id)), true);
+    //else
+    //xhttp.open("GET", {% url "main:align" %}), true);
+    xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+    xhttp.responseType = "json";
+    xhttp.send(data);
+    // When reponse is recieved
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            polyData = vtk.Common.DataModel.vtkPolyData.newInstance()
+            update(polyData);
+        }
+        busy = false;
+    }
+}
+
+var busy = false;
 
 function rotate(x, y, z) {
     // Add the data
+    busy = true;
     var data  = new FormData();
     data.append("x", String(x));
     data.append("y", String(y));
@@ -51,6 +76,7 @@ function rotate(x, y, z) {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             update();
         }
+        busy = false;
     }
 }
 
@@ -88,15 +114,17 @@ container.appendChild(rotate_button);
 rotate_button.addEventListener('click', function(){ rotate(0.1, 0, 0); });
 
 // Add rotate2 button
+
 const rotate2_button = document.createElement('BUTTON');
 rotate2_button.innerHTML = 'Rotate Back';
 container.appendChild(rotate2_button);
 var intervalId;
 rotate2_button.addEventListener("mousedown", function(){
     intervalId = setInterval(function(){
-        console.log(123)
-        rotate(-0.1, 0, 0);
-    }, 150);  
+        if (!busy){
+            rotate(-0.1, 0, 0);
+        }
+    }, 2);  
 });
 rotate2_button.addEventListener("mouseup", function() {
     clearInterval(intervalId);
