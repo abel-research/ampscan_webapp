@@ -33,8 +33,9 @@ function update() {
 
     reader.setUrl( "download", { binary: true }).then(addActor);
 }
-
+var busy = false;
 function rotate(x, y, z) {
+    busy = true;
     // Add the data
     var data  = new FormData();
     data.append("x", String(x));
@@ -52,6 +53,7 @@ function rotate(x, y, z) {
             update();
         }
     }
+    busy = false;
 }
 
 function getCookie(name) {
@@ -94,9 +96,10 @@ container.appendChild(rotate2_button);
 var intervalId;
 rotate2_button.addEventListener("mousedown", function(){
     intervalId = setInterval(function(){
-        console.log(123)
-        rotate(-0.1, 0, 0);
-    }, 150);  
+        if (!busy){
+            rotate(-0.1, 0, 0);
+        }
+    }, 50);  
 });
 rotate2_button.addEventListener("mouseup", function() {
     clearInterval(intervalId);

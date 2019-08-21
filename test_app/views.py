@@ -8,6 +8,7 @@ import os
 from AmpScan import AmpObject
 from random import randrange
 
+obj = None
 sessions = {}
 uploaded_file_url = ""
 
@@ -43,7 +44,7 @@ def downloads_view(request):
 
 def align_view(request):
     # AmpScan processing
-    obj = AmpObject(settings.BASE_DIR + uploaded_file_url)
+    # obj = AmpObject(settings.BASE_DIR + uploaded_file_url)
     obj.rotateAng([float(request.POST["x"]), float(request.POST["y"]), float(request.POST["z"])])
     obj.save(settings.BASE_DIR + uploaded_file_url)
     print(request.POST)
@@ -51,7 +52,7 @@ def align_view(request):
 
 
 def home_view(request):
-    global uploaded_file_url
+    global uploaded_file_url, obj
     context = {}
     context["file_loaded"] = False
 
@@ -64,6 +65,7 @@ def home_view(request):
         fs = FileSystemStorage()
         filename = fs.save(user_file.name, user_file)
         uploaded_file_url = fs.url(filename)
+        obj = AmpObject(settings.BASE_DIR + uploaded_file_url)
         if os.path.splitext(uploaded_file_url)[1] == ".stl":
             # valid file
             context["valid_file"] = True
