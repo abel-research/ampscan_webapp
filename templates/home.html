@@ -1,12 +1,9 @@
 {% extends "base.html" %}
 
-
 {% block content %}
 
-{% load static %}
 
 {% comment %} Add icon {% endcomment %}
-{% comment %} <link rel="icon" href="{% static "test_app/AmpScanLogo.jpg" %}"> {% endcomment %}
 
 <style>
 
@@ -57,12 +54,21 @@
 {% endif %}
 
 <div class="wrapper">
-    <div class="control" id="control"></div>
+    <div class="control" id="control">
+        <form name="upload_file" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="user_file">
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+
     <div class="viewer" id="viewer">
         <script type="text/javascript" src="https://unpkg.com/@babel/polyfill@7.0.0/dist/polyfill.js"></script>
         <script type="text/javascript" src="https://unpkg.com/vtk.js"></script>
         <script src="obj_viewer.js" type="text/javascript"></script>
+
     </div>
+
     <div class="obj-manager" id="obj-manager"></div>
 </div>
 
@@ -71,11 +77,6 @@
         3
     </div>
     <div class="control-panel">
-        <form name="upload_file" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="file" name="user_file">
-            <button type="submit">Upload</button>
-        </form>
     </div>
 </div> {% endcomment %}
 

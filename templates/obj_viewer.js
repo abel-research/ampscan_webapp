@@ -64,8 +64,7 @@ function polyProcess() {
     })
     .then(function(jsonResponse) {
         polyData.getPoints().setData(jsonResponse["verts"], 3);    
-        polyData.getPolys().setData(jsonResponse["faces"]);  
-        console.log(jsonResponse['norm'])
+        polyData.getPolys().setData(jsonResponse["faces"]);
         const vtkNorm = vtk.Common.Core.vtkDataArray.newInstance({
             numberOfComponents: 1,
             values: jsonResponse["norm"]
