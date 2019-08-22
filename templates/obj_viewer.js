@@ -117,7 +117,7 @@ function getCookie(name) {
 
 var csrftoken = getCookie('csrftoken');
 
-const container = document.querySelector('body');
+const container = document.getElementById('control');
 
 // Add upload button
 const upload_button = document.createElement('BUTTON');
