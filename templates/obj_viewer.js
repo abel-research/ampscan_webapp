@@ -7,6 +7,9 @@
 //     }
 // } );
 
+// function setupView() {
+//     // Sets up the vtk window and makes it interactive
+    
 const renderWindow = vtk.Rendering.Core.vtkRenderWindow.newInstance();
 const renderer = vtk.Rendering.Core.vtkRenderer.newInstance({ background: [0.2, 0.3, 0.4] });
 renderWindow.addRenderer(renderer);
@@ -14,14 +17,9 @@ renderWindow.addRenderer(renderer);
 const openglRenderWindow = vtk.Rendering.OpenGL.vtkRenderWindow.newInstance();
 renderWindow.addView(openglRenderWindow);
 
-const container2 = document.createElement('div');
-document.querySelector('body').appendChild(container2);
+const container2 = document.getElementById('viewer');
+// document.querySelector('body').appendChild(container2);
 openglRenderWindow.setContainer(container2);
-
-// ----------------------------------------------------------------------------
-// Capture size of the container and set it to the renderWindow
-// ----------------------------------------------------------------------------
-
 const { width, height } = container2.getBoundingClientRect();
 openglRenderWindow.setSize(width, height);
 
@@ -29,14 +27,9 @@ const interactor = vtk.Rendering.Core.vtkRenderWindowInteractor.newInstance();
 interactor.setView(openglRenderWindow);
 interactor.initialize();
 interactor.bindEvents(container2);
-
-// ----------------------------------------------------------------------------
-// Setup interactor style to use
-// ----------------------------------------------------------------------------
 interactor.setInteractorStyle(vtk.Interaction.Style.vtkInteractorStyleTrackballCamera.newInstance());
+    
 
-//Set default options to renderer
-// fullScreenRenderer.getRenderer().getActiveCamera().setParallelProjection(true);
 var prevActor = null;
 
 function update(polyData) {
