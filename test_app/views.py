@@ -63,11 +63,10 @@ def downloads_view(request):
     return response
 
 def polydata_view(request):
-    print(obj.vert)
-    print(obj.faces)
+    obj.calcVNorm()
     return JsonResponse({"verts":obj.vert.flatten().tolist(), 
                          "faces":(np.c_[np.full(obj.faces.shape[0], 3), obj.faces]).flatten().tolist(), 
-                         "norm":obj.norm.flatten().tolist()})
+                         "norm":obj.vNorm.flatten().tolist()})
 
 def align_view(request):
     # AmpScan processing

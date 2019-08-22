@@ -1,12 +1,39 @@
 
-var fullScreenRenderer = vtk.Rendering.Misc.vtkFullScreenRenderWindow.newInstance( {
-    containerStyle: {
-      height: '500px',
-      width: '500px',
-      overflow: 'hidden',
-    }
-  } );
+// var renderer = vtk.Rendering.Misc.vtkFullScreenRenderWindow.newInstance( {
+//     containerStyle: {
+//       height: '100%',
+//       width: '50%',
+//       overflow: 'hidden',
+//     }
+// } );
 
+const renderWindow = vtk.Rendering.Core.vtkRenderWindow.newInstance();
+const renderer = vtk.Rendering.Core.vtkRenderer.newInstance({ background: [0.2, 0.3, 0.4] });
+renderWindow.addRenderer(renderer);
+
+const openglRenderWindow = vtk.Rendering.OpenGL.vtkRenderWindow.newInstance();
+renderWindow.addView(openglRenderWindow);
+
+const container2 = document.createElement('div');
+document.querySelector('body').appendChild(container2);
+openglRenderWindow.setContainer(container2);
+
+// ----------------------------------------------------------------------------
+// Capture size of the container and set it to the renderWindow
+// ----------------------------------------------------------------------------
+
+const { width, height } = container2.getBoundingClientRect();
+openglRenderWindow.setSize(width, height);
+
+const interactor = vtk.Rendering.Core.vtkRenderWindowInteractor.newInstance();
+interactor.setView(openglRenderWindow);
+interactor.initialize();
+interactor.bindEvents(container2);
+
+// ----------------------------------------------------------------------------
+// Setup interactor style to use
+// ----------------------------------------------------------------------------
+interactor.setInteractorStyle(vtk.Interaction.Style.vtkInteractorStyleTrackballCamera.newInstance());
 
 //Set default options to renderer
 // fullScreenRenderer.getRenderer().getActiveCamera().setParallelProjection(true);
@@ -15,32 +42,22 @@ var prevActor = null;
 function update(polyData) {
     var mapper = vtk.Rendering.Core.vtkMapper.newInstance({ scalarVisibility: true });
     var actor = vtk.Rendering.Core.vtkActor.newInstance();
-    // var reader = vtk.IO.Geometry.vtkSTLReader.newInstance();
-
-    polyData = polyProcess();
 
     actor.setMapper(mapper);    
     mapper.setInputData(polyData);
 
-    fullScreenRenderer.getRenderer().addActor(actor);
-    fullScreenRenderer.getRenderer().resetCamera();
-    fullScreenRenderer.getRenderWindow().render();
-    // mapper.setInputConnection(reader.getOutputPort());
-
-    // function addActor() {
-    //     // Remove any previous actors
-    //     fullScreenRenderer.getRenderer().addActor(actor);
-    //     if (prevActor != null)
-    //         fullScreenRenderer.getRenderer().removeActor(prevActor);
-    //     else {
-    //         //fullScreenRenderer.getRenderer().resetCamera();
-    //     }
-    //     prevActor = actor;
-    //     fullScreenRenderer.getRenderer().resetCamera();
-    //     fullScreenRenderer.getRenderWindow().render();
-    // }
-    // addActor();
-    // reader.setUrl( "download/stl", { binary: true }).then(addActor);
+    function addActor() {
+        // Remove any previous actors
+        renderer.addActor(actor);
+        if (prevActor != null)
+            renderer.removeActor(prevActor);
+        else {
+            renderer.resetCamera();
+        }
+        prevActor = actor;
+        renderer.getRenderWindow().render();
+    }
+    addActor();
 }
 
 function polyProcess() {
@@ -51,26 +68,16 @@ function polyProcess() {
         return response.json();
     })
     .then(function(jsonResponse) {
-        // const pointValues = new Float32Array(jsonResponse["verts"].length);
-        // const cellValues = new Uint32Array(jsonResponse["faces"].length*4);
-        // for (i=0;i<jsonResponse["faces"].length;i++){
-        //     cellValues[i*4] = 3;
-        //     for (j=0;j<jsonResponse["faces"][0].length;j++){
-        //         cellValues[(i*4)+j+1] = jsonResponse["faces"][i][j]
-        //     }
-        // }
-
-        // for (i=0;i<jsonResponse["verts"].length;i++){
-        //     for (j=0;j<jsonResponse["verts"][0].length;j++){
-        //         pointValues[(i*3)+j] = jsonResponse["verts"][i][j]
-        //     }
-        // }
-        console.log(jsonResponse["verts"])
-        console.log(jsonResponse["faces"])
         polyData.getPoints().setData(jsonResponse["verts"], 3);    
-        polyData.getPolys().setData(jsonResponse["faces"]);
+        polyData.getPolys().setData(jsonResponse["faces"]);  
+        console.log(jsonResponse['norm'])
+        const vtkNorm = vtk.Common.Core.vtkDataArray.newInstance({
+            numberOfComponents: 1,
+            values: jsonResponse["norm"]
+        })
+        polyData.getPointData().setNormals(vtkNorm);
+        update(polyData);
     });
-    return polyData;
 }
 
 var busy = false;
@@ -90,7 +97,7 @@ function rotate(x, y, z) {
     // When reponse is recieved
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-            update();
+            polyProcess();
         }
     }
     busy = false;
@@ -121,7 +128,7 @@ const container = document.querySelector('body');
 const upload_button = document.createElement('BUTTON');
 upload_button.innerHTML = 'Show';
 container.appendChild(upload_button);
-upload_button.addEventListener('click', update);
+upload_button.addEventListener('click', polyProcess);
 
 // Add rotate button
 const rotate_button = document.createElement('BUTTON');
@@ -139,7 +146,7 @@ rotate2_button.addEventListener("mousedown", function(){
         if (!busy){
             rotate(-0.1, 0, 0);
         }
-    }, 50);  
+    }, 200);  
 });
 rotate2_button.addEventListener("mouseup", function() {
     clearInterval(intervalId);

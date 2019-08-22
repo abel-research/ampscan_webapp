@@ -5,33 +5,64 @@
 
 {% load static %}
 <style>
-div {
-    height: 50%;
-    width: 50%;
-    background-color: lightblue ;
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto;
+  grid-gap: 10px;
+  grid-template-rows: auto;
+  background-color: #2196F3;
+  padding: 10px;
+  grid-template-areas:
+    'header header header header header header'
+    'menu main main main right right'
+    'menu footer footer footer footer footer';
 }
-</style>
 
-<h1> AmpScan </h1>
-<p>session:{{ session_id }}</p>
-<form name="upload_file" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="file" name="user_file">
-    <button type="submit">Upload</button>
-</form>
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
+
+.item1 { grid-area: header; }
+.item2 { grid-area: menu; }
+.item3 { grid-area: main; }
+.item4 { grid-area: right; }
+.item5 { grid-area: footer; }
+
+</style>
 
 {% if not valid_file and file_loaded %}
 {% comment %} If the file isn't valid, tell the user {% endcomment %}
 <font size="3" color="red">Invalid file type</font>
 {% endif %}
 
-{% comment %} {% if file_loaded %} {% endcomment %}
-{% comment %} If loaded, render the object {% endcomment %}
-<div>
+{% comment %} <div class="grid-container">
+    <div class="object-manager">
+        3
+    </div>
+    <div class="control-panel">
+        <form name="upload_file" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="user_file">
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+</div> {% endcomment %}
+
+
+  <div>
     <script type="text/javascript" src="https://unpkg.com/@babel/polyfill@7.0.0/dist/polyfill.js"></script>
     <script type="text/javascript" src="https://unpkg.com/vtk.js"></script>
     <script src="obj_viewer.js" type="text/javascript"></script>
 </div>
-{% comment %} {% endif %} {% endcomment %}
+
+<div class="grid-container">
+  <div class="item1">Header</div>
+  <div class="item2">Menu</div>
+  <div class="item4">Right</div>
+  <div class="item5">Footer</div>
+</div>
 
 {% endblock content %}
