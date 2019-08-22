@@ -18,14 +18,15 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 
-from test_app.views import home_view, obj_viewer_view, downloads_view, align_view
+from test_app.views import home_view, obj_viewer_view, downloads_view, align_view, polydata_view
 
 
 urlpatterns = [
     path('admin', admin.site.urls),
     path('', home_view, name="home"),
     path('obj_viewer.js', obj_viewer_view),
-    path('download', downloads_view),
+    path('download/stl', downloads_view),
+    path('download/polydata', polydata_view),
     path('align', align_view)
 ]
 

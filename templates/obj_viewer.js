@@ -9,30 +9,70 @@ var fullScreenRenderer = vtk.Rendering.Misc.vtkFullScreenRenderWindow.newInstanc
 
 
 //Set default options to renderer
-fullScreenRenderer.getRenderer().getActiveCamera().setParallelProjection(true);
+// fullScreenRenderer.getRenderer().getActiveCamera().setParallelProjection(true);
 var prevActor = null;
 
-function update() {
-    var mapper = vtk.Rendering.Core.vtkMapper.newInstance({ scalarVisibility: false });
+function update(polyData) {
+    var mapper = vtk.Rendering.Core.vtkMapper.newInstance({ scalarVisibility: true });
     var actor = vtk.Rendering.Core.vtkActor.newInstance();
-    var reader = vtk.IO.Geometry.vtkSTLReader.newInstance();
+    // var reader = vtk.IO.Geometry.vtkSTLReader.newInstance();
+
+    polyData = polyProcess();
 
     actor.setMapper(mapper);    
-    mapper.setInputConnection(reader.getOutputPort());
+    mapper.setInputData(polyData);
 
-    function addActor() {
-        fullScreenRenderer.getRenderer().addActor(actor);
-        if (prevActor != null)
-            fullScreenRenderer.getRenderer().removeActor(prevActor);
-        else {
-            fullScreenRenderer.getRenderer().resetCamera();
-        }
-        prevActor = actor;
-        fullScreenRenderer.getRenderWindow().render();
-    }
+    fullScreenRenderer.getRenderer().addActor(actor);
+    fullScreenRenderer.getRenderer().resetCamera();
+    fullScreenRenderer.getRenderWindow().render();
+    // mapper.setInputConnection(reader.getOutputPort());
 
-    reader.setUrl( "download", { binary: true }).then(addActor);
+    // function addActor() {
+    //     // Remove any previous actors
+    //     fullScreenRenderer.getRenderer().addActor(actor);
+    //     if (prevActor != null)
+    //         fullScreenRenderer.getRenderer().removeActor(prevActor);
+    //     else {
+    //         //fullScreenRenderer.getRenderer().resetCamera();
+    //     }
+    //     prevActor = actor;
+    //     fullScreenRenderer.getRenderer().resetCamera();
+    //     fullScreenRenderer.getRenderWindow().render();
+    // }
+    // addActor();
+    // reader.setUrl( "download/stl", { binary: true }).then(addActor);
 }
+
+function polyProcess() {
+    polyData = vtk.Common.DataModel.vtkPolyData.newInstance()
+    fetch("download/polydata") 
+    .then(function(response) {
+        // Convert reponse to json
+        return response.json();
+    })
+    .then(function(jsonResponse) {
+        // const pointValues = new Float32Array(jsonResponse["verts"].length);
+        // const cellValues = new Uint32Array(jsonResponse["faces"].length*4);
+        // for (i=0;i<jsonResponse["faces"].length;i++){
+        //     cellValues[i*4] = 3;
+        //     for (j=0;j<jsonResponse["faces"][0].length;j++){
+        //         cellValues[(i*4)+j+1] = jsonResponse["faces"][i][j]
+        //     }
+        // }
+
+        // for (i=0;i<jsonResponse["verts"].length;i++){
+        //     for (j=0;j<jsonResponse["verts"][0].length;j++){
+        //         pointValues[(i*3)+j] = jsonResponse["verts"][i][j]
+        //     }
+        // }
+        console.log(jsonResponse["verts"])
+        console.log(jsonResponse["faces"])
+        polyData.getPoints().setData(jsonResponse["verts"], 3);    
+        polyData.getPolys().setData(jsonResponse["faces"]);
+    });
+    return polyData;
+}
+
 var busy = false;
 function rotate(x, y, z) {
     busy = true;
