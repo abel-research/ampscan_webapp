@@ -1,6 +1,6 @@
 media/*
 db.sqlite3
 .vscode
-*/__pycache__/
-*.pyo
+__pycache__
 *.pyc
+*.pyo
