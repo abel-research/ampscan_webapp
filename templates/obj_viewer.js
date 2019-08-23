@@ -74,9 +74,7 @@ function polyProcess() {
     });
 }
 
-var busy = false;
 function rotate(x, y, z) {
-    busy = true;
     // Add the data
     var data  = new FormData();
     data.append("x", String(x));
@@ -94,8 +92,12 @@ function rotate(x, y, z) {
             polyProcess();
         }
     }
-    busy = false;
 }
+
+
+// ----------------------------------------------------------------------------
+// Get CSRF token for POST requests
+// ----------------------------------------------------------------------------
 
 function getCookie(name) {
     // From Django docs
@@ -116,14 +118,22 @@ function getCookie(name) {
 
 var csrftoken = getCookie('csrftoken');
 
+// ----------------------------------------------------------------------------
+// Setup File panel
+// ----------------------------------------------------------------------------
 const containerFile = document.getElementById('File');
-const containerRotate = document.getElementById('Align');
 
 // Add upload button
 const upload_button = document.createElement('BUTTON');
 upload_button.innerHTML = 'Show';
 containerFile.appendChild(upload_button);
 upload_button.addEventListener('click', polyProcess);
+
+
+// ----------------------------------------------------------------------------
+// Setup Rotate panel
+// ----------------------------------------------------------------------------
+const containerRotate = document.getElementById('Align');
 
 // Add rotate button
 const rotate_button = document.createElement('BUTTON');
@@ -135,17 +145,11 @@ rotate_button.addEventListener('click', function(){ rotate(0.1, 0, 0); });
 const rotate2_button = document.createElement('BUTTON');
 rotate2_button.innerHTML = 'Rotate Back';
 containerRotate.appendChild(rotate2_button);
-var intervalId;
-rotate2_button.addEventListener("mousedown", function(){
-    intervalId = setInterval(function(){
-        if (!busy){
-            rotate(-0.1, 0, 0);
-        }
-    }, 200);  
-});
-rotate2_button.addEventListener("mouseup", function() {
-    clearInterval(intervalId);
-});;
+rotate_button.addEventListener('click', function(){ rotate(-0.1, 0, 0); });
+
+// ----------------------------------------------------------------------------
+// Setup object panel
+// ----------------------------------------------------------------------------
 
 
 // ----------------------------------------------------------------------------
