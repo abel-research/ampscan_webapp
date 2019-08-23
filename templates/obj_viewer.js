@@ -1,3 +1,4 @@
+tempID = "stl_file"
 
 // Get session id
 const session_id = {{ session_id }}
@@ -62,6 +63,7 @@ function downloadPolyDataAndUpdate() {
     
     const formData = new FormData();
     formData.append("norms", isNormsSelected());
+    formData.append("session", session_id);
 
     fetch("download/polydata", {
         method: 'POST',
@@ -96,6 +98,9 @@ function rotate(x, y, z) {
     formData.append("x", String(x));
     formData.append("y", String(y));
     formData.append("z", String(z));
+
+    formData.append("objID", tempID);
+    formData.append("session", session_id);
 
     // Submit the request to rotate
     fetch("align", {
@@ -163,6 +168,7 @@ upload_button.addEventListener('change', e => {
     }
     const formData = new FormData();
     formData.append('user_file', files[0])
+    formData.append("session", session_id);
     
     // Send upload request
     fetch("upload/scan", {
