@@ -89,6 +89,7 @@ function downloadPolyDataAndUpdate() {
             polyData.getPointData().setNormals(vtkNorm);
         }
         update(polyData);
+        updateObjectTable();
     });
 }
 
@@ -178,7 +179,7 @@ upload_button.addEventListener('change', e => {
         'X-CSRFToken': csrftoken
         },
     }).then(response => {
-        // When reponse is recieved
+        // When response is received
         downloadPolyDataAndUpdate();
     })
 
@@ -205,6 +206,51 @@ rotate2_button.addEventListener('click', function(){ rotate(-0.1, 0, 0); });
 // Setup object panel
 // ----------------------------------------------------------------------------
 
+function updateObjectTable() {
+    const objectTable = document.getElementById("objTable");
+
+    // Clear table
+    for(var i = objectTable.rows.length - 1; i > 0; i--)
+    {
+        objectTable.deleteRow(i);
+    }
+
+    const formData = new FormData();
+    formData.append("session", session_id);
+
+    // Request table data
+    fetch("download/object-list", {
+        method: 'POST',
+        body: formData,
+        headers: {
+        'X-CSRFToken': csrftoken
+        },
+    })
+    .then(function(response) {
+        // Convert response to json
+        return response.json();
+    })
+    .then(function(jsonResponse) {
+        // Create table from data received
+        for (obj in jsonResponse["list"]){
+            console.log(jsonResponse["list"][obj]);
+            var row = objectTable.insertRow(-1);
+
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            cell1.innerHTML = jsonResponse["list"][obj].name;
+            cell2.innerHTML = jsonResponse["list"][obj].display;
+            cell3.innerHTML = jsonResponse["list"][obj].colour;
+        }
+    });
+}
+// const containerObject = document.getElementById('Align');
+// const table = document.createElement('TABLE');
+// table.setAttribute("id", "objTable");
+// containerObject.appendChild(table);
+
+updateObjectTable();
 
 // ----------------------------------------------------------------------------
 // Setup settings panel
