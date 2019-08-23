@@ -64,10 +64,19 @@ def polydata_view(request):
     """
     View for requesting polydata
     """
-    obj.calcVNorm()
-    return JsonResponse({"verts":obj.vert.flatten().tolist(), 
-                         "faces":(np.c_[np.full(obj.faces.shape[0], 3), obj.faces]).flatten().tolist(), 
-                         "norm":obj.vNorm.flatten().tolist()})
+    draw_norms = True
+    if request.method == "POST":
+        print(request.POST, request.POST.get("norms"))
+        draw_norms = request.POST.get("norms")=="true"
+
+    responseDict = {"verts":obj.vert.flatten().tolist(), 
+                "faces":(np.c_[np.full(obj.faces.shape[0], 3), obj.faces]).flatten().tolist()}
+    if draw_norms:
+        obj.calcVNorm()
+        responseDict["norm"] = obj.vNorm.flatten().tolist()
+
+    return JsonResponse(responseDict)
+
 
 def align_view(request):
     """

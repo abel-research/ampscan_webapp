@@ -21,8 +21,9 @@ interactor.bindEvents(container2);
 interactor.setInteractorStyle(vtk.Interaction.Style.vtkInteractorStyleTrackballCamera.newInstance());
 
 function updateWindowSize() {
+    // Update window size when window size changes
     const { width, height } = container2.getBoundingClientRect();
-    openglRenderWindow.setSize(width, height+10);//+10 for no gap
+    openglRenderWindow.setSize(width, height);//+10 for no gap
     renderWindow.render();
 }
 
@@ -55,9 +56,19 @@ function update(polyData) {
     addActor();
 }
 
-function downloadPolyAndUpdate() {
+function downloadPolyDataAndUpdate() {
     polyData = vtk.Common.DataModel.vtkPolyData.newInstance()
-    fetch("download/polydata") 
+    
+    const formData = new FormData();
+    formData.append("norms", isNormsSelected());
+
+    fetch("download/polydata", {
+        method: 'POST',
+        body: formData,
+        headers: {
+        'X-CSRFToken': csrftoken
+        },
+    })
     .then(function(response) {
         // Convert reponse to json
         return response.json();
@@ -65,11 +76,15 @@ function downloadPolyAndUpdate() {
     .then(function(jsonResponse) {
         polyData.getPoints().setData(jsonResponse["verts"], 3);    
         polyData.getPolys().setData(jsonResponse["faces"]);
-        const vtkNorm = vtk.Common.Core.vtkDataArray.newInstance({
-            numberOfComponents: 1,
-            values: jsonResponse["norm"]
-        })
-        polyData.getPointData().setNormals(vtkNorm);
+
+        // If norms enabled
+        if (jsonResponse.hasOwnProperty("norm")){
+            const vtkNorm = vtk.Common.Core.vtkDataArray.newInstance({
+                numberOfComponents: 1,
+                values: jsonResponse["norm"]
+            })
+            polyData.getPointData().setNormals(vtkNorm);
+        }
         update(polyData);
     });
 }
@@ -89,7 +104,7 @@ function rotate(x, y, z) {
     // When reponse is recieved
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-            downloadPolyAndUpdate();
+            downloadPolyDataAndUpdate();
         }
     }
 }
@@ -158,7 +173,7 @@ upload_button.addEventListener('change', e => {
         },
     }).then(response => {
         // When reponse is recieved
-        downloadPolyAndUpdate();
+        downloadPolyDataAndUpdate();
     })
 
 })
@@ -184,6 +199,28 @@ rotate2_button.addEventListener('click', function(){ rotate(-0.1, 0, 0); });
 // Setup object panel
 // ----------------------------------------------------------------------------
 
+
+// ----------------------------------------------------------------------------
+// Setup settings panel
+// ----------------------------------------------------------------------------
+
+// Default to checked
+selectNorms(true);
+
+function normsChange() {
+    // When the tickbox is change, update the stl
+    downloadPolyDataAndUpdate();
+}
+
+function isNormsSelected() {
+    var tickBox = document.getElementById("normsTickbox");
+    return tickBox.checked;
+}
+
+function selectNorms(val) {
+    var tickBox = document.getElementById("normsTickbox");
+    tickBox.checked = val
+}
 
 // ----------------------------------------------------------------------------
 // Setup tabbing
