@@ -1,5 +1,6 @@
 
-
+// Get session id
+const session_id = {{ session_id }}
 
 // ----------------------------------------------------------------------------
 // Setup renderer
@@ -91,22 +92,21 @@ function downloadPolyDataAndUpdate() {
 
 function rotate(x, y, z) {
     // Add the data
-    var data  = new FormData();
-    data.append("x", String(x));
-    data.append("y", String(y));
-    data.append("z", String(z));
+    var formData  = new FormData();
+    formData.append("x", String(x));
+    formData.append("y", String(y));
+    formData.append("z", String(z));
 
-    // Submit the request
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "align", true);
-    xhttp.setRequestHeader("X-CSRFToken", csrftoken);
-    xhttp.send(data);
-    // When reponse is recieved
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            downloadPolyDataAndUpdate();
-        }
-    }
+    // Submit the request to rotate
+    fetch("align", {
+        method: 'POST',
+        body: formData,
+        headers: {
+        'X-CSRFToken': csrftoken
+        },
+    }).then(function (reponse) {
+        downloadPolyDataAndUpdate();
+    })
 }
 
 function upload(file) {
