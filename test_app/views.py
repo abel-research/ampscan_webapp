@@ -81,11 +81,18 @@ def align_view(request):
 def home_view(request):
     global uploaded_file_url, obj
     context = {}
-    context["file_loaded"] = False
 
     sid = generate_next_session()
     context["session_id"] = sid
+            
+    if request.method == "GET":
+        return render(request, "home.html", context=context)
 
+def upload_view(request):
+    global uploaded_file_url, obj
+    context = {}
+
+    print(request.POST)
     if request.method == "POST" and request.FILES['user_file']:
         context["file_loaded"] = True
         user_file = request.FILES['user_file']
@@ -99,13 +106,11 @@ def home_view(request):
             context["valid_file"] = True
             context["obj_file_loc"] = uploaded_file_url
 
-            return render(request, "home.html", context=context)
+            return JsonResponse({"success": True})
         else:   
-            # Put if file is valid in context for render
+            # Put if file is not valid in context for render
             context["valid_file"] = False
-            
-    elif request.method == "GET":
-        return render(request, "home.html", context=context)
+            return JsonResponse({"success": False})
 
 
 def obj_viewer_view(request):

@@ -94,6 +94,10 @@ function rotate(x, y, z) {
     }
 }
 
+function upload(file) {
+
+}
+
 
 // ----------------------------------------------------------------------------
 // Get CSRF token for POST requests
@@ -124,11 +128,40 @@ var csrftoken = getCookie('csrftoken');
 const containerFile = document.getElementById('File');
 
 // Add upload button
-const upload_button = document.createElement('BUTTON');
-upload_button.innerHTML = 'Show';
-containerFile.appendChild(upload_button);
-upload_button.addEventListener('click', polyProcess);
+// const upload_button = document.createElement('BUTTON');
+// upload_button.innerHTML = 'Show';
+// containerFile.appendChild(upload_button);
+// upload_button.addEventListener('click', polyProcess);
 
+// Add upload button
+var upload_button = document.createElement("INPUT");
+upload_button.setAttribute("accept", ".stl")
+upload_button.setAttribute("type", "file");
+containerFile.appendChild(upload_button);
+upload_button.addEventListener('change', e => {
+    // Get the file from the upload button
+    const file = upload_button.files[0];
+    if (!files.length) {
+        // Check file is selected
+        alert('Please select a file!');
+        return;
+    }
+    const formData = new FormData();
+    formData.append('user_file', file)
+    
+    // Send upload request
+    fetch("upload/scan", {
+        method: 'POST',
+        body: formData,
+        headers: {
+        'X-CSRFToken': csrftoken
+        },
+    }).then(response => {
+        console.log(response)
+    })
+
+    polyProcess();
+})
 
 // ----------------------------------------------------------------------------
 // Setup Rotate panel
@@ -145,7 +178,7 @@ rotate_button.addEventListener('click', function(){ rotate(0.1, 0, 0); });
 const rotate2_button = document.createElement('BUTTON');
 rotate2_button.innerHTML = 'Rotate Back';
 containerRotate.appendChild(rotate2_button);
-rotate_button.addEventListener('click', function(){ rotate(-0.1, 0, 0); });
+rotate2_button.addEventListener('click', function(){ rotate(-0.1, 0, 0); });
 
 // ----------------------------------------------------------------------------
 // Setup object panel
