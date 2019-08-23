@@ -24,6 +24,9 @@ class AmpEnv:
 
 
 def generate_next_session():
+    """
+    Generate session
+    """
     i = randrange(2**32)
     while str(i) in sessions:
         i = randrange(2**32)
@@ -38,6 +41,9 @@ def get_session(request):
         raise ValueError("request does not have session id")
 
 def register():
+    """
+    View for registration (placeholder)
+    """
     
     obj2 = AmpObject(settings.BASE_DIR + "/media/stl_file.stl")
     obj = AmpObject(settings.BASE_DIR + "/media/stl_file_2.stl")
@@ -54,21 +60,19 @@ def register():
     #reg.addActor(CMap = self.CMap02P)
     reg.addActor(CMap = CMapN2P)
 
-
-def downloads_view(request):
-    
-    fs = FileSystemStorage()
-    response = FileResponse(fs.open(settings.BASE_DIR + uploaded_file_url, 'rb'))
-
-    return response
-
 def polydata_view(request):
+    """
+    View for requesting polydata
+    """
     obj.calcVNorm()
     return JsonResponse({"verts":obj.vert.flatten().tolist(), 
                          "faces":(np.c_[np.full(obj.faces.shape[0], 3), obj.faces]).flatten().tolist(), 
                          "norm":obj.vNorm.flatten().tolist()})
 
 def align_view(request):
+    """
+    View for aligning
+    """
     # AmpScan processing
     global obj
     obj.rotateAng([float(request.POST["x"]), float(request.POST["y"]), float(request.POST["z"])])
@@ -79,16 +83,19 @@ def align_view(request):
 
 
 def home_view(request):
+    """
+    View for the home page
+    """
     global uploaded_file_url, obj
     context = {}
-
-    sid = generate_next_session()
-    context["session_id"] = sid
             
     if request.method == "GET":
         return render(request, "home.html", context=context)
 
 def upload_view(request):
+    """
+    View for posting user uploads
+    """
     global uploaded_file_url, obj
     context = {}
 
@@ -114,4 +121,11 @@ def upload_view(request):
 
 
 def obj_viewer_view(request):
-    return render(request, "obj_viewer.js")
+    """
+    View for the object viewer javascipt script
+    """
+    context = {}
+
+    sid = generate_next_session()
+    context["session_id"] = sid
+    return render(request, "obj_viewer.js", context=context)
