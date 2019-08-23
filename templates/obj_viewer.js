@@ -22,7 +22,7 @@ interactor.setInteractorStyle(vtk.Interaction.Style.vtkInteractorStyleTrackballC
 
 function updateWindowSize() {
     const { width, height } = container2.getBoundingClientRect();
-    openglRenderWindow.setSize(width, height);
+    openglRenderWindow.setSize(width, height+10);//+10 for no gap
     renderWindow.render();
 }
 
@@ -116,24 +116,25 @@ function getCookie(name) {
 
 var csrftoken = getCookie('csrftoken');
 
-const container = document.getElementById('control');
+const containerFile = document.getElementById('File');
+const containerRotate = document.getElementById('Align');
 
 // Add upload button
 const upload_button = document.createElement('BUTTON');
 upload_button.innerHTML = 'Show';
-container.appendChild(upload_button);
+containerFile.appendChild(upload_button);
 upload_button.addEventListener('click', polyProcess);
 
 // Add rotate button
 const rotate_button = document.createElement('BUTTON');
 rotate_button.innerHTML = 'Rotate';
-container.appendChild(rotate_button);
+containerRotate.appendChild(rotate_button);
 rotate_button.addEventListener('click', function(){ rotate(0.1, 0, 0); });
 
 // Add rotate2 button
 const rotate2_button = document.createElement('BUTTON');
 rotate2_button.innerHTML = 'Rotate Back';
-container.appendChild(rotate2_button);
+containerRotate.appendChild(rotate2_button);
 var intervalId;
 rotate2_button.addEventListener("mousedown", function(){
     intervalId = setInterval(function(){
@@ -147,3 +148,29 @@ rotate2_button.addEventListener("mouseup", function() {
 });;
 
 
+// ----------------------------------------------------------------------------
+// Setup tabbing
+// ----------------------------------------------------------------------------
+
+document.getElementById("defaultTabOpen").click();
+
+function openTab(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+  
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+  
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+  
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }

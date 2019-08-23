@@ -15,11 +15,36 @@
 
 <div class="wrapper">
     <div class="control" id="control">
-        <form name="upload_file" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="file" name="user_file">
-            <button type="submit">Upload</button>
-        </form>
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'File')" id="defaultTabOpen">File</button>
+            <button class="tablinks" onclick="openTab(event, 'Align')">Align</button>
+            <button class="tablinks" onclick="openTab(event, 'Register')">Register</button>
+            <button class="tablinks" onclick="openTab(event, 'Analyse')">Analyse</button>
+            <button class="tablinks" onclick="openTab(event, 'Settings')">Settings</button>
+        </div>  
+         <div id="File" class="tabcontent">
+            <form name="upload_file" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="user_file">
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+
+        <div id="Align" class="tabcontent">
+        
+        </div>
+
+        <div id="Register" class="tabcontent">
+            Register placeholder
+        </div>
+
+        <div id="Analyse" class="tabcontent">
+            Analyse placeholder
+        </div>
+
+        <div id="Settings" class="tabcontent">
+            Settings placeholder
+        </div>
     </div>
 
     <div class="viewer" id="viewer">
