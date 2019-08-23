@@ -53,7 +53,7 @@ body {font-family: Arial;}
   cursor: pointer;
   padding: 14px 16px;
   transition: 0.4s;
-  font-size: 14px;
+  font-size: 15px;
 }
 .tab button:hover {
   background-color: rgb(225, 225, 225);
