@@ -3,6 +3,7 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    overflow: hidden;
 }
 
 
@@ -10,7 +11,6 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    grid-gap: 10px;
     width: 100vw;
     height: 100vh;
 }
@@ -20,11 +20,15 @@
 }
 .control {
     border-style: solid;
+    border-width: thin;
+    border-color: rgb(150, 150, 150);
     grid-column: 2; 
     grid-row: 1; 
 }
 .obj-manager {
     border-style: solid;
+    border-width: thin;
+    border-color: rgb(150, 150, 150);
     grid-column: 2; 
     grid-row: 2;
 }
@@ -48,25 +52,25 @@ body {font-family: Arial;}
   outline: none;
   cursor: pointer;
   padding: 14px 16px;
-  transition: 0.3s;
-  font-size: 17px;
+  transition: 0.4s;
+  font-size: 14px;
 }
 
 /* Change background color of buttons on hover */
 .tab button:hover {
-  background-color: #ddd;
+  background-color: rgb(225, 225, 225);
 }
 
 /* Create an active/current tablink class */
 .tab button.active {
-  background-color: #ccc;
+  background-color: rgb(190, 190, 190);
 }
 
 /* Style the tab content */
 .tabcontent {
   display: none;
   padding: 6px 12px;
-  border: 1px solid #ccc;
+  border: 1px solid rgb(190, 190, 190);
   border-top: none;
 }
   

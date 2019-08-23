@@ -5,7 +5,7 @@
 // Setup renderer
 // ----------------------------------------------------------------------------
 const renderWindow = vtk.Rendering.Core.vtkRenderWindow.newInstance();
-const renderer = vtk.Rendering.Core.vtkRenderer.newInstance({ background: [0.2, 0.3, 0.4] });
+const renderer = vtk.Rendering.Core.vtkRenderer.newInstance({ background: [0.9, 0.9, 0.9] });
 renderWindow.addRenderer(renderer);
 
 const openglRenderWindow = vtk.Rendering.OpenGL.vtkRenderWindow.newInstance();
@@ -154,8 +154,7 @@ rotate2_button.addEventListener("mouseup", function() {
 
 document.getElementById("defaultTabOpen").click();
 
-function openTab(evt, cityName) {
-    // Declare all variables
+function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
   
     // Get all elements with class="tabcontent" and hide them
@@ -171,6 +170,6 @@ function openTab(evt, cityName) {
     }
   
     // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(cityName).style.display = "block";
+    document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
   }
