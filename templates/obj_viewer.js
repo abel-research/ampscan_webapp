@@ -55,7 +55,7 @@ function update(polyData) {
     addActor();
 }
 
-function polyProcess() {
+function downloadPolyAndUpdate() {
     polyData = vtk.Common.DataModel.vtkPolyData.newInstance()
     fetch("download/polydata") 
     .then(function(response) {
@@ -89,7 +89,7 @@ function rotate(x, y, z) {
     // When reponse is recieved
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-            polyProcess();
+            downloadPolyAndUpdate();
         }
     }
 }
@@ -140,14 +140,14 @@ upload_button.setAttribute("type", "file");
 containerFile.appendChild(upload_button);
 upload_button.addEventListener('change', e => {
     // Get the file from the upload button
-    const file = upload_button.files[0];
+    const files = upload_button.files;
     if (!files.length) {
         // Check file is selected
-        alert('Please select a file!');
+        // If not don't do anything
         return;
     }
     const formData = new FormData();
-    formData.append('user_file', file)
+    formData.append('user_file', files[0])
     
     // Send upload request
     fetch("upload/scan", {
@@ -157,10 +157,10 @@ upload_button.addEventListener('change', e => {
         'X-CSRFToken': csrftoken
         },
     }).then(response => {
-        console.log(response)
+        // When reponse is recieved
+        downloadPolyAndUpdate();
     })
 
-    polyProcess();
 })
 
 // ----------------------------------------------------------------------------
