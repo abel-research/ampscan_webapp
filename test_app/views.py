@@ -100,7 +100,7 @@ def polydata_view(request):
     if request.method == "POST":
         draw_norms = request.POST.get("norms")=="true"
 
-        obj = get_session(request).get_obj("stl_file")  # TODO get actual ID   request.POST.get("objID")
+        obj = get_session(request).get_obj(request.POST.get("objID"))  # TODO get actual ID   request.POST.get("objID")
     else:
         raise Exception("Not POST request")
 
@@ -167,7 +167,7 @@ def upload_view(request):
         # Check file extension
         if os.path.splitext(uploaded_file_url)[1] == ".stl":
             # valid file
-            return JsonResponse({"success": True})
+            return JsonResponse({"success": True, "objID": basename})
         else:   
             return JsonResponse({"success": False})
 

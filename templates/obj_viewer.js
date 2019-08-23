@@ -58,12 +58,13 @@ function update(polyData) {
     addActor();
 }
 
-function downloadPolyDataAndUpdate() {
+function downloadPolyDataAndUpdate(objID) {
     polyData = vtk.Common.DataModel.vtkPolyData.newInstance()
     
     const formData = new FormData();
     formData.append("norms", isNormsSelected());
     formData.append("session", session_id);
+    formData.append("objID", objID);
 
     fetch("download/polydata", {
         method: 'POST',
@@ -93,14 +94,14 @@ function downloadPolyDataAndUpdate() {
     });
 }
 
-function rotate(x, y, z) {
+function rotate(objID, x, y, z) {
     // Add the data
     var formData  = new FormData();
     formData.append("x", String(x));
     formData.append("y", String(y));
     formData.append("z", String(z));
 
-    formData.append("objID", tempID);
+    formData.append("objID", objID);
     formData.append("session", session_id);
 
     // Submit the request to rotate
@@ -178,10 +179,14 @@ upload_button.addEventListener('change', e => {
         headers: {
         'X-CSRFToken': csrftoken
         },
-    }).then(response => {
-        // When response is received
-        downloadPolyDataAndUpdate();
     })
+    .then(function(response) {
+        // Convert response to json
+        return response.json();
+    })
+    .then(function(jsonResponse) {
+        downloadPolyDataAndUpdate(jsonResponse["objID"]);
+    });
 
 })
 
@@ -194,13 +199,13 @@ const containerRotate = document.getElementById('Align');
 const rotate_button = document.createElement('BUTTON');
 rotate_button.innerHTML = 'Rotate';
 containerRotate.appendChild(rotate_button);
-rotate_button.addEventListener('click', function(){ rotate(0.1, 0, 0); });
+rotate_button.addEventListener('click', function(){ rotate(tempID, 0.1, 0, 0); });
 
 // Add rotate2 button
 const rotate2_button = document.createElement('BUTTON');
 rotate2_button.innerHTML = 'Rotate Back';
 containerRotate.appendChild(rotate2_button);
-rotate2_button.addEventListener('click', function(){ rotate(-0.1, 0, 0); });
+rotate2_button.addEventListener('click', function(){ rotate(tempID, -0.1, 0, 0); });
 
 // ----------------------------------------------------------------------------
 // Setup object panel
