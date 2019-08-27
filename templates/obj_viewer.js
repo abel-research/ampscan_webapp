@@ -252,8 +252,8 @@ function updateObjectTable() {
     const objectTable = document.getElementById("objTable");
 
     // Clear table
-    while(objectTable.hasChildNodes()) {
-       objectTable.removeChild(objectTable.firstChild);
+    for(var i = objectTable.rows.length - 1; i > 0; i--) {
+        objectTable.deleteRow(i);
     }
 
     // Create table from data received
