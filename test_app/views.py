@@ -100,7 +100,7 @@ def polydata_view(request):
     if request.method == "POST":
         draw_norms = request.POST.get("norms")=="true"
 
-        obj = get_session(request).get_obj(request.POST.get("objID"))  # TODO get actual ID   request.POST.get("objID")
+        obj = get_session(request).get_obj(request.POST.get("objID"))
     else:
         raise Exception("Not POST request")
 
@@ -118,7 +118,7 @@ def align_view(request):
     View for aligning
     """
     # AmpScan processing
-    obj = get_session(request)
+    obj = get_session(request).get_obj(request.POST.get("objID"))
     obj.rotateAng([float(request.POST["x"]), float(request.POST["y"]), float(request.POST["z"])])
 
     return JsonResponse({"success": True})

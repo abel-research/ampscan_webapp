@@ -112,7 +112,7 @@ function rotate(objID, x, y, z) {
         'X-CSRFToken': csrftoken
         },
     }).then(function (reponse) {
-        downloadPolyDataAndUpdate();
+        downloadPolyDataAndUpdate(tempID);
     })
 }
 
@@ -169,7 +169,7 @@ upload_button.addEventListener('change', e => {
         return;
     }
     const formData = new FormData();
-    formData.append('user_file', files[0])
+    formData.append('user_file', files[0]);
     formData.append("session", session_id);
     
     // Send upload request
@@ -266,7 +266,7 @@ selectNorms(true);
 
 function normsChange() {
     // When the tickbox is change, update the stl
-    downloadPolyDataAndUpdate();
+    downloadPolyDataAndUpdate(tempID);
 }
 
 function isNormsSelected() {
