@@ -350,10 +350,13 @@ function openTab(evt, tabName) {
 // ----------------------------------------------------------------------------
 
 function updateDropdown() {
-    dropdown = document.getElementById('targetDropdown');
-    dropdown.options.length = 0;
-    for(i in objects) {
-        dropdown.options[dropdown.options.length] = new Option(objects[i].name, i);
+    let dropdowns = document.getElementsByClassName('targetDropdown');
+    for (dd in dropdowns) {
+        let dropdown = dropdowns[dd];
+        dropdown.options.length = 0;
+        for (i in objects) {
+            dropdown.options[dropdown.options.length] = new Option(objects[i].name, i);
+        }
     }
 }
 updateDropdown();
