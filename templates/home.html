@@ -21,17 +21,22 @@
             <button class="tablinks" onclick="openTab(event, 'Register')">Register</button>
             <button class="tablinks" onclick="openTab(event, 'Analyse')">Analyse</button>
             <button class="tablinks" onclick="openTab(event, 'Settings')">Settings</button>
-        </div>  
+        </div>
+
+        <div>
+            Target: <select id="targetDropdown">
+                <option>Test</option>
+                <option>Test2</option>
+            </select>
+        </div>
+
+
          <div id="File" class="tabcontent">
-            {% comment %} <form name="upload_file" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="file" name="user_file">
-                <button type="submit">Upload</button>
-            </form> {% endcomment %}
+
         </div>
 
         <div id="Align" class="tabcontent">
-        
+
         </div>
 
         <div id="Register" class="tabcontent">

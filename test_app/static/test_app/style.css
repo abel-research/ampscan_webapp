@@ -86,3 +86,4 @@ th, td {
 }
 /* Makes every other row a different colour */
 tr:nth-child(even){background-color: #f2f2f2}
+
