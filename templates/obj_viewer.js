@@ -6,8 +6,24 @@ class AmpObjectContainer {
         this.name = name;
         this.display = display;
         this.colour = colour;
+        this.checkbox = null;
         // Note actor is set during polyUpdate
     }
+
+    toggleDisplay(name) {
+        let display = this.checkbox.checked;
+
+        this.display = display;
+        this.actor.setVisibility(display);
+        renderer.getRenderWindow().render();
+    }
+
+   addDisplayCheckbox(checkbox) {
+        var ob = this;
+        this.checkbox = checkbox;
+        checkbox.addEventListener("change", function(){ob.toggleDisplay(ob.name)});
+    }
+
 }
 
 const objects = {};
@@ -50,7 +66,7 @@ updateWindowSize();
 // ----------------------------------------------------------------------------
 
 function update(polyData, objID) {
-    // obj is the name of the object being updated
+    // objID is the name of the object being updated
     var mapper = vtk.Rendering.Core.vtkMapper.newInstance({ scalarVisibility: true });
     var actor = vtk.Rendering.Core.vtkActor.newInstance();
 
@@ -58,7 +74,7 @@ function update(polyData, objID) {
     mapper.setInputData(polyData);
 
     function addActor() {
-        // Remove any previous actors
+        // Remove any previous actors for this object
         let prevActor = objects[objID].actor;
 
         renderer.addActor(actor);
@@ -204,7 +220,7 @@ upload_button.addEventListener('change', e => {
     })
     .then(function(jsonResponse) {
         objects[jsonResponse["objID"]] =
-            new AmpObjectContainer(jsonResponse["objID"], jsonResponse["colour"], jsonResponse["display"]);
+            new AmpObjectContainer(jsonResponse["objID"], jsonResponse["properties"]["display"], jsonResponse["properties"]["colour"]);
         downloadPolyDataAndUpdate(jsonResponse["objID"]);
     });
 });
@@ -256,7 +272,7 @@ function updateObjectTable() {
     })
     .then(function(jsonResponse) {
         // Create table from data received
-        for (obj in objects){
+        for (objID in objects){
             var row = objectTable.insertRow(-1);
 
             var cell1 = row.insertCell(0);
@@ -266,19 +282,16 @@ function updateObjectTable() {
             // Add checkbox to display cell
             var showCheckbox = document.createElement("INPUT"); //Added for checkbox
             showCheckbox.type = "checkbox"; //Added for checkbox
-            console.log(objects[obj].display)
-            showCheckbox.checked = objects[obj].display;
+            showCheckbox.checked = objects[objID].display;
+            showCheckbox.id = objID.concat(" dropdown");
+            objects[objID].addDisplayCheckbox(showCheckbox);
 
-            cell1.innerHTML = objects[obj].name;
+            cell1.innerHTML = objects[objID].name;
             cell2.appendChild(showCheckbox);
-            cell3.innerHTML = objects[obj].colour;
+            cell3.innerHTML = objects[objID].colour;
         }
     });
 }
-// const containerObject = document.getElementById('Align');
-// const table = document.createElement('TABLE');
-// table.setAttribute("id", "objTable");
-// containerObject.appendChild(table);
 
 updateObjectTable();
 
@@ -291,7 +304,9 @@ selectNorms(true);
 
 function normsChange() {
     // When the tickbox is change, update the stl
-    downloadPolyDataAndUpdate(tempID);
+    for (i in objects) {
+        downloadPolyDataAndUpdate(i);
+    }
 }
 
 function isNormsSelected() {
@@ -337,9 +352,7 @@ function openTab(evt, tabName) {
 function updateDropdown() {
     dropdown = document.getElementById('targetDropdown');
     dropdown.options.length = 0;
-    console.log(objects);
     for(i in objects) {
-        console.log(i)
         dropdown.options[dropdown.options.length] = new Option(objects[i].name, i);
     }
 }

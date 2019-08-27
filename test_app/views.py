@@ -22,9 +22,9 @@ class AmpObjectView:
 
     def property_response(self):
         return {
-            "name":self.name,
-            "display:":self.display,
-            "colour":self.colour
+            "name": self.name,
+            "display": self.display,
+            "colour": self.colour
         }
 
 
@@ -43,6 +43,9 @@ class AmpEnv:
 
     def get_object_views(self):
         return self.obj_views.values()
+
+    def get_object_view(self, name):
+        return self.obj_views[name]
 
 
 def generate_next_session():
@@ -76,7 +79,7 @@ def get_session(request):
 #     """
     
 #     obj2 = AmpObject(settings.BASE_DIR + "/media/stl_file.stl")
-#     obj = AmpObject(settings.BASE_DIR + "/media/stl_file_2.stl")
+#     objID = AmpObject(settings.BASE_DIR + "/media/stl_file_2.stl")
 
 #     c1 = [31.0, 73.0, 125.0]
 #     c3 = [170.0, 75.0, 65.0]
@@ -86,7 +89,7 @@ def get_session(request):
 #     CMap = np.c_[CMap1[:, :-1], CMap2]
 #     CMapN2P = np.transpose(CMap)/255.0
 #     CMap02P = np.flip(np.transpose(CMap1)/255.0, axis=0)
-#     reg = registration(obj, obj2, steps = 5,smooth=1).reg
+#     reg = registration(objID, obj2, steps = 5,smooth=1).reg
 #     #reg.addActor(CMap = self.CMap02P)
 #     reg.addActor(CMap = CMapN2P)
 
@@ -161,13 +164,12 @@ def upload_view(request):
         basename = os.path.splitext(filename)[0]
 
         # Add object to session
-        print(basename)
         get_session(request).add_obj(obj, basename)
 
         # Check file extension
         if os.path.splitext(uploaded_file_url)[1] == ".stl":
             # valid file
-            return JsonResponse({"success": True, "objID": basename})
+            return JsonResponse({"success": True, "objID": basename, "properties": get_session(request).get_object_view(basename).property_response()})
         else:   
             return JsonResponse({"success": False})
 
@@ -191,8 +193,5 @@ def object_list_view(request):
 
     for obj_view in get_session(request).get_object_views():
         response.append(obj_view.property_response())
-
-    # response = [{"name":"stl_1","display:":"true","colour":"red"},
-    #             {"name":"stl_2","display:":"false","colour":"blue"},]
 
     return JsonResponse({"list":response})
