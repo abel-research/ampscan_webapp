@@ -1,4 +1,17 @@
-tempID = "stl_file"
+tempID = "stl_file";
+
+
+class AmpObjectContainer {
+    constructor(name, display, colour) {
+        this.name = name;
+        this.display = display;
+        this.colour = colour;
+        // Note actor is set during polyUpdate
+    }
+}
+
+const objects = {};
+
 
 // Get session id
 const session_id = {{ session_id }}
@@ -56,6 +69,8 @@ function update(polyData) {
         renderer.getRenderWindow().render();
     }
     addActor();
+
+    return actor;
 }
 
 function downloadPolyDataAndUpdate(objID) {
@@ -89,8 +104,9 @@ function downloadPolyDataAndUpdate(objID) {
             })
             polyData.getPointData().setNormals(vtkNorm);
         }
-        update(polyData);
+        objects[objID].actor = update(polyData);
         updateObjectTable();
+        updateDropdown();
     });
 }
 
@@ -185,10 +201,11 @@ upload_button.addEventListener('change', e => {
         return response.json();
     })
     .then(function(jsonResponse) {
+        objects[jsonResponse["objID"]] =
+            new AmpObjectContainer(jsonResponse["objID"], jsonResponse["colour"], jsonResponse["display"]);
         downloadPolyDataAndUpdate(jsonResponse["objID"]);
     });
-
-})
+});
 
 // ----------------------------------------------------------------------------
 // Setup Rotate panel
@@ -304,3 +321,18 @@ function openTab(evt, tabName) {
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
 }
+
+// ----------------------------------------------------------------------------
+// Setup dropdowns
+// ----------------------------------------------------------------------------
+
+function updateDropdown() {
+    dropdown = document.getElementById('targetDropdown');
+    dropdown.options.length = 0;
+    console.log(objects);
+    for(i in objects) {
+        console.log(i)
+        dropdown.options[dropdown.options.length] = new Option(objects[i].name, i);
+    }
+}
+updateDropdown();
