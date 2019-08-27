@@ -250,47 +250,29 @@ function updateObjectTable() {
     const objectTable = document.getElementById("objTable");
 
     // Clear table
-    for(var i = objectTable.rows.length - 1; i > 0; i--)
-    {
-        objectTable.deleteRow(i);
+    while(objectTable.hasChildNodes()) {
+       objectTable.removeChild(objectTable.firstChild);
     }
 
-    const formData = new FormData();
-    formData.append("session", session_id);
+    // Create table from data received
+    for (objID in objects){
+        var row = objectTable.insertRow(-1);
 
-    // Request table data
-    fetch("download/object-list", {
-        method: 'POST',
-        body: formData,
-        headers: {
-        'X-CSRFToken': csrftoken
-        },
-    })
-    .then(function(response) {
-        // Convert response to json
-        return response.json();
-    })
-    .then(function(jsonResponse) {
-        // Create table from data received
-        for (objID in objects){
-            var row = objectTable.insertRow(-1);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
 
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
+        // Add checkbox to display cell
+        var showCheckbox = document.createElement("INPUT"); //Added for checkbox
+        showCheckbox.type = "checkbox"; //Added for checkbox
+        showCheckbox.checked = objects[objID].display;
+        showCheckbox.id = objID.concat(" dropdown");
+        objects[objID].addDisplayCheckbox(showCheckbox);
 
-            // Add checkbox to display cell
-            var showCheckbox = document.createElement("INPUT"); //Added for checkbox
-            showCheckbox.type = "checkbox"; //Added for checkbox
-            showCheckbox.checked = objects[objID].display;
-            showCheckbox.id = objID.concat(" dropdown");
-            objects[objID].addDisplayCheckbox(showCheckbox);
-
-            cell1.innerHTML = objects[objID].name;
-            cell2.appendChild(showCheckbox);
-            cell3.innerHTML = objects[objID].colour;
-        }
-    });
+        cell1.innerHTML = objects[objID].name;
+        cell2.appendChild(showCheckbox);
+        cell3.innerHTML = objects[objID].colour;
+    }
 }
 
 updateObjectTable();
