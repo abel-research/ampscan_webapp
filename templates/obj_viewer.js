@@ -146,12 +146,8 @@ function rotate(objID, x, y, z) {
         'X-CSRFToken': csrftoken
         },
     }).then(function (reponse) {
-        downloadPolyDataAndUpdate(tempID);
+        downloadPolyDataAndUpdate(objID);
     })
-}
-
-function upload(file) {
-
 }
 
 
@@ -228,19 +224,25 @@ upload_button.addEventListener('change', e => {
 // ----------------------------------------------------------------------------
 // Setup Rotate panel
 // ----------------------------------------------------------------------------
+
+function getAlignMoving() {
+    const dropdown = document.getElementById("alignMovingDropdown");
+    return dropdown.options[dropdown.selectedIndex].text;
+}
+
 const containerRotate = document.getElementById('Align');
 
 // Add rotate button
 const rotate_button = document.createElement('BUTTON');
 rotate_button.innerHTML = 'Rotate';
 containerRotate.appendChild(rotate_button);
-rotate_button.addEventListener('click', function(){ rotate(tempID, 0.1, 0, 0); });
+rotate_button.addEventListener('click', function(){ rotate(getAlignMoving(), 0.1, 0, 0); });
 
 // Add rotate2 button
 const rotate2_button = document.createElement('BUTTON');
 rotate2_button.innerHTML = 'Rotate Back';
 containerRotate.appendChild(rotate2_button);
-rotate2_button.addEventListener('click', function(){ rotate(tempID, -0.1, 0, 0); });
+rotate2_button.addEventListener('click', function(){ rotate(getAlignMoving(), -0.1, 0, 0); });
 
 // ----------------------------------------------------------------------------
 // Setup object panel
@@ -335,10 +337,12 @@ function updateDropdown() {
     let dropdowns = document.getElementsByClassName('targetDropdown');
     for (dd=0; dd<dropdowns.length; dd++) {
         let dropdown = dropdowns[dd];
+        let si = dropdown.selectedIndex;
         dropdown.options.length = 0;
         for (i in objects) {
             dropdown.options[dropdown.options.length] = new Option(objects[i].name, i);
         }
+        dropdown.selectedIndex = si;
     }
 }
 updateDropdown();
