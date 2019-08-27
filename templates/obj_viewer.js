@@ -351,7 +351,7 @@ function openTab(evt, tabName) {
 
 function updateDropdown() {
     let dropdowns = document.getElementsByClassName('targetDropdown');
-    for (dd in dropdowns) {
+    for (dd=0; dd<dropdowns.length; dd++) {
         let dropdown = dropdowns[dd];
         dropdown.options.length = 0;
         for (i in objects) {
