@@ -48,9 +48,9 @@ updateWindowSize();
 // ----------------------------------------------------------------------------
 // Add scans
 // ----------------------------------------------------------------------------
-var prevActor = null;
 
-function update(polyData) {
+function update(polyData, objID) {
+    // obj is the name of the object being updated
     var mapper = vtk.Rendering.Core.vtkMapper.newInstance({ scalarVisibility: true });
     var actor = vtk.Rendering.Core.vtkActor.newInstance();
 
@@ -59,14 +59,16 @@ function update(polyData) {
 
     function addActor() {
         // Remove any previous actors
+        let prevActor = objects[objID].actor;
+
         renderer.addActor(actor);
         if (prevActor != null)
             renderer.removeActor(prevActor);
         else {
             renderer.resetCamera();
         }
-        prevActor = actor;
         renderer.getRenderWindow().render();
+        objects[objID].actor = actor;
     }
     addActor();
 
@@ -104,7 +106,7 @@ function downloadPolyDataAndUpdate(objID) {
             })
             polyData.getPointData().setNormals(vtkNorm);
         }
-        objects[objID].actor = update(polyData);
+        update(polyData, objID);
         updateObjectTable();
         updateDropdown();
     });
@@ -254,16 +256,22 @@ function updateObjectTable() {
     })
     .then(function(jsonResponse) {
         // Create table from data received
-        for (obj in jsonResponse["list"]){
-            console.log(jsonResponse["list"][obj]);
+        for (obj in objects){
             var row = objectTable.insertRow(-1);
 
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
-            cell1.innerHTML = jsonResponse["list"][obj].name;
-            cell2.innerHTML = jsonResponse["list"][obj].display;
-            cell3.innerHTML = jsonResponse["list"][obj].colour;
+
+            // Add checkbox to display cell
+            var showCheckbox = document.createElement("INPUT"); //Added for checkbox
+            showCheckbox.type = "checkbox"; //Added for checkbox
+            console.log(objects[obj].display)
+            showCheckbox.checked = objects[obj].display;
+
+            cell1.innerHTML = objects[obj].name;
+            cell2.appendChild(showCheckbox);
+            cell3.innerHTML = objects[obj].colour;
         }
     });
 }
