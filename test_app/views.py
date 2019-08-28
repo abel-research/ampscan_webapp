@@ -134,7 +134,7 @@ def icp_view(request):
     # AmpScan ICP alignment
     static = get_session(request).get_obj(request.POST.get("staticID"))
     moving = get_session(request).get_obj(request.POST.get("movingID"))
-    al = align(static, moving, maxiter=10, method='linPoint2Plane').m
+    al = align(moving, static, maxiter=10, method='linPoint2Plane').m
 
     new_name = request.POST.get("movingID")+"_reg"
     get_session(request).add_obj(al, new_name)
