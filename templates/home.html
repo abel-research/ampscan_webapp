@@ -14,7 +14,7 @@
 {% endif %}
 
 <div class="wrapper">
-    <div class="control" id="control">
+    <div class="control" id="control" style="overflow:auto;">
         <div class="tab">
             <button class="tablinks" onclick="openTab(event, 'Home')" id="defaultTabOpen">Home</button>
             <button class="tablinks" onclick="openTab(event, 'Align')">Align</button>
@@ -60,16 +60,14 @@
         </div>
     </div>
 
-    <div class="obj-manager" id="obj-manager">
-        <div style="overflow-x:auto;">
-            <table id="objTable">
-                <tr>
-                    <th>Name</th>
-                    <th>Show</th>
-                    <th>Colour</th>
-                </tr>
-            </table>
-        </div>
+    <div class="obj-manager" id="obj-manager" style="overflow-x:auto;overflow-y:auto;">
+        <table id="objTable">
+            <tr>
+                <th>Name</th>
+                <th>Show</th>
+                <th>Colour</th>
+            </tr>
+        </table>
     </div>
 
     <div class="viewer" id="viewer">

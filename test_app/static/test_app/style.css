@@ -43,9 +43,11 @@ body {font-family: 'Montserrat', sans-serif;}
 
 /* Style the control panel tab */
 .tab {
-    overflow: hidden;
+    overflow: auto;
     border: 1px solid #ccc;
     background-color: #f1f1f1;
+    white-space: nowrap;
+    display: flex;
 }
 .tab button {
     background-color: inherit;
