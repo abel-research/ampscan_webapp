@@ -7,7 +7,9 @@
     overflow: hidden;
 }
 
-body {font-family: Arial;}
+
+
+body {font-family: 'Montserrat', sans-serif;}
 
 /* Style the grid */
 .wrapper {
@@ -41,31 +43,32 @@ body {font-family: Arial;}
 
 /* Style the control panel tab */
 .tab {
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
 }
 .tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.4s;
-  font-size: 15px;
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.4s;
+    font-size: 15px;
+    font-family: 'Montserrat', sans-serif;
 }
 .tab button:hover {
-  background-color: rgb(225, 225, 225);
+    background-color: rgb(225, 225, 225);
 }
 .tab button.active {
-  background-color: rgb(190, 190, 190);
+    background-color: rgb(190, 190, 190);
 }
 .tabcontent {
-  display: none;
-  padding: 6px 12px;
-  border: 1px solid rgb(190, 190, 190);
-  border-top: none;
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid rgb(190, 190, 190);
+    border-top: none;
 }
 /* Add fade anitmation */
 @keyframes fadeEffect {
@@ -75,15 +78,21 @@ body {font-family: Arial;}
 
 /* Table styling */
 table {
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 100%;
-  border: 1px solid rgb(190, 190, 190);
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid rgb(190, 190, 190);
 }
 th, td {
-  text-align: center;
-  padding: 6px;
+    text-align: center;
+    padding: 6px;
 }
 /* Makes every other row a different colour */
 tr:nth-child(even){background-color: #f2f2f2}
 
+
+
+/* Button Styling */
+button, input[type="button"], input[type="submit"] {
+    font-family: 'Montserrat', sans-serif;
+}
