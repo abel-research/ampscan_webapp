@@ -30,10 +30,10 @@
 
         <div id="Align" class="tabcontent">
             <div>
-                Static: <select class="targetDropdown" id="alignStaticDropdown"></select>
+                Static: <select class="targetDropdown" id="alignStaticDropdown" onchange="updateDropdown()"></select>
             </div>
             <div>
-                Moving: <select class="targetDropdown" id="alignMovingDropdown"></select>
+                Moving: <select class="targetDropdown" id="alignMovingDropdown" onchange="updateDropdown()"></select>
             </div>
             <button onclick="runICP()" id="runICPButton">Run ICP</button>
         </div>

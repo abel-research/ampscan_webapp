@@ -91,6 +91,10 @@ function update(polyData, objID) {
     return actor;
 }
 
+function refreshVTK() {
+    renderer.getRenderWindow().render(); // Rerender
+}
+
 function downloadPolyDataAndUpdate(objID) {
     polyData = vtk.Common.DataModel.vtkPolyData.newInstance()
     
@@ -142,6 +146,7 @@ function downloadPolyDataAndUpdate(objID) {
                 values: jsonResponse["scalars"],
             });
             polyData.getPointData().setScalars(vtScalar);
+            refreshVTK();
         }
     });
 }
@@ -228,11 +233,17 @@ upload_button.addEventListener('change', e => {
 
 function getAlignMoving() {
     const dropdown = document.getElementById("alignMovingDropdown");
-    return dropdown.options[dropdown.selectedIndex].text;
+    if (dropdown.selectedIndex !== -1)
+        return dropdown.options[dropdown.selectedIndex].text;
+    else
+        return "";
 }
 function getAlignStatic() {
-    const dropdown = document.getElementById("alignStaticDropdown");
-    return dropdown.options[dropdown.selectedIndex].text;
+    const dropdown = document.getElementById("alignStaticDropdown");;
+    if (dropdown.selectedIndex !== -1)
+        return dropdown.options[dropdown.selectedIndex].text;
+    else
+        return "";
 }
 
 
@@ -363,10 +374,23 @@ function selectNorms(val) {
 // Setup tabbing
 // ----------------------------------------------------------------------------
 
+
+currentTab = "Home";
 document.getElementById("defaultTabOpen").click();
+
+function getCurrentTab() {
+    return currentTab;
+}
 
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
+
+    // If the old tab was "Align" then reveal all objects again
+    if (getCurrentTab() === "Align" && tabName !== "Align") {
+        revealAllObjectsDisplayed();
+    }
+
+    currentTab = tabName;
   
     // Get all elements with class="tabcontent" and hide them
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -383,11 +407,40 @@ function openTab(evt, tabName) {
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
+
+    // If tab is "Align" then only show aligning objects
+    if (getCurrentTab() === "Align") {
+        hideAllObjectsExceptAlign();
+    }
 }
 
 // ----------------------------------------------------------------------------
 // Setup dropdowns
 // ----------------------------------------------------------------------------
+
+function hideAllObjectsExceptAlign() {
+    for (i in objects) {
+        console.log(objects[i].name, getAlignMoving());
+        if (objects[i].name === getAlignMoving()) {
+            objects[i].actor.setVisibility(true);
+            console.log(i)
+        } else if (objects[i].name === getAlignStatic()){
+            objects[i].actor.setVisibility(true);
+            console.log(i)
+        } else {
+            objects[i].actor.setVisibility(false);
+        }
+    }
+    refreshVTK();
+}
+function revealAllObjectsDisplayed() {
+    for (i in objects) {
+        if (objects[i].display) {
+            objects[i].actor.setVisibility(true);
+        }
+    }
+    refreshVTK();
+}
 
 function updateDropdown() {
     let dropdowns = document.getElementsByClassName('targetDropdown');
@@ -399,6 +452,9 @@ function updateDropdown() {
             dropdown.options[dropdown.options.length] = new Option(objects[i].name, i);
         }
         dropdown.selectedIndex = si;
+    }
+    if (getCurrentTab() === "Align") {
+        hideAllObjectsExceptAlign();
     }
 }
 updateDropdown();
