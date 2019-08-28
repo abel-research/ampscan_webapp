@@ -1,0 +1,2 @@
+git+https://github.com/abel-research/ampscan
+Django==2.2.4

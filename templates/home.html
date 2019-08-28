@@ -16,7 +16,7 @@
 <div class="wrapper">
     <div class="control" id="control">
         <div class="tab">
-            <button class="tablinks" onclick="openTab(event, 'File')" id="defaultTabOpen">File</button>
+            <button class="tablinks" onclick="openTab(event, 'Home')" id="defaultTabOpen">Home</button>
             <button class="tablinks" onclick="openTab(event, 'Align')">Align</button>
             <button class="tablinks" onclick="openTab(event, 'Register')">Register</button>
             <button class="tablinks" onclick="openTab(event, 'Analyse')">Analyse</button>
@@ -24,7 +24,7 @@
         </div>
 
 
-         <div id="File" class="tabcontent">
+         <div id="Home" class="tabcontent">
 
         </div>
 
@@ -35,6 +35,7 @@
             <div>
                 Static: <select class="targetDropdown" id="alignStaticDropdown"></select>
             </div>
+            <button onclick="runICP()" id="runICPButton">Run ICP</button>
         </div>
 
         <div id="Register" class="tabcontent">
@@ -66,11 +67,6 @@
                     <th>Name</th>
                     <th>Show</th>
                     <th>Colour</th>
-                </tr>
-                <tr>
-                    <td>Stl_file</td>
-                    <td>...</td>
-                    <td>...</td>
                 </tr>
             </table>
         </div>

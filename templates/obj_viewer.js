@@ -128,26 +128,8 @@ function downloadPolyDataAndUpdate(objID) {
     });
 }
 
-function rotate(objID, x, y, z) {
-    // Add the data
-    var formData  = new FormData();
-    formData.append("x", String(x));
-    formData.append("y", String(y));
-    formData.append("z", String(z));
-
-    formData.append("objID", objID);
-    formData.append("session", session_id);
-
-    // Submit the request to rotate
-    fetch("align", {
-        method: 'POST',
-        body: formData,
-        headers: {
-        'X-CSRFToken': csrftoken
-        },
-    }).then(function (reponse) {
-        downloadPolyDataAndUpdate(objID);
-    })
+function hideObject(objID) {
+    objects[objID].actor.setVisibility(false);
 }
 
 
@@ -175,21 +157,21 @@ function getCookie(name) {
 var csrftoken = getCookie('csrftoken');
 
 // ----------------------------------------------------------------------------
-// Setup File panel
+// Setup Home panel
 // ----------------------------------------------------------------------------
-const containerFile = document.getElementById('File');
+const containerHome = document.getElementById('Home');
 
 // Add upload button
 // const upload_button = document.createElement('BUTTON');
 // upload_button.innerHTML = 'Show';
-// containerFile.appendChild(upload_button);
+// containerHome.appendChild(upload_button);
 // upload_button.addEventListener('click', polyProcess);
 
 // Add upload button
 var upload_button = document.createElement("INPUT");
-upload_button.setAttribute("accept", ".stl")
+upload_button.setAttribute("accept", ".stl");
 upload_button.setAttribute("type", "file");
-containerFile.appendChild(upload_button);
+containerHome.appendChild(upload_button);
 upload_button.addEventListener('change', e => {
     // Get the file from the upload button
     const files = upload_button.files;
@@ -222,12 +204,67 @@ upload_button.addEventListener('change', e => {
 });
 
 // ----------------------------------------------------------------------------
-// Setup Rotate panel
+// Setup Align panel
 // ----------------------------------------------------------------------------
 
 function getAlignMoving() {
     const dropdown = document.getElementById("alignMovingDropdown");
     return dropdown.options[dropdown.selectedIndex].text;
+}
+function getAlignStatic() {
+    const dropdown = document.getElementById("alignStaticDropdown");
+    return dropdown.options[dropdown.selectedIndex].text;
+}
+
+
+function runICP() {
+    const formData = new FormData();
+
+    formData.append("session", session_id);
+    formData.append("movingID", getAlignMoving());
+    formData.append("staticID", getAlignStatic());
+
+    // Submit the request to rotate
+    fetch("process/align/icp", {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+    })
+    .then(function(response) {
+        // Convert response to json
+        return response.json();
+    })
+    .then(function (jsonResponse) {
+        objects[jsonResponse["newObjID"]] = new AmpObjectContainer(jsonResponse["newObjID"], true, null);
+        downloadPolyDataAndUpdate(jsonResponse["newObjID"]);
+        // Hide the moving object
+        hideObject(getAlignMoving());
+    })
+}
+
+
+function rotate(objID, x, y, z) {
+    // Add the data
+    var formData  = new FormData();
+    formData.append("x", String(x));
+    formData.append("y", String(y));
+    formData.append("z", String(z));
+
+    formData.append("objID", objID);
+    formData.append("session", session_id);
+
+    // Submit the request to rotate
+    fetch("process/align/rotate", {
+        method: 'POST',
+        body: formData,
+        headers: {
+        'X-CSRFToken': csrftoken
+        },
+    }).then(function (reponse) {
+        downloadPolyDataAndUpdate(objID);
+    })
 }
 
 const containerRotate = document.getElementById('Align');

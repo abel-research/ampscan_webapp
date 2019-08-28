@@ -5,7 +5,7 @@ from django.conf import settings
 from django.http import JsonResponse
 
 import os
-from AmpScan import AmpObject, registration
+from AmpScan import AmpObject, registration, align
 from random import randrange
 import vtk
 import numpy as np
@@ -116,15 +116,30 @@ def polydata_view(request):
     return JsonResponse(responseDict)
 
 
-def align_view(request):
+def rotate_view(request):
     """
     View for aligning
     """
-    # AmpScan processing
+    # AmpScan rotation
     obj = get_session(request).get_obj(request.POST.get("objID"))
     obj.rotateAng([float(request.POST["x"]), float(request.POST["y"]), float(request.POST["z"])])
 
     return JsonResponse({"success": True})
+
+
+def icp_view(request):
+    """
+    View for aligning
+    """
+    # AmpScan ICP alignment
+    static = get_session(request).get_obj(request.POST.get("staticID"))
+    moving = get_session(request).get_obj(request.POST.get("movingID"))
+    al = align(static, moving, maxiter=10, method='linPoint2Plane').m
+
+    new_name = request.POST.get("movingID")+"_reg"
+    get_session(request).add_obj(al, new_name)
+
+    return JsonResponse({"success": True, "newObjID": new_name})
 
 
 def home_view(request):
