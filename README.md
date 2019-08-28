@@ -24,8 +24,8 @@ Maintainer Notes
 
 This app uses a Django framework.
 
-vtk.js is used to render the scans for the clients.
+vtk.js is used to render the scans in the browser.
 
 As a future improvement, we may want to add a modules bundler such as webpack rather than importing vtk.js scripts from a URL.
 
-Please see the Issues for new features and improvements in progress.
+Please see the Issues for new features and improvements planned or in progress.
