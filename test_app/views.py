@@ -9,6 +9,7 @@ from AmpScan import AmpObject, registration, align
 from random import randrange
 import vtk
 import numpy as np
+import math
 
 sessions = {}
 
@@ -89,10 +90,15 @@ def polydata_view(request):
 
     responseDict = {"verts":obj.vert.flatten().tolist(), 
                     "faces":(np.c_[np.full(obj.faces.shape[0], 3), obj.faces]).flatten().tolist()}
+
     if draw_norms:
         obj.calcVNorm()
         responseDict["norm"] = obj.vNorm.flatten().tolist()
 
+    if obj.values is not None:
+        responseDict["scalars"] = obj.values.flatten().tolist()
+        print(responseDict["scalars"])
+    # print("bal", str(responseDict)[1216550:1216700])
     return JsonResponse(responseDict)
 
 
@@ -119,7 +125,7 @@ def register_view(request):
     name = request.POST.get("baselineID") + "_reg"
     get_session(request).add_obj(reg, name)
 
-    return JsonResponse({"objID": name})
+    return JsonResponse({"newObjID": name})
 
 
 def rotate_view(request):

@@ -123,18 +123,21 @@ function downloadPolyDataAndUpdate(objID) {
             polyData.getPointData().setNormals(vtkNorm);
         }
 
+        update(polyData, objID);
+        updateObjectTable();
+        updateDropdown();
+
+        console.log(jsonResponse["scalars"]);
         if (jsonResponse.hasOwnProperty("scalars")) {
-            objects[objID].actor.mapper.setScalarRange(0, 60);
+            objects[objID].actor.getMapper().setScalarRange(0, 60);
+            console.log(jsonResponse["scalars"][1216558]);
+            console.log(jsonResponse["scalars"][1216557]);
             const vtScalar = vtk.Common.Core.vtkDataArray.newInstance({
                 numberOfComponents: 1,
                 values: jsonResponse["scalars"],
             });
             polyData.getPointData().setScalars(vtScalar);
         }
-
-        update(polyData, objID);
-        updateObjectTable();
-        updateDropdown();
     });
 }
 
@@ -419,7 +422,7 @@ function runRegistration() {
     formData.append("targetID", getRegistrationTarget());
 
     // Submit the request to rotate
-    fetch("process/align/icp", {
+    fetch("process/register", {
         method: 'POST',
         body: formData,
         headers: {
@@ -433,7 +436,5 @@ function runRegistration() {
     .then(function (jsonResponse) {
         objects[jsonResponse["newObjID"]] = new AmpObjectContainer(jsonResponse["newObjID"], true, null);
         downloadPolyDataAndUpdate(jsonResponse["newObjID"]);
-        // Hide the moving object
-        hideObject(getRegistrationTarget());
     })
 }
