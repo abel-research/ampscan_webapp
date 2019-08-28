@@ -97,8 +97,6 @@ def polydata_view(request):
 
     if obj.values is not None:
         responseDict["scalars"] = obj.values.flatten().tolist()
-        print(responseDict["scalars"])
-    # print("bal", str(responseDict)[1216550:1216700])
     return JsonResponse(responseDict)
 
 

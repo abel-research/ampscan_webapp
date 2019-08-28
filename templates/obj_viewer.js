@@ -127,11 +127,16 @@ function downloadPolyDataAndUpdate(objID) {
         updateObjectTable();
         updateDropdown();
 
-        console.log(jsonResponse["scalars"]);
         if (jsonResponse.hasOwnProperty("scalars")) {
-            objects[objID].actor.getMapper().setScalarRange(0, 60);
-            console.log(jsonResponse["scalars"][1216558]);
-            console.log(jsonResponse["scalars"][1216557]);
+            let mn=1000000, mx=-1000000;
+            for (i in jsonResponse["scalars"]) {
+                if (!isNaN(jsonResponse["scalars"][i])) {
+                    mn = Math.min(jsonResponse["scalars"][i], mn);
+                    mx = Math.max(jsonResponse["scalars"][i], mx);
+                }
+            }
+            console.log(mn, mx);
+            objects[objID].actor.getMapper().setScalarRange(mn, mx);
             const vtScalar = vtk.Common.Core.vtkDataArray.newInstance({
                 numberOfComponents: 1,
                 values: jsonResponse["scalars"],
