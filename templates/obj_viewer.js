@@ -122,6 +122,16 @@ function downloadPolyDataAndUpdate(objID) {
             })
             polyData.getPointData().setNormals(vtkNorm);
         }
+
+        if (jsonResponse.hasOwnProperty("scalars")) {
+            objects[objID].actor.mapper.setScalarRange(0, 60);
+            const vtScalar = vtk.Common.Core.vtkDataArray.newInstance({
+                numberOfComponents: 1,
+                values: jsonResponse["scalars"],
+            });
+            polyData.getPointData().setScalars(vtScalar);
+        }
+
         update(polyData, objID);
         updateObjectTable();
         updateDropdown();
@@ -129,6 +139,7 @@ function downloadPolyDataAndUpdate(objID) {
 }
 
 function hideObject(objID) {
+    objects[objID].display = false;
     objects[objID].actor.setVisibility(false);
 }
 
@@ -390,6 +401,39 @@ updateDropdown();
 // Registration
 // ----------------------------------------------------------------------------
 
+function getRegistrationTarget() {
+    const dropdown = document.getElementById("registerTargetDropdown");
+    return dropdown.options[dropdown.selectedIndex].text;
+}
+function getRegistrationBaseline() {
+    const dropdown = document.getElementById("registerBaselineDropdown");
+    return dropdown.options[dropdown.selectedIndex].text;
+}
+
+
 function runRegistration() {
-    //TODO add this
+    const formData = new FormData();
+
+    formData.append("session", session_id);
+    formData.append("baselineID", getRegistrationBaseline());
+    formData.append("targetID", getRegistrationTarget());
+
+    // Submit the request to rotate
+    fetch("process/align/icp", {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+    })
+    .then(function(response) {
+        // Convert response to json
+        return response.json();
+    })
+    .then(function (jsonResponse) {
+        objects[jsonResponse["newObjID"]] = new AmpObjectContainer(jsonResponse["newObjID"], true, null);
+        downloadPolyDataAndUpdate(jsonResponse["newObjID"]);
+        // Hide the moving object
+        hideObject(getRegistrationTarget());
+    })
 }

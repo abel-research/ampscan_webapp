@@ -73,26 +73,6 @@ def get_session(request):
     else:
         raise ValueError("request does not have session id")
 
-# def register():
-#     """
-#     View for registration (placeholder)
-#     """
-    
-#     obj2 = AmpObject(settings.BASE_DIR + "/media/stl_file.stl")
-#     objID = AmpObject(settings.BASE_DIR + "/media/stl_file_2.stl")
-
-#     c1 = [31.0, 73.0, 125.0]
-#     c3 = [170.0, 75.0, 65.0]
-#     c2 = [212.0, 221.0, 225.0]
-#     CMap1 = np.c_[[np.linspace(st, en) for (st, en) in zip(c1, c2)]]
-#     CMap2 = np.c_[[np.linspace(st, en) for (st, en) in zip(c2, c3)]]
-#     CMap = np.c_[CMap1[:, :-1], CMap2]
-#     CMapN2P = np.transpose(CMap)/255.0
-#     CMap02P = np.flip(np.transpose(CMap1)/255.0, axis=0)
-#     reg = registration(objID, obj2, steps = 5,smooth=1).reg
-#     #reg.addActor(CMap = self.CMap02P)
-#     reg.addActor(CMap = CMapN2P)
-
 
 def polydata_view(request):
     """
@@ -116,6 +96,32 @@ def polydata_view(request):
     return JsonResponse(responseDict)
 
 
+def register_view(request):
+    """
+    View for registration (placeholder)
+    """
+
+    baseline = get_session(request).get_obj(request.POST.get("baselineID"))
+    target = get_session(request).get_obj(request.POST.get("targetID"))
+
+    c1 = [31.0, 73.0, 125.0]
+    c3 = [170.0, 75.0, 65.0]
+    c2 = [212.0, 221.0, 225.0]
+    CMap1 = np.c_[[np.linspace(st, en) for (st, en) in zip(c1, c2)]]
+    CMap2 = np.c_[[np.linspace(st, en) for (st, en) in zip(c2, c3)]]
+    CMap = np.c_[CMap1[:, :-1], CMap2]
+    CMapN2P = np.transpose(CMap) / 255.0
+    # CMap02P = np.flip(np.transpose(CMap1) / 255.0, axis=0)
+    reg = registration(baseline, target, steps=5, smooth=1).reg
+    # reg.addActor(CMap = self.CMap02P)
+    reg.addActor(CMap=CMapN2P)
+
+    name = request.POST.get("baselineID") + "_reg"
+    get_session(request).add_obj(reg, name)
+
+    return JsonResponse({"objID": name})
+
+
 def rotate_view(request):
     """
     View for aligning
@@ -136,7 +142,7 @@ def icp_view(request):
     moving = get_session(request).get_obj(request.POST.get("movingID"))
     al = align(moving, static, maxiter=10, method='linPoint2Plane').m
 
-    new_name = request.POST.get("movingID")+"_reg"
+    new_name = request.POST.get("movingID")+"_al"
     get_session(request).add_obj(al, new_name)
 
     return JsonResponse({"success": True, "newObjID": new_name})
