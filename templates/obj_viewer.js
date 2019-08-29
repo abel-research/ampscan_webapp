@@ -249,7 +249,6 @@ function setAlignMoving(objID) {
         console.log(options[i].value)
         if (options[i].value === objID) {
             dropdown.selectedIndex = i;
-            console.log(i)
             return;
         }
     }
@@ -261,6 +260,14 @@ function getAlignStatic() {
         return dropdown.options[dropdown.selectedIndex].text;
     else
         return "";
+}
+
+function resetAlignDD() {
+    // Set moving and static to be blank
+    const dropdown1 = document.getElementById("alignMovingDropdown");
+    dropdown1.selectedIndex = -1;
+    const dropdown2 = document.getElementById("alignStaticDropdown");
+    dropdown2.selectedIndex = -1
 }
 
 
@@ -407,6 +414,8 @@ function openTab(evt, tabName) {
     // If the old tab was "Align" then reveal all objects again
     if (getCurrentTab() === "Align" && tabName !== "Align") {
         revealAllObjectsDisplayed();
+        // Show obj manager
+        document.getElementById("obj-manager").style.display = "block";
     }
 
     currentTab = tabName;
@@ -427,9 +436,12 @@ function openTab(evt, tabName) {
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
 
-    // If tab is "Align" then only show aligning objects
+    // If new tab is "Align" then only show aligning objects
     if (getCurrentTab() === "Align") {
         hideAllObjectsExceptAlign();
+        // Hide obj manager
+        document.getElementById("obj-manager").style.display = "none";
+        resetAlignDD();
     }
 }
 
