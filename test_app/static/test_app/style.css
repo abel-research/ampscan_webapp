@@ -106,11 +106,13 @@ button, input[type="button"], input[type="submit"] {
     /*border-bottom: 1px solid grey;*/
     padding-bottom: 5px;
     padding-top: 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
 }
 
 .targetDropdown {
     position: absolute;
-    width: 80px;
+    width: 100px;
     height: 80%;
     left: 80px;
     font-family: 'Montserrat', sans-serif;
@@ -118,7 +120,7 @@ button, input[type="button"], input[type="submit"] {
 
 .targetColour {
     position: absolute;
-    width: 30px;
+    width: 25px;
     height: 80%;
-    left: 180px;
+    left: 190px;
 }
