@@ -15,17 +15,19 @@ sessions = {}
 
 
 class AmpObjectView:
-    def __init__(self, name, ampObject, display=True, colour=(20, 20, 20)):
+    def __init__(self, ampObject, name, display=True, colour=(20, 20, 20), obj_type="scan"):
         self.name = name
         self.display = display
         self.colour = colour
+        self.obj_type = obj_type
         self.ampObject = ampObject
 
     def property_response(self):
         return {
             "name": self.name,
             "display": self.display,
-            "colour": self.colour
+            "colour": self.colour,
+            "type": self.obj_type,
         }
 
 
@@ -33,8 +35,8 @@ class AmpEnv:
     def __init__(self):
         self.obj_views = {}
 
-    def add_obj(self, obj, name):
-        self.obj_views[name] = (AmpObjectView(name, obj))
+    def add_obj(self, ob, name, display=True, colour=(20, 20, 20), obj_type="scan"):
+        self.obj_views[name] = (AmpObjectView(ob, name, display, colour, obj_type))
 
     def get_obj(self, name):
         if name in self.obj_views.keys():
@@ -79,30 +81,31 @@ def polydata_view(request):
     """
     View for requesting polydata
     """
-
-    draw_norms = True
     if request.method == "POST":
-        draw_norms = request.POST.get("norms")=="true"
+        draw_norms = (request.POST.get("norms") == "true")
 
         obj = get_session(request).get_obj(request.POST.get("objID"))
     else:
         raise Exception("Not POST request")
 
-    responseDict = {"verts":obj.vert.flatten().tolist(), 
+    response_dict = {"verts":obj.vert.flatten().tolist(),
                     "faces":(np.c_[np.full(obj.faces.shape[0], 3), obj.faces]).flatten().tolist()}
 
+    # Include norms if the request has it set to "true"
     if draw_norms:
         obj.calcVNorm()
-        responseDict["norm"] = obj.vNorm.flatten().tolist()
+        response_dict["norm"] = obj.vNorm.flatten().tolist()
 
-    if obj.values is not None:
-        responseDict["scalars"] = obj.values.flatten().tolist()
-    return JsonResponse(responseDict)
+    # If the object is type "reg" then include scalars
+    if get_session(request).get_object_view(request.POST.get("objID")).obj_type == "reg":
+        response_dict["scalars"] = obj.values.flatten().tolist()
+    return JsonResponse(response_dict)
 
 
 def register_view(request):
     """
-    View for registration (placeholder)
+    View for registration
+    Requests to perform registration go here
     """
 
     baseline = get_session(request).get_obj(request.POST.get("baselineID"))
@@ -121,7 +124,7 @@ def register_view(request):
     reg.addActor(CMap=CMapN2P)
 
     name = request.POST.get("baselineID") + "_reg"
-    get_session(request).add_obj(reg, name)
+    get_session(request).add_obj(reg, name, obj_type="reg")
 
     return JsonResponse({"newObjID": name})
 
@@ -141,6 +144,8 @@ def icp_view(request):
     """
     View for aligning
     """
+    # TODO add options to adjust settings
+
     # AmpScan ICP alignment
     static = get_session(request).get_obj(request.POST.get("staticID"))
     moving = get_session(request).get_obj(request.POST.get("movingID"))
@@ -156,7 +161,6 @@ def home_view(request):
     """
     View for the home page
     """
-    global uploaded_file_url, obj
     context = {}
             
     if request.method == "GET":

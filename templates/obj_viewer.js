@@ -2,10 +2,10 @@ tempID = "stl_file";
 
 
 class AmpObjectContainer {
-    constructor(name, display, colour) {
+    constructor(name, display, type) {
         this.name = name;
         this.display = display;
-        this.colour = colour;
+        this.type = type;
         this.checkbox = null;
         // Note actor is set during polyUpdate
     }
@@ -222,7 +222,7 @@ upload_button.addEventListener('change', e => {
     })
     .then(function(jsonResponse) {
         objects[jsonResponse["objID"]] =
-            new AmpObjectContainer(jsonResponse["objID"], jsonResponse["properties"]["display"], jsonResponse["properties"]["colour"]);
+            new AmpObjectContainer(jsonResponse["objID"], jsonResponse["properties"]["display"], jsonResponse["properties"]["type"]);
         downloadPolyDataAndUpdate(jsonResponse["objID"]);
     });
 });
@@ -267,7 +267,7 @@ function runICP() {
         return response.json();
     })
     .then(function (jsonResponse) {
-        objects[jsonResponse["newObjID"]] = new AmpObjectContainer(jsonResponse["newObjID"], true, null);
+        objects[jsonResponse["newObjID"]] = new AmpObjectContainer(jsonResponse["newObjID"], true, "align");
         downloadPolyDataAndUpdate(jsonResponse["newObjID"]);
         // Hide the moving object
         hideObject(getAlignMoving());
@@ -340,7 +340,7 @@ function updateObjectTable() {
 
         cell1.innerHTML = objects[objID].name;
         cell2.appendChild(showCheckbox);
-        cell3.innerHTML = objects[objID].colour;
+        cell3.innerHTML = objects[objID].type;
     }
 }
 
@@ -495,7 +495,7 @@ function runRegistration() {
         return response.json();
     })
     .then(function (jsonResponse) {
-        objects[jsonResponse["newObjID"]] = new AmpObjectContainer(jsonResponse["newObjID"], true, null);
+        objects[jsonResponse["newObjID"]] = new AmpObjectContainer(jsonResponse["newObjID"], true, "reg");
         downloadPolyDataAndUpdate(jsonResponse["newObjID"]);
     })
 }
