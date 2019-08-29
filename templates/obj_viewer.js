@@ -38,27 +38,9 @@ class AmpObjectContainer {
         const r = parseInt(colour.substr(1, 2), 16) / 255;
         const g = parseInt(colour.substr(3, 2), 16) / 255;
         const b = parseInt(colour.substr(5, 2), 16) / 255;
-        console.log(colour, r, g, b);
         this.actor.getProperty().setColor(r, g, b);
-
-        // Create colour property from scalars
-        // let dataset = this.polydata.getPoints();
-        // const nbPoints = dataset.getNumberOfPoints();
-        //
-        // const values = new Float32Array(nbPoints);
-        // console.log(colour / (2<<23));
-        // for (let i = 0; i < nbPoints; i++) {
-        //   values[i] = i/nbPoints;
-        // }
-        // const colors = vtk.Common.Core.vtkDataArray.newInstance({ name: 'fieldName', values });
-        // this.polydata.getPointData().setScalars(colors);
-        // Kick VTK into rendering scalars again
-
-        // if (this.actor != null) {
-        //     this.actor.setVisibility(false);
-        //     this.actor.setVisibility(true);
-        // }
         refreshVTK();
+        console.log(colour);
     }
 
 }
@@ -287,7 +269,6 @@ function setAlignMoving(objID) {
     const dropdown = document.getElementById("alignMovingDropdown");
     options = dropdown.options;
     for (i = 0; i < options.length; i ++) {
-        console.log(options[i].value)
         if (options[i].value === objID) {
             dropdown.selectedIndex = i;
             return;
@@ -494,10 +475,14 @@ function updateAlign() {
     for (i in objects) {
         if (objects[i].name === getAlignMoving()) {
             objects[i].actor.setVisibility(true);
-            console.log(i)
+            if (alignMovingColour != null) {
+                objects[i].changeColour(document.getElementById("alignMovingColour").value);
+            }
         } else if (objects[i].name === getAlignStatic()){
             objects[i].actor.setVisibility(true);
-            console.log(i)
+            if (alignStaticColour != null) {
+                objects[i].changeColour(document.getElementById("alignStaticColour").value);
+            }
         } else {
             objects[i].actor.setVisibility(false);
         }
@@ -538,11 +523,18 @@ function updateDropdown() {
 }
 updateDropdown();
 
-
 document.getElementById("alignStaticColour").addEventListener("input", function(event) {
     const newColour = event.target.value;
     if (getAlignStatic() !== "") {
         objects[getAlignStatic()].changeColour(newColour);
+    }
+});
+
+
+document.getElementById("alignMovingColour").addEventListener("input", function(event) {
+    const newColour = event.target.value;
+    if (getAlignMoving() !== "") {
+        objects[getAlignMoving()].changeColour(newColour);
     }
 });
 
