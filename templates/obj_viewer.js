@@ -95,7 +95,7 @@ function refreshVTK() {
     renderer.getRenderWindow().render(); // Rerender
 }
 
-function downloadPolyDataAndUpdate(objID) {
+function downloadPolyDataAndUpdate(objID, callback) {
     polyData = vtk.Common.DataModel.vtkPolyData.newInstance()
     
     const formData = new FormData();
@@ -148,6 +148,10 @@ function downloadPolyDataAndUpdate(objID) {
             polyData.getPointData().setScalars(vtScalar);
             refreshVTK();
         }
+
+        // Execute callback once finished loading object
+        if (typeof callback !== 'undefined')
+            callback();
     });
 }
 
@@ -238,6 +242,19 @@ function getAlignMoving() {
     else
         return "";
 }
+function setAlignMoving(objID) {
+    const dropdown = document.getElementById("alignMovingDropdown");
+    options = dropdown.options;
+    for (i = 0; i < options.length; i ++) {
+        console.log(options[i].value)
+        if (options[i].value === objID) {
+            dropdown.selectedIndex = i;
+            console.log(i)
+            return;
+        }
+    }
+    console.error("Obj not found: ".concat(objID));
+}
 function getAlignStatic() {
     const dropdown = document.getElementById("alignStaticDropdown");;
     if (dropdown.selectedIndex !== -1)
@@ -268,9 +285,11 @@ function runICP() {
     })
     .then(function (jsonResponse) {
         objects[jsonResponse["newObjID"]] = new AmpObjectContainer(jsonResponse["newObjID"], true, "align");
-        downloadPolyDataAndUpdate(jsonResponse["newObjID"]);
-        // Hide the moving object
-        hideObject(getAlignMoving());
+        downloadPolyDataAndUpdate(jsonResponse["newObjID"], function() {
+            // Change the moving object to the new object
+            setAlignMoving(jsonResponse["newObjID"]);
+            hideAllObjectsExceptAlign();
+        });
     })
 }
 
@@ -420,7 +439,6 @@ function openTab(evt, tabName) {
 
 function hideAllObjectsExceptAlign() {
     for (i in objects) {
-        console.log(objects[i].name, getAlignMoving());
         if (objects[i].name === getAlignMoving()) {
             objects[i].actor.setVisibility(true);
             console.log(i)
