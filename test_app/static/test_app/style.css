@@ -100,6 +100,7 @@ button, input[type="button"], input[type="submit"] {
 }
 
 
+/* Control panel styling*/
 .controlOptionLineContainer {
     position: relative;
     /*border-bottom: 1px solid grey;*/
@@ -107,9 +108,17 @@ button, input[type="button"], input[type="submit"] {
     padding-top: 5px;
 }
 
-/* Target object styling*/
 .targetDropdown {
     position: absolute;
-    width: 100px;
+    width: 80px;
+    height: 80%;
     left: 80px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.targetColour {
+    position: absolute;
+    width: 30px;
+    height: 80%;
+    left: 180px;
 }
