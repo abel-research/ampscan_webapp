@@ -295,7 +295,7 @@ function runICP() {
         downloadPolyDataAndUpdate(jsonResponse["newObjID"], function() {
             // Change the moving object to the new object
             setAlignMoving(jsonResponse["newObjID"]);
-            hideAllObjectsExceptAlign();
+            updateAlign();
         });
     })
 }
@@ -438,7 +438,7 @@ function openTab(evt, tabName) {
 
     // If new tab is "Align" then only show aligning objects
     if (getCurrentTab() === "Align") {
-        hideAllObjectsExceptAlign();
+        updateAlign();
         // Hide obj manager
         document.getElementById("obj-manager").style.display = "none";
         resetAlignDD();
@@ -449,7 +449,7 @@ function openTab(evt, tabName) {
 // Setup dropdowns
 // ----------------------------------------------------------------------------
 
-function hideAllObjectsExceptAlign() {
+function updateAlign() {
     for (i in objects) {
         if (objects[i].name === getAlignMoving()) {
             objects[i].actor.setVisibility(true);
@@ -462,6 +462,13 @@ function hideAllObjectsExceptAlign() {
         }
     }
     refreshVTK();
+
+    // Disable icp button if both static and moving targets aren't selected or the same is selected
+    if (getAlignMoving() !== "" && getAlignStatic() !== "" && getAlignStatic() !== getAlignMoving()) {
+        document.getElementById("runICPButton").disabled = false;
+    } else {
+        document.getElementById("runICPButton").disabled = true;
+    }
 }
 function revealAllObjectsDisplayed() {
     for (i in objects) {
@@ -483,8 +490,9 @@ function updateDropdown() {
         }
         dropdown.selectedIndex = si;
     }
+
     if (getCurrentTab() === "Align") {
-        hideAllObjectsExceptAlign();
+        updateAlign();
     }
 }
 updateDropdown();
