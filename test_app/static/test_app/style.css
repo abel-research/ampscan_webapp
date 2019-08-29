@@ -98,3 +98,18 @@ tr:nth-child(even){background-color: #f2f2f2}
 button, input[type="button"], input[type="submit"] {
     font-family: 'Montserrat', sans-serif;
 }
+
+
+.controlOptionLineContainer {
+    position: relative;
+    /*border-bottom: 1px solid grey;*/
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+/* Target object styling*/
+.targetDropdown {
+    position: absolute;
+    width: 100px;
+    left: 80px;
+}

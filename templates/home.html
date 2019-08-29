@@ -29,28 +29,35 @@
         </div>
 
         <div id="Align" class="tabcontent">
-            <div>
+            <div class="controlOptionLineContainer">
                 Static: <select class="targetDropdown" id="alignStaticDropdown" onchange="updateDropdown()"></select>
             </div>
-            <div>
+            <div class="controlOptionLineContainer">
                 Moving: <select class="targetDropdown" id="alignMovingDropdown" onchange="updateDropdown()"></select>
             </div>
-            <button onclick="runICP()" id="runICPButton">Run ICP</button>
+            <div class="controlOptionLineContainer" id="rotationContainer">
+
+            </div>
+            <div class="controlOptionLineContainer">
+                <button onclick="runICP()" id="runICPButton">Run ICP</button>
+            </div>
         </div>
 
         <div id="Register" class="tabcontent">
-            <div>
+            <div class="controlOptionLineContainer">
                 Baseline: <select class="targetDropdown" id="registerBaselineDropdown"></select>
             </div>
-            <div>
+            <div class="controlOptionLineContainer">
                 Target: <select class="targetDropdown" id="registerTargetDropdown"></select>
             </div>
+            <div class="controlOptionLineContainer">
+                <button onclick="runRegistration()" id="runRegistrationButton">Run Registration</button>
+            </div>
 
-            <button onclick="runRegistration()" id="runRegistrationButton">Run Registration</button>
         </div>
 
         <div id="Analyse" class="tabcontent">
-            <div>
+            <div class="controlOptionLineContainer">
                 Target: <select class="targetDropdown" id="analyseTargetDropdown"></select>
             </div>
         </div>

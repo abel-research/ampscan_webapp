@@ -323,7 +323,7 @@ function rotate(objID, x, y, z) {
     })
 }
 
-const containerRotate = document.getElementById('Align');
+const containerRotate = document.getElementById('rotationContainer');
 
 // Add rotate button
 const rotate_button = document.createElement('BUTTON');
