@@ -2,26 +2,63 @@ tempID = "stl_file";
 
 
 class AmpObjectContainer {
-    constructor(name, display, type) {
+    constructor(name, display, type, colour) {
         this.name = name;
         this.display = display;
         this.type = type;
+        this.colour = colour; // may be undefined
+        this.polydata = null;
         this.checkbox = null;
+        this.actor = null;
         // Note actor is set during polyUpdate
     }
 
-    toggleDisplay(name) {
+    toggleDisplay() {
         let display = this.checkbox.checked;
 
         this.display = display;
         this.actor.setVisibility(display);
-        renderer.getRenderWindow().render();
+        refreshVTK();
     }
 
-   addDisplayCheckbox(checkbox) {
+    addDisplayCheckbox(checkbox) {
         var ob = this;
         this.checkbox = checkbox;
-        checkbox.addEventListener("change", function(){ob.toggleDisplay(ob.name)});
+        checkbox.addEventListener("change", function(){ob.toggleDisplay()});
+    }
+
+    setActor(actor) {
+        this.actor = actor;
+        console.log(this.actor)
+    }
+
+    changeColour(colour) {
+        // colour come in as hex e.g. #ff92aa
+        this.colour = colour;
+        const r = parseInt(colour.substr(1, 2), 16) / 255;
+        const g = parseInt(colour.substr(3, 2), 16) / 255;
+        const b = parseInt(colour.substr(5, 2), 16) / 255;
+        console.log(colour, r, g, b);
+        this.actor.getProperty().setColor(r, g, b);
+
+        // Create colour property from scalars
+        // let dataset = this.polydata.getPoints();
+        // const nbPoints = dataset.getNumberOfPoints();
+        //
+        // const values = new Float32Array(nbPoints);
+        // console.log(colour / (2<<23));
+        // for (let i = 0; i < nbPoints; i++) {
+        //   values[i] = i/nbPoints;
+        // }
+        // const colors = vtk.Common.Core.vtkDataArray.newInstance({ name: 'fieldName', values });
+        // this.polydata.getPointData().setScalars(colors);
+        // Kick VTK into rendering scalars again
+
+        // if (this.actor != null) {
+        //     this.actor.setVisibility(false);
+        //     this.actor.setVisibility(true);
+        // }
+        refreshVTK();
     }
 
 }
@@ -65,12 +102,12 @@ updateWindowSize();
 // Add scans
 // ----------------------------------------------------------------------------
 
-function update(polyData, objID) {
+function updateObject(polyData, objID) {
     // objID is the name of the object being updated
     var mapper = vtk.Rendering.Core.vtkMapper.newInstance({ scalarVisibility: true });
     var actor = vtk.Rendering.Core.vtkActor.newInstance();
 
-    actor.setMapper(mapper);    
+    actor.setMapper(mapper);
     mapper.setInputData(polyData);
 
     function addActor() {
@@ -84,7 +121,7 @@ function update(polyData, objID) {
             renderer.resetCamera();
         }
         renderer.getRenderWindow().render();
-        objects[objID].actor = actor;
+        objects[objID].setActor(actor);
     }
     addActor();
 
@@ -96,7 +133,7 @@ function refreshVTK() {
 }
 
 function downloadPolyDataAndUpdate(objID, callback) {
-    polyData = vtk.Common.DataModel.vtkPolyData.newInstance()
+    polyData = vtk.Common.DataModel.vtkPolyData.newInstance();
     
     const formData = new FormData();
     formData.append("norms", isNormsSelected());
@@ -127,19 +164,20 @@ function downloadPolyDataAndUpdate(objID, callback) {
             polyData.getPointData().setNormals(vtkNorm);
         }
 
-        update(polyData, objID);
+        updateObject(polyData, objID);
         updateObjectTable();
         updateDropdown();
 
+        // Apply scalars to object
         if (jsonResponse.hasOwnProperty("scalars")) {
             let mn=1000000, mx=-1000000;
+            // Find the min and max for scalar range
             for (i in jsonResponse["scalars"]) {
                 if (!isNaN(jsonResponse["scalars"][i])) {
                     mn = Math.min(jsonResponse["scalars"][i], mn);
                     mx = Math.max(jsonResponse["scalars"][i], mx);
                 }
             }
-            console.log(mn, mx);
             objects[objID].actor.getMapper().setScalarRange(mn, mx);
             const vtScalar = vtk.Common.Core.vtkDataArray.newInstance({
                 numberOfComponents: 1,
@@ -149,10 +187,13 @@ function downloadPolyDataAndUpdate(objID, callback) {
             refreshVTK();
         }
 
+        objects[objID].polydata = polyData;
+
         // Execute callback once finished loading object
         if (typeof callback !== 'undefined')
             callback();
     });
+    return polyData;
 }
 
 function hideObject(objID) {
@@ -278,7 +319,7 @@ function runICP() {
     formData.append("movingID", getAlignMoving());
     formData.append("staticID", getAlignStatic());
 
-    // Submit the request to rotate
+    // Submit the request to run icp
     fetch("process/align/icp", {
         method: 'POST',
         body: formData,
@@ -380,7 +421,7 @@ updateObjectTable();
 selectNorms(true);
 
 function normsChange() {
-    // When the tickbox is change, update the stl
+    // When the tickbox is change, updateObject the stl
     for (i in objects) {
         downloadPolyDataAndUpdate(i);
     }
@@ -446,7 +487,7 @@ function openTab(evt, tabName) {
 }
 
 // ----------------------------------------------------------------------------
-// Setup dropdowns
+// Setup Align and drop downs
 // ----------------------------------------------------------------------------
 
 function updateAlign() {
@@ -496,6 +537,14 @@ function updateDropdown() {
     }
 }
 updateDropdown();
+
+
+document.getElementById("alignStaticColour").addEventListener("input", function(event) {
+    const newColour = event.target.value;
+    if (getAlignStatic() !== "") {
+        objects[getAlignStatic()].changeColour(newColour);
+    }
+});
 
 
 
