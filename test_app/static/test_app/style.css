@@ -14,28 +14,28 @@ body {font-family: 'Montserrat', sans-serif;}
 /* Style the grid */
 .wrapper {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
     width: 100vw;
     height: 100vh;
 }
 .viewer {
-    grid-column: 1; 
-    grid-row: 1 / span 2; 
+    grid-column: 1 / span 6;
+    grid-row: 1 / span 10;
 }
 .control {
     border-style: solid;
     border-width: thin;
     border-color: rgb(150, 150, 150);
-    grid-column: 2; 
-    grid-row: 1; 
+    grid-column: 7 / span 4;
+    grid-row: 1 / span 5;
 }
 .obj-manager {
     border-style: solid;
     border-width: thin;
     border-color: rgb(150, 150, 150);
-    grid-column: 2; 
-    grid-row: 2;
+    grid-column: 7 / span 4;
+    grid-row: 6 / span 5;
 }
 
 
