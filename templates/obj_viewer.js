@@ -401,6 +401,7 @@ rotate2_button.addEventListener('click', function(){ rotate(getAlignMoving(), -0
 // ----------------------------------------------------------------------------
 
 function updateObjectTable() {
+    var lastClicked = null;
     const objectTable = document.getElementById("objTable");
 
     // Clear table
@@ -429,11 +430,23 @@ function updateObjectTable() {
         // Add overflow button to end of row
         const overflowButton = document.createElement("BUTTON");
         overflowButton.setAttribute("class", "objectOverflowButton");
+        overflowButton.setAttribute("id", "objectOverflowButton".concat(objID));
         // overflowButton.innerHTML = "..."
-        overflowButton.addEventListener("click", function() {
-            console.log(1);
+        overflowButton.addEventListener("click", function(event) {
+            const overflowMenu = document.getElementById("overflowMenu");
+            if (lastClicked == null) {
+                overflowMenu.style.display = "block";
+                lastClicked = event.target.id;
+            } else if (lastClicked === event.target.id){
+                if (overflowMenu.style.display === "block")
+                    overflowMenu.style.display = "none";
+                else
+                    overflowMenu.style.display = "block";
+            } else {
+                overflowMenu.style.display = "block";
+                lastClicked = event.target.id;
+            }
         });
-
 
         cell1.setAttribute("class", "objectTableCell");
         cell2.setAttribute("class", "objectTableCell");

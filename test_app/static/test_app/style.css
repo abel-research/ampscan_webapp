@@ -95,6 +95,7 @@ table {
     background-color: #f2f2f2;
 }
 
+
 /* Overflow button styling*/
 .overflowMenuCell {
     padding: 1px;
@@ -115,6 +116,17 @@ table {
     cursor: pointer;
 }
 button:focus { outline: none; }
+
+/* Overflow content (Hidden by Default) */
+.overflowContent {
+  display: none;
+  position: absolute;
+  bottom: 50px;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
 
 
 
