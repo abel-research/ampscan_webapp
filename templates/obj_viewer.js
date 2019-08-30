@@ -412,9 +412,12 @@ function updateObjectTable() {
     for (objID in objects){
         var row = objectTable.insertRow(-1);
 
+        row.setAttribute("class", "objectTableRow");
+
         var cell1 = row.insertCell(0);
         var cell2 = row.insertCell(1);
         var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
 
         // Add checkbox to display cell
         var showCheckbox = document.createElement("INPUT"); //Added for checkbox
@@ -423,9 +426,18 @@ function updateObjectTable() {
         showCheckbox.id = objID.concat(" dropdown");
         objects[objID].addDisplayCheckbox(showCheckbox);
 
+        // Add overflow button to end of row
+        const overflowButton = document.createElement("BUTTON");
+        overflowButton.setAttribute("class", "objectOverflowButton");
+        // overflowButton.innerHTML = "..."
+        overflowButton.addEventListener("click", function() {
+            console.log(1);
+        });
+
         cell1.innerHTML = objects[objID].name;
         cell2.appendChild(showCheckbox);
         cell3.innerHTML = objects[objID].type;
+        cell4.appendChild(overflowButton)
     }
 }
 
