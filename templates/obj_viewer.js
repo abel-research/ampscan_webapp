@@ -321,7 +321,7 @@ function getAlignStatic() {
         return "";
 }
 
-function resetAlignDD() {
+function resetAlignDropDowns() {
     // Set moving and static to be blank
     const dropdown1 = document.getElementById("alignMovingDropdown");
     dropdown1.selectedIndex = -1;
@@ -497,10 +497,10 @@ function openTab(evt, tabName) {
 
     // If new tab is "Align" then only show aligning objects
     if (getCurrentTab() === "Align") {
+        resetAlignDropDowns();
         updateAlign();
         // Hide obj manager
         document.getElementById("obj-manager").style.display = "none";
-        resetAlignDD();
     }
 }
 
