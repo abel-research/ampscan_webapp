@@ -459,16 +459,16 @@ function updateObjectTable() {
 
             // Logic to set location and visibility of overflow menu
             if (lastClicked == null) {
-                overflowMenu.style.display = "inline";
-                lastClicked = event.target.id;
+                overflowMenu.style.display = "block";
+                lastClicked = event.target.parentElement.id;
                 event.target.parentElement.parentElement.appendChild(overflowMenu);
             } else if (lastClicked === event.target.id){
-                if (overflowMenu.style.display === "inline")
+                if (overflowMenu.style.display === "block")
                     overflowMenu.style.display = "none";
                 else
-                    overflowMenu.style.display = "inline";
+                    overflowMenu.style.display = "block";
             } else {
-                overflowMenu.style.display = "inline";
+                overflowMenu.style.display = "block";
                 lastClicked = event.target.id;
                 event.target.parentElement.parentElement.appendChild(overflowMenu);
             }
