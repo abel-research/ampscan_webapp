@@ -86,7 +86,7 @@ table {
     border: 1px solid rgb(190, 190, 190);
     white-space:nowrap;
 }
-th, td {
+.objectTableCell {
     text-align: center;
     padding: 8px;
     border-bottom: 1px solid #ddd;
@@ -95,7 +95,11 @@ th, td {
     background-color: #f2f2f2;
 }
 
-
+/* Overflow button styling*/
+.overflowMenuCell {
+    padding: 1px;
+    width:1px;
+}
 .objectOverflowButton {
     width: 50px;
     height: 100%;

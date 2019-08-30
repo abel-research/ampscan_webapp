@@ -434,6 +434,12 @@ function updateObjectTable() {
             console.log(1);
         });
 
+
+        cell1.setAttribute("class", "objectTableCell");
+        cell2.setAttribute("class", "objectTableCell");
+        cell3.setAttribute("class", "objectTableCell");
+        cell4.setAttribute("class", "overflowMenuCell");
+
         cell1.innerHTML = objects[objID].name;
         cell2.appendChild(showCheckbox);
         cell3.innerHTML = objects[objID].type;
