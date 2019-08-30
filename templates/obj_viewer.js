@@ -2,23 +2,33 @@ tempID = "stl_file";
 
 
 class AmpObjectContainer {
-    constructor(name, display, type, colour) {
+    constructor(name, display, type, colour=[1, 1, 1], opacity=1) {
         this.name = name;
         this.display = display;
         this.type = type;
-        this.colour = colour; // may be undefined
+        this.colour = colour;
+        this.opacity = opacity;
+
         this.polydata = null;
         this.checkbox = null;
         this.actor = null;
         // Note actor is set during polyUpdate
     }
 
+    setActorVisibility(display) {
+        this.actor.setVisibility(display);
+        refreshVTK();
+    }
+
+    resetVisibility() {
+        this.setActorVisibility(this.display);
+    }
+
     toggleDisplay() {
         let display = this.checkbox.checked;
 
         this.display = display;
-        this.actor.setVisibility(display);
-        refreshVTK();
+        this.setActorVisibility(display);
     }
 
     addDisplayCheckbox(checkbox) {
@@ -29,18 +39,45 @@ class AmpObjectContainer {
 
     setActor(actor) {
         this.actor = actor;
-        console.log(this.actor)
     }
 
-    changeColour(colour) {
+    resetColour() {
+        this.setActorColour(this.colour[0], this.colour[1], this.colour[2]);
+    }
+
+    setActorColour(r, g, b) {
+        this.actor.getProperty().setColor(r, g, b);
+        refreshVTK();
+    }
+
+    changeColourTemp(colour) {
+        console.log(this.actor.getProperty().getColor());
         // colour come in as hex e.g. #ff92aa
-        this.colour = colour;
         const r = parseInt(colour.substr(1, 2), 16) / 255;
         const g = parseInt(colour.substr(3, 2), 16) / 255;
         const b = parseInt(colour.substr(5, 2), 16) / 255;
-        this.actor.getProperty().setColor(r, g, b);
+        this.setActorColour(r, g, b)
+    }
+
+    resetOpacity() {
+        this.setActorOpacity(this.opacity);
+    }
+
+    setActorOpacity(opacity) {
+        this.actor.getProperty().setOpacity(opacity);
         refreshVTK();
-        console.log(colour);
+    }
+
+    changeOpacityTemp(opacity) {
+        // Opacity come in as 0-100
+        this.setActorOpacity(opacity/100)
+    }
+
+    resetVis() {
+        // Call to reset to defaults
+        this.resetOpacity();
+        this.resetColour();
+        this.resetVisibility();
     }
 
 }
@@ -476,12 +513,14 @@ function updateAlign() {
         if (objects[i].name === getAlignMoving()) {
             objects[i].actor.setVisibility(true);
             if (alignMovingColour != null) {
-                objects[i].changeColour(document.getElementById("alignMovingColour").value);
+                objects[i].changeColourTemp(document.getElementById("alignMovingColour").value);
+                objects[i].changeOpacityTemp(document.getElementById("alignMovingOpacity").value);
             }
         } else if (objects[i].name === getAlignStatic()){
             objects[i].actor.setVisibility(true);
             if (alignStaticColour != null) {
-                objects[i].changeColour(document.getElementById("alignStaticColour").value);
+                objects[i].changeColourTemp(document.getElementById("alignStaticColour").value);
+                objects[i].changeOpacityTemp(document.getElementById("alignStaticOpacity").value);
             }
         } else {
             objects[i].actor.setVisibility(false);
@@ -498,9 +537,7 @@ function updateAlign() {
 }
 function revealAllObjectsDisplayed() {
     for (i in objects) {
-        if (objects[i].display) {
-            objects[i].actor.setVisibility(true);
-        }
+        objects[i].resetVis();
     }
     refreshVTK();
 }
@@ -523,10 +560,11 @@ function updateDropdown() {
 }
 updateDropdown();
 
+// Set up colour picker inputs
 document.getElementById("alignStaticColour").addEventListener("input", function(event) {
     const newColour = event.target.value;
     if (getAlignStatic() !== "") {
-        objects[getAlignStatic()].changeColour(newColour);
+        objects[getAlignStatic()].changeColourTemp(newColour);
     }
 });
 
@@ -534,7 +572,22 @@ document.getElementById("alignStaticColour").addEventListener("input", function(
 document.getElementById("alignMovingColour").addEventListener("input", function(event) {
     const newColour = event.target.value;
     if (getAlignMoving() !== "") {
-        objects[getAlignMoving()].changeColour(newColour);
+        objects[getAlignMoving()].changeColourTemp(newColour);
+    }
+});
+
+// Set up opacity sliders
+document.getElementById("alignStaticOpacity").addEventListener("input", function(event) {
+    const newOpacity = event.target.value;
+    if (getAlignStatic() !== "") {
+        objects[getAlignStatic()].changeOpacityTemp(newOpacity);
+    }
+});
+
+document.getElementById("alignMovingOpacity").addEventListener("input", function(event) {
+    const newOpacity = event.target.value;
+    if (getAlignMoving() !== "") {
+        objects[getAlignMoving()].changeOpacityTemp(newOpacity);
     }
 });
 

@@ -120,7 +120,14 @@ button, input[type="button"], input[type="submit"] {
 
 .targetColour {
     position: absolute;
-    width: 25px;
     height: 80%;
+    width: 25px;
     left: 190px;
+}
+
+.targetOpacity {
+    position: absolute;
+    width: 100px;
+    height: 80%;
+    left: 225px;
 }
