@@ -98,6 +98,7 @@ table {
 
 /* Overflow button styling*/
 .overflowMenuCell {
+    display: table-row;
     padding: 1px;
     width:1px;
 }
@@ -118,14 +119,18 @@ table {
 button:focus { outline: none; }
 
 /* Overflow content (Hidden by Default) */
-.overflowContent {
-  display: none;
-  position: absolute;
-  bottom: 50px;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+.overflowMenu {
+    display: none;
+    position: absolute;
+    bottom: 5px;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+.overflowContainer {
+    position: relative;
+    display: inline-block;
 }
 
 

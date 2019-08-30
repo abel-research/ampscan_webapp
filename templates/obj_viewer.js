@@ -409,6 +409,22 @@ function updateObjectTable() {
         objectTable.deleteRow(i);
     }
 
+
+    const overflowMenu = document.createElement("div");
+
+    overflowMenu.setAttribute("class", "overflowMenu");
+    const saveButton = document.createElement("BUTTON");
+    saveButton.innerHTML = "Save";
+
+    const removeButton = document.createElement("BUTTON");
+    saveButton.innerHTML = "Remove";
+
+    overflowMenu.appendChild(saveButton);
+    overflowMenu.appendChild(removeButton);
+
+    // document.getElementById("obj-manager").appendChild(overflowMenu);
+
+
     // Create table from data received
     for (objID in objects){
         var row = objectTable.insertRow(-1);
@@ -429,14 +445,26 @@ function updateObjectTable() {
 
         // Add overflow button to end of row
         const overflowButton = document.createElement("BUTTON");
+        const overflowContainer = document.createElement("div");
+        overflowContainer.appendChild(overflowButton);
+        overflowContainer.setAttribute("class", "overflowContainer");
+
         overflowButton.setAttribute("class", "objectOverflowButton");
         overflowButton.setAttribute("id", "objectOverflowButton".concat(objID));
         // overflowButton.innerHTML = "..."
         overflowButton.addEventListener("click", function(event) {
-            const overflowMenu = document.getElementById("overflowMenu");
+
+            // Create overflow menu
+            // const overflowMenu = document.getElementById("overflowMenu");
+
+            // Logic to set location and visibility of overflow menu
             if (lastClicked == null) {
                 overflowMenu.style.display = "block";
                 lastClicked = event.target.id;
+                // overflowMenu.style.left = "100px";
+                // overflowMenu.style.top = "0px";
+                event.target.parentElement.appendChild(overflowMenu);
+                // overflowMenu.style.top = "0px";
             } else if (lastClicked === event.target.id){
                 if (overflowMenu.style.display === "block")
                     overflowMenu.style.display = "none";
@@ -445,6 +473,9 @@ function updateObjectTable() {
             } else {
                 overflowMenu.style.display = "block";
                 lastClicked = event.target.id;
+                overflowMenu.style.right = "100px";
+                event.target.parentElement.appendChild(overflowMenu);
+                // overflowMenu.style.top = event.target.parentElement.style.top;
             }
         });
 
@@ -456,7 +487,7 @@ function updateObjectTable() {
         cell1.innerHTML = objects[objID].name;
         cell2.appendChild(showCheckbox);
         cell3.innerHTML = objects[objID].type;
-        cell4.appendChild(overflowButton)
+        cell4.appendChild(overflowContainer);
     }
 }
 
