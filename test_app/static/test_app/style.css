@@ -84,7 +84,6 @@ table {
     border-spacing: 0;
     width: 100%;
     border: 1px solid rgb(190, 190, 190);
-    white-space:nowrap;
 }
 .objectTableCell {
     text-align: center;
@@ -98,9 +97,8 @@ table {
 
 /* Overflow button styling*/
 .overflowMenuCell {
-    display: table-row;
     padding: 1px;
-    width:1px;
+    width: 1px;
 }
 .objectOverflowButton {
     width: 50px;
@@ -122,14 +120,14 @@ button:focus { outline: none; }
 .overflowMenu {
     display: none;
     position: absolute;
-    bottom: 5px;
+    right: 0px;
+    /*left: -20px;*/
     background-color: #f1f1f1;
-    min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
 .overflowContainer {
-    position: relative;
+    /*position: relative;*/
     display: inline-block;
 }
 

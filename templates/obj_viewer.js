@@ -417,12 +417,12 @@ function updateObjectTable() {
     saveButton.innerHTML = "Save";
 
     const removeButton = document.createElement("BUTTON");
-    saveButton.innerHTML = "Remove";
+    removeButton.innerHTML = "Remove";
 
     overflowMenu.appendChild(saveButton);
     overflowMenu.appendChild(removeButton);
 
-    // document.getElementById("obj-manager").appendChild(overflowMenu);
+    document.getElementById("obj-manager").appendChild(overflowMenu);
 
 
     // Create table from data received
@@ -459,23 +459,18 @@ function updateObjectTable() {
 
             // Logic to set location and visibility of overflow menu
             if (lastClicked == null) {
-                overflowMenu.style.display = "block";
+                overflowMenu.style.display = "inline";
                 lastClicked = event.target.id;
-                // overflowMenu.style.left = "100px";
-                // overflowMenu.style.top = "0px";
-                event.target.parentElement.appendChild(overflowMenu);
-                // overflowMenu.style.top = "0px";
+                event.target.parentElement.parentElement.appendChild(overflowMenu);
             } else if (lastClicked === event.target.id){
-                if (overflowMenu.style.display === "block")
+                if (overflowMenu.style.display === "inline")
                     overflowMenu.style.display = "none";
                 else
-                    overflowMenu.style.display = "block";
+                    overflowMenu.style.display = "inline";
             } else {
-                overflowMenu.style.display = "block";
+                overflowMenu.style.display = "inline";
                 lastClicked = event.target.id;
-                overflowMenu.style.right = "100px";
-                event.target.parentElement.appendChild(overflowMenu);
-                // overflowMenu.style.top = event.target.parentElement.style.top;
+                event.target.parentElement.parentElement.appendChild(overflowMenu);
             }
         });
 
