@@ -451,11 +451,11 @@ for (const a in axis) {
 
 
     createIncrementButton("+", axisContainer, function(){
-        rotate(getAlignMoving(), axis[a][0]*translationSpeed, axis[a][1]*translationSpeed, axis[a][2]*translationSpeed);
+        translate(getAlignMoving(), axis[a][0]*translationSpeed, axis[a][1]*translationSpeed, axis[a][2]*translationSpeed);
     }, "Manually adjust translation up", "axisIncrementButton");
 
     createIncrementButton("-", axisContainer, function(){
-        rotate(getAlignMoving(), -axis[a][0]*translationSpeed, -axis[a][1]*translationSpeed, -axis[a][2]*translationSpeed);
+        translate(getAlignMoving(), -axis[a][0]*translationSpeed, -axis[a][1]*translationSpeed, -axis[a][2]*translationSpeed);
     }, "Manually adjust translation down", "axisIncrementButton");
 }
 
