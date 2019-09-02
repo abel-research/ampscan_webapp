@@ -164,7 +164,7 @@ function downloadPolyDataAndUpdate(objID, callback) {
         body: formData,
         headers: {
         'X-CSRFToken': csrftoken
-        },
+        }
     })
     .then(function(response) {
         // Convert reponse to json
@@ -260,7 +260,7 @@ var upload_button = document.createElement("INPUT");
 upload_button.setAttribute("accept", ".stl");
 upload_button.setAttribute("type", "file");
 containerHome.appendChild(upload_button);
-upload_button.addEventListener('change', e => {
+upload_button.addEventListener('change', function () {
     // Get the file from the upload button
     const files = upload_button.files;
     if (!files.length) {
@@ -277,8 +277,8 @@ upload_button.addEventListener('change', e => {
         method: 'POST',
         body: formData,
         headers: {
-        'X-CSRFToken': csrftoken
-        },
+            "X-CSRFToken": csrftoken,
+        }
     })
     .then(function(response) {
         // Convert response to json
@@ -289,7 +289,7 @@ upload_button.addEventListener('change', e => {
             new AmpObjectContainer(jsonResponse["objID"], jsonResponse["properties"]["display"], jsonResponse["properties"]["type"]);
         downloadPolyDataAndUpdate(jsonResponse["objID"]);
     });
-});
+}, false);
 
 // ----------------------------------------------------------------------------
 // Setup Align panel
@@ -343,7 +343,7 @@ function runICP() {
         body: formData,
         headers: {
             'X-CSRFToken': csrftoken
-        },
+        }
     })
     .then(function(response) {
         // Convert response to json
@@ -376,7 +376,7 @@ function rotate(objID, x, y, z) {
         body: formData,
         headers: {
         'X-CSRFToken': csrftoken
-        },
+        }
     }).then(function (reponse) {
         downloadPolyDataAndUpdate(objID);
     })
@@ -677,7 +677,7 @@ function runRegistration() {
         body: formData,
         headers: {
             'X-CSRFToken': csrftoken
-        },
+        }
     })
     .then(function(response) {
         // Convert response to json

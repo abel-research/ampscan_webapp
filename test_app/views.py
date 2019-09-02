@@ -198,9 +198,12 @@ def upload_view(request):
         # Check file extension
         if os.path.splitext(uploaded_file_url)[1] == ".stl":
             # valid file
-            return JsonResponse({"success": True, "objID": basename, "properties": get_session(request).get_object_view(basename).property_response()})
+            json_response = JsonResponse({"success": "true", "objID": basename, "properties": get_session(request).get_object_view(basename).property_response()})
         else:   
-            return JsonResponse({"success": False})
+            json_response = JsonResponse({"success": "false"})
+        print(json_response)
+        return json_response
+    return JsonResponse({"success": "false"})
 
 
 def obj_viewer_view(request):
