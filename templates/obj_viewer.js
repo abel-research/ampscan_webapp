@@ -382,30 +382,87 @@ function rotate(objID, x, y, z) {
     })
 }
 
-const containerTransform = document.getElementById('transformationContainer');
-const rotations = {"X": [0.1, 0, 0], "Y": [0, 0.1, 0], "Z":[0, 0, 0.1]};
 
-for (const a in rotations) {
+function translate(objID, x, y, z) {
+    // Add the data
+    var formData  = new FormData();
+    formData.append("x", String(x));
+    formData.append("y", String(y));
+    formData.append("z", String(z));
+
+    formData.append("objID", objID);
+    formData.append("session", session_id);
+
+    // Submit the request to rotate
+    fetch("process/align/translate", {
+        method: 'POST',
+        body: formData,
+        headers: {
+        'X-CSRFToken': csrftoken
+        }
+    }).then(function (reponse) {
+        downloadPolyDataAndUpdate(objID);
+    })
+}
+
+const containerTransform = document.getElementById('transformationContainer');
+const axis = {"X": [1, 0, 0], "Y": [0, 1, 0], "Z":[0, 0, 1]};
+const rotationSpeed = 0.1;
+const translationSpeed = 1;
+
+for (const a in axis) {
+
+    // Add rotation controls for axis
+    const axisContainer = document.createElement("div");
+    axisContainer.setAttribute("class", "axisContainer");
+    axisContainer.innerHTML = a.concat(": ");
+    containerTransform.appendChild(axisContainer);
 
     // Add rotation controls for axis
     const rotationContainer = document.createElement("div");
-    rotationContainer.setAttribute("class", "rotateContainer");
-    rotationContainer.innerHTML = a.concat(": ");
-    containerTransform.appendChild(rotationContainer);
+    rotationContainer.setAttribute("class", "axisTransformContainer");
+    axisContainer.appendChild(rotationContainer);
 
     // Add + button
     let rotate_button = document.createElement('BUTTON');
-    rotate_button.setAttribute("class", "rotateButton");
+    rotate_button.setAttribute("class", "axisIncrementButton");
     rotate_button.innerHTML = '+';
     rotationContainer.appendChild(rotate_button);
-    rotate_button.addEventListener('click', function(){ rotate(getAlignMoving(), rotations[a][0], rotations[a][1], rotations[a][2]); });
+    rotate_button.addEventListener('click', function(){
+        rotate(getAlignMoving(), axis[a][0]*rotationSpeed, axis[a][1]*rotationSpeed, axis[a][2]*rotationSpeed);
+    });
 
     // Add - button
     let rotate2_button = document.createElement('BUTTON');
-    rotate2_button.setAttribute("class", "rotateButton");
+    rotate2_button.setAttribute("class", "axisIncrementButton");
     rotate2_button.innerHTML = '-';
     rotationContainer.appendChild(rotate2_button);
-    rotate2_button.addEventListener('click', function(){ rotate(getAlignMoving(), -rotations[a][0], -rotations[a][1], -rotations[a][2]); });
+    rotate2_button.addEventListener('click', function(){
+        rotate(getAlignMoving(), -axis[a][0]*rotationSpeed, -axis[a][1]*rotationSpeed, -axis[a][2]*rotationSpeed);
+    });
+
+    // Add translation controls for axis
+    const translationContainer = document.createElement("div");
+    translationContainer.setAttribute("class", "axisTransformContainer");
+    axisContainer.appendChild(translationContainer);
+
+    // Add + button
+    let translate_button = document.createElement('BUTTON');
+    translate_button.setAttribute("class", "axisIncrementButton");
+    translate_button.innerHTML = '+';
+    translationContainer.appendChild(translate_button);
+    translate_button.addEventListener('click', function(){
+        translate(getAlignMoving(), axis[a][0]*translationSpeed, axis[a][1]*translationSpeed, axis[a][2]*translationSpeed);
+    });
+
+    // Add - button
+    let translate2_button = document.createElement('BUTTON');
+    translate2_button.setAttribute("class", "axisIncrementButton");
+    translate2_button.innerHTML = '-';
+    translationContainer.appendChild(translate2_button);
+    translate2_button.addEventListener('click', function(){
+        translate(getAlignMoving(), -axis[a][0]*translationSpeed, -axis[a][1]*translationSpeed, -axis[a][2]*translationSpeed);
+    });
 }
 
 // ----------------------------------------------------------------------------

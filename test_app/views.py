@@ -140,6 +140,18 @@ def rotate_view(request):
     return JsonResponse({"success": True})
 
 
+def translate_view(request):
+    """
+    View for aligning
+    """
+    # AmpScan translation
+    obj = get_session(request).get_obj(request.POST.get("objID"))
+    obj.translate([float(request.POST["x"]), float(request.POST["y"]), float(request.POST["z"])])
+    print(obj.vert.mean(axis=0))
+
+    return JsonResponse({"success": True})
+
+
 def icp_view(request):
     """
     View for aligning

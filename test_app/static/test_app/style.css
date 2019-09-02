@@ -173,18 +173,27 @@ button, input[type="button"], input[type="submit"] {
 
 
 /* Rotation and translation panel */
-.rotateButton {
+.axisIncrementButton {
     position: relative;
     left: 30px;
     width: 30px;
     height: 30px;
     font-size: 15px;
 }
-.rotateContainer {
+.axisTransformContainer {
     position: relative;
     /*border-bottom: 1px solid grey;*/
-    padding-bottom: 5px;
-    padding-top: 5px;
+    /*padding-bottom: 5px;*/
+    /*padding-top: 5px;*/
+    padding: 5px;
     font-family: 'Montserrat', sans-serif;
     font-size: 15px;
+    display:inline;
+}
+.axisContainer {
+    position: relative;
+    /*border-bottom: 1px solid grey;*/
+    /*padding-bottom: 5px;*/
+    /*padding-top: 5px;*/
+    padding: 5px;
 }
