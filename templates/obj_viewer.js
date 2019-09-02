@@ -718,11 +718,12 @@ function saveObject(objID) {
     })
     .then(resp => resp.blob())
     .then(blob => {
+        // Download file at address
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.style.display = 'none';
         a.href = url;
-        // the filename you want
+        // the filename to download to
         a.download = objID+'.stl';
         document.body.appendChild(a);
         a.click();
