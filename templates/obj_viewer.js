@@ -382,19 +382,47 @@ function rotate(objID, x, y, z) {
     })
 }
 
-const containerRotate = document.getElementById('rotationContainer');
+const containerTransform = document.getElementById('transformationContainer');
 
-// Add rotate button
-const rotate_button = document.createElement('BUTTON');
-rotate_button.innerHTML = 'Rotate';
-containerRotate.appendChild(rotate_button);
+
+// Add rotation controls for x axis
+const xRotationContainer = document.createElement("div");
+containerTransform.appendChild(xRotationContainer);
+var rotate_button = document.createElement('BUTTON');
+rotate_button.innerHTML = '+';
+xRotationContainer.appendChild(rotate_button);
 rotate_button.addEventListener('click', function(){ rotate(getAlignMoving(), 0.1, 0, 0); });
 
-// Add rotate2 button
-const rotate2_button = document.createElement('BUTTON');
-rotate2_button.innerHTML = 'Rotate Back';
-containerRotate.appendChild(rotate2_button);
+var rotate2_button = document.createElement('BUTTON');
+rotate2_button.innerHTML = '-';
+xRotationContainer.appendChild(rotate2_button);
 rotate2_button.addEventListener('click', function(){ rotate(getAlignMoving(), -0.1, 0, 0); });
+
+// Add rotation controls for y axis
+const yRotationContainer = document.createElement("div");
+containerTransform.appendChild(yRotationContainer);
+rotate_button = document.createElement('BUTTON');
+rotate_button.innerHTML = '+';
+yRotationContainer.appendChild(rotate_button);
+rotate_button.addEventListener('click', function(){ rotate(getAlignMoving(), 0, 0.1, 0); });
+
+rotate2_button = document.createElement('BUTTON');
+rotate2_button.innerHTML = '-';
+yRotationContainer.appendChild(rotate2_button);
+rotate2_button.addEventListener('click', function(){ rotate(getAlignMoving(), 0, -0.1, 0); });
+
+// Add rotation controls for z axis
+const zRotationContainer = document.createElement("div");
+containerTransform.appendChild(zRotationContainer);
+rotate_button = document.createElement('BUTTON');
+rotate_button.innerHTML = '+';
+zRotationContainer.appendChild(rotate_button);
+rotate_button.addEventListener('click', function(){ rotate(getAlignMoving(), 0, 0, 0.1); });
+
+rotate2_button = document.createElement('BUTTON');
+rotate2_button.innerHTML = '-';
+zRotationContainer.appendChild(rotate2_button);
+rotate2_button.addEventListener('click', function(){ rotate(getAlignMoving(), 0, 0, -0.1); });
 
 // ----------------------------------------------------------------------------
 // Setup object panel
