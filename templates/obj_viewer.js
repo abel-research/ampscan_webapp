@@ -410,6 +410,29 @@ const axis = {"X": [1, 0, 0], "Y": [0, 1, 0], "Z":[0, 0, 1]};
 const rotationSpeed = 0.1;
 const translationSpeed = 1;
 
+function createIncrementButton(text, parentNode, callback, tooltipValue, classType) {
+    const buttonContainer = document.createElement("div");
+    buttonContainer.setAttribute("class", "buttonContainer");
+    buttonContainer.style.display = "inline";
+    if (tooltipValue !== undefined) {
+        // Add tooltip
+        const tooltip = document.createElement("span");
+        tooltip.setAttribute("class", "tooltiptext");
+        tooltip.innerHTML = tooltipValue;
+        buttonContainer.appendChild(tooltip);
+    }
+
+    // Add + button
+    let rotate_button = document.createElement('BUTTON');
+    rotate_button.setAttribute("class", classType);
+    rotate_button.innerHTML = text;
+    buttonContainer.appendChild(rotate_button);
+    rotate_button.addEventListener('click', callback);
+
+    parentNode.appendChild(buttonContainer);
+}
+
+
 for (const a in axis) {
 
     // Add rotation controls for axis
@@ -418,51 +441,22 @@ for (const a in axis) {
     axisContainer.innerHTML = a.concat(": ");
     containerTransform.appendChild(axisContainer);
 
-    // Add rotation controls for axis
-    const rotationContainer = document.createElement("div");
-    rotationContainer.setAttribute("class", "axisTransformContainer");
-    axisContainer.appendChild(rotationContainer);
-
-    // Add + button
-    let rotate_button = document.createElement('BUTTON');
-    rotate_button.setAttribute("class", "axisIncrementButton");
-    rotate_button.innerHTML = '+';
-    rotationContainer.appendChild(rotate_button);
-    rotate_button.addEventListener('click', function(){
+    createIncrementButton("+", axisContainer, function(){
         rotate(getAlignMoving(), axis[a][0]*rotationSpeed, axis[a][1]*rotationSpeed, axis[a][2]*rotationSpeed);
-    });
+    }, "Manually adjust rotation up", "axisIncrementButton");
 
-    // Add - button
-    let rotate2_button = document.createElement('BUTTON');
-    rotate2_button.setAttribute("class", "axisIncrementButton");
-    rotate2_button.innerHTML = '-';
-    rotationContainer.appendChild(rotate2_button);
-    rotate2_button.addEventListener('click', function(){
+    createIncrementButton("-", axisContainer, function(){
         rotate(getAlignMoving(), -axis[a][0]*rotationSpeed, -axis[a][1]*rotationSpeed, -axis[a][2]*rotationSpeed);
-    });
+    }, "Manually adjust rotation down", "axisIncrementButton");
 
-    // Add translation controls for axis
-    const translationContainer = document.createElement("div");
-    translationContainer.setAttribute("class", "axisTransformContainer");
-    axisContainer.appendChild(translationContainer);
 
-    // Add + button
-    let translate_button = document.createElement('BUTTON');
-    translate_button.setAttribute("class", "axisIncrementButton");
-    translate_button.innerHTML = '+';
-    translationContainer.appendChild(translate_button);
-    translate_button.addEventListener('click', function(){
-        translate(getAlignMoving(), axis[a][0]*translationSpeed, axis[a][1]*translationSpeed, axis[a][2]*translationSpeed);
-    });
+    createIncrementButton("+", axisContainer, function(){
+        rotate(getAlignMoving(), axis[a][0]*translationSpeed, axis[a][1]*translationSpeed, axis[a][2]*translationSpeed);
+    }, "Manually adjust translation up", "axisIncrementButton");
 
-    // Add - button
-    let translate2_button = document.createElement('BUTTON');
-    translate2_button.setAttribute("class", "axisIncrementButton");
-    translate2_button.innerHTML = '-';
-    translationContainer.appendChild(translate2_button);
-    translate2_button.addEventListener('click', function(){
-        translate(getAlignMoving(), -axis[a][0]*translationSpeed, -axis[a][1]*translationSpeed, -axis[a][2]*translationSpeed);
-    });
+    createIncrementButton("-", axisContainer, function(){
+        rotate(getAlignMoving(), -axis[a][0]*translationSpeed, -axis[a][1]*translationSpeed, -axis[a][2]*translationSpeed);
+    }, "Manually adjust translation down", "axisIncrementButton");
 }
 
 // ----------------------------------------------------------------------------

@@ -147,6 +147,7 @@ button, input[type="button"], input[type="submit"] {
     padding-top: 5px;
     font-family: 'Montserrat', sans-serif;
     font-size: 15px;
+    overflow: visible;
 }
 
 .targetDropdown {
@@ -175,25 +176,41 @@ button, input[type="button"], input[type="submit"] {
 /* Rotation and translation panel */
 .axisIncrementButton {
     position: relative;
-    left: 30px;
     width: 30px;
     height: 30px;
     font-size: 15px;
 }
+.buttonContainer {
+    position: relative;
+}
 .axisTransformContainer {
     position: relative;
-    /*border-bottom: 1px solid grey;*/
-    /*padding-bottom: 5px;*/
-    /*padding-top: 5px;*/
-    padding: 5px;
     font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     display:inline;
 }
 .axisContainer {
     position: relative;
-    /*border-bottom: 1px solid grey;*/
-    /*padding-bottom: 5px;*/
-    /*padding-top: 5px;*/
-    padding: 5px;
+    overflow: visible;
+}
+
+
+/* Tooltip text */
+.tooltiptext {
+    visibility: hidden;
+    background-color: rgba(0.1, 0.1, 0.1, 0.5);
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 5;
+    top: -5px;
+    left: 130%;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.axisTransformContainer:hover .tooltiptext {
+    overflow: auto;
+    visibility: visible;
 }
