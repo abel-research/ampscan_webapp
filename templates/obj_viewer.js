@@ -723,7 +723,7 @@ function saveObject(objID) {
         a.style.display = 'none';
         a.href = url;
         // the filename you want
-        a.download = 'objID.stl';
+        a.download = objID+'.stl';
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
