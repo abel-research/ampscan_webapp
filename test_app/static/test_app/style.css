@@ -170,3 +170,21 @@ button, input[type="button"], input[type="submit"] {
     height: 80%;
     left: 225px;
 }
+
+
+/* Rotation and translation panel */
+.rotateButton {
+    position: relative;
+    left: 30px;
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
+}
+.rotateContainer {
+    position: relative;
+    /*border-bottom: 1px solid grey;*/
+    padding-bottom: 5px;
+    padding-top: 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+}

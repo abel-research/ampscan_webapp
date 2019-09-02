@@ -389,15 +389,20 @@ for (const a in rotations) {
 
     // Add rotation controls for axis
     const rotationContainer = document.createElement("div");
+    rotationContainer.setAttribute("class", "rotateContainer");
     rotationContainer.innerHTML = a.concat(": ");
     containerTransform.appendChild(rotationContainer);
 
+    // Add + button
     let rotate_button = document.createElement('BUTTON');
+    rotate_button.setAttribute("class", "rotateButton");
     rotate_button.innerHTML = '+';
     rotationContainer.appendChild(rotate_button);
     rotate_button.addEventListener('click', function(){ rotate(getAlignMoving(), rotations[a][0], rotations[a][1], rotations[a][2]); });
 
+    // Add - button
     let rotate2_button = document.createElement('BUTTON');
+    rotate2_button.setAttribute("class", "rotateButton");
     rotate2_button.innerHTML = '-';
     rotationContainer.appendChild(rotate2_button);
     rotate2_button.addEventListener('click', function(){ rotate(getAlignMoving(), -rotations[a][0], -rotations[a][1], -rotations[a][2]); });
