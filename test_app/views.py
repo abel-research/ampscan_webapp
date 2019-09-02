@@ -201,7 +201,6 @@ def upload_view(request):
             json_response = JsonResponse({"success": "true", "objID": basename, "properties": get_session(request).get_object_view(basename).property_response()})
         else:   
             json_response = JsonResponse({"success": "false"})
-        print(json_response)
         return json_response
     return JsonResponse({"success": "false"})
 
@@ -227,3 +226,14 @@ def object_list_view(request):
         response.append(obj_view.property_response())
 
     return JsonResponse({"list":response})
+
+
+def download_view(request):
+    if request.method == "POST":
+        fs = FileSystemStorage()
+        obj = get_session(request).get_obj(request.POST.get("objID"))
+        path = os.path.join(settings.BASE_DIR, "media", request.POST.get("objID"))
+        obj.save(path)
+
+        response = FileResponse(fs.open(path))
+        return response

@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from test_app.views import home_view, obj_viewer_view,\
-    rotate_view, polydata_view, upload_view, object_list_view, icp_view, register_view
+    rotate_view, polydata_view, upload_view, object_list_view, icp_view, register_view, download_view
 
 
 urlpatterns = [
@@ -27,6 +27,7 @@ urlpatterns = [
     path('', home_view, name="home"),
     path('obj_viewer.js', obj_viewer_view),
     path('download/polydata', polydata_view),
+    path('download/stl_file', download_view),
     path('download/object-list', object_list_view),
     path('upload/scan', upload_view),
     path('process/align/rotate', rotate_view),

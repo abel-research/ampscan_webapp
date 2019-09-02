@@ -314,7 +314,7 @@ function setAlignMoving(objID) {
     console.error("Obj not found: ".concat(objID));
 }
 function getAlignStatic() {
-    const dropdown = document.getElementById("alignStaticDropdown");;
+    const dropdown = document.getElementById("alignStaticDropdown");
     if (dropdown.selectedIndex !== -1)
         return dropdown.options[dropdown.selectedIndex].text;
     else
@@ -410,6 +410,7 @@ function updateObjectTable() {
     }
 
 
+    // Create overflow menu
     const overflowMenu = document.createElement("div");
 
     overflowMenu.setAttribute("class", "overflowMenu");
@@ -418,6 +419,12 @@ function updateObjectTable() {
 
     const removeButton = document.createElement("BUTTON");
     removeButton.innerHTML = "Remove";
+
+    // Make save button call save on object
+    var saveObjID = null;
+    saveButton.addEventListener("click", function() {
+        saveObject(saveObjID)
+    });
 
     overflowMenu.appendChild(saveButton);
     overflowMenu.appendChild(removeButton);
@@ -453,6 +460,9 @@ function updateObjectTable() {
         overflowButton.setAttribute("id", "objectOverflowButton".concat(objID));
         // overflowButton.innerHTML = "..."
         overflowButton.addEventListener("click", function(event) {
+
+            // Remove objectOverflowButton tag from from
+            saveObjID = event.target.id.substring(20);
 
             // Create overflow menu
             // const overflowMenu = document.getElementById("overflowMenu");
@@ -687,4 +697,36 @@ function runRegistration() {
         objects[jsonResponse["newObjID"]] = new AmpObjectContainer(jsonResponse["newObjID"], true, "reg");
         downloadPolyDataAndUpdate(jsonResponse["newObjID"]);
     })
+}
+
+// ----------------------------------------------------------------------------
+// Save object
+// ---------------------------------------------------------------------------
+
+function saveObject(objID) {
+    const formData = new FormData();
+
+    formData.append("session", session_id);
+    formData.append("objID", objID);
+
+    fetch('download/stl_file', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': csrftoken
+        }
+    })
+    .then(resp => resp.blob())
+    .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        // the filename you want
+        a.download = 'objID.stl';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch(() => alert('File download failed'));
 }
