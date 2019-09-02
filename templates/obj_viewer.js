@@ -383,46 +383,25 @@ function rotate(objID, x, y, z) {
 }
 
 const containerTransform = document.getElementById('transformationContainer');
+const rotations = {"X": [0.1, 0, 0], "Y": [0, 0.1, 0], "Z":[0, 0, 0.1]};
 
+for (const a in rotations) {
 
-// Add rotation controls for x axis
-const xRotationContainer = document.createElement("div");
-containerTransform.appendChild(xRotationContainer);
-var rotate_button = document.createElement('BUTTON');
-rotate_button.innerHTML = '+';
-xRotationContainer.appendChild(rotate_button);
-rotate_button.addEventListener('click', function(){ rotate(getAlignMoving(), 0.1, 0, 0); });
+    // Add rotation controls for axis
+    const rotationContainer = document.createElement("div");
+    rotationContainer.innerHTML = a.concat(": ");
+    containerTransform.appendChild(rotationContainer);
 
-var rotate2_button = document.createElement('BUTTON');
-rotate2_button.innerHTML = '-';
-xRotationContainer.appendChild(rotate2_button);
-rotate2_button.addEventListener('click', function(){ rotate(getAlignMoving(), -0.1, 0, 0); });
+    let rotate_button = document.createElement('BUTTON');
+    rotate_button.innerHTML = '+';
+    rotationContainer.appendChild(rotate_button);
+    rotate_button.addEventListener('click', function(){ rotate(getAlignMoving(), rotations[a][0], rotations[a][1], rotations[a][2]); });
 
-// Add rotation controls for y axis
-const yRotationContainer = document.createElement("div");
-containerTransform.appendChild(yRotationContainer);
-rotate_button = document.createElement('BUTTON');
-rotate_button.innerHTML = '+';
-yRotationContainer.appendChild(rotate_button);
-rotate_button.addEventListener('click', function(){ rotate(getAlignMoving(), 0, 0.1, 0); });
-
-rotate2_button = document.createElement('BUTTON');
-rotate2_button.innerHTML = '-';
-yRotationContainer.appendChild(rotate2_button);
-rotate2_button.addEventListener('click', function(){ rotate(getAlignMoving(), 0, -0.1, 0); });
-
-// Add rotation controls for z axis
-const zRotationContainer = document.createElement("div");
-containerTransform.appendChild(zRotationContainer);
-rotate_button = document.createElement('BUTTON');
-rotate_button.innerHTML = '+';
-zRotationContainer.appendChild(rotate_button);
-rotate_button.addEventListener('click', function(){ rotate(getAlignMoving(), 0, 0, 0.1); });
-
-rotate2_button = document.createElement('BUTTON');
-rotate2_button.innerHTML = '-';
-zRotationContainer.appendChild(rotate2_button);
-rotate2_button.addEventListener('click', function(){ rotate(getAlignMoving(), 0, 0, -0.1); });
+    let rotate2_button = document.createElement('BUTTON');
+    rotate2_button.innerHTML = '-';
+    rotationContainer.appendChild(rotate2_button);
+    rotate2_button.addEventListener('click', function(){ rotate(getAlignMoving(), -rotations[a][0], -rotations[a][1], -rotations[a][2]); });
+}
 
 // ----------------------------------------------------------------------------
 // Setup object panel
