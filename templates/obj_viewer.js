@@ -459,6 +459,8 @@ translationAxisContainer.appendChild(labelContainer2);
 translationAxisContainer.setAttribute("class", "axisTransformContainerRotation");
 containerTransform.appendChild(translationAxisContainer);
 
+
+// Add alignment buttons
 for (const a in axis) {
 
     // Add rotation controls for rotations
@@ -489,6 +491,25 @@ for (const a in axis) {
     createIncrementButton("-", axisContainerTranslation, function(){
         translate(getAlignMoving(), -axis[a][0]*translationSpeed, -axis[a][1]*translationSpeed, -axis[a][2]*translationSpeed);
     }, "Manually adjust translation down", "axisIncrementButton");
+}
+
+function updateAlignButtons () {
+    const buttons = document.getElementsByClassName("axisIncrementButton");
+    for (const i in buttons) {
+        // Set buttons to disabled if align moving is not selected yet
+        if (getAlignMoving() === "") {
+            buttons[i].disabled = true;
+        } else {
+            buttons[i].disabled = false;
+        }
+    }
+
+    // Disable icp button if both static and moving targets aren't selected or the same is selected
+    if (getAlignMoving() !== "" && getAlignStatic() !== "" && getAlignStatic() !== getAlignMoving()) {
+        document.getElementById("runICPButton").disabled = false;
+    } else {
+        document.getElementById("runICPButton").disabled = true;
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -690,12 +711,7 @@ function updateAlign() {
     }
     refreshVTK();
 
-    // Disable icp button if both static and moving targets aren't selected or the same is selected
-    if (getAlignMoving() !== "" && getAlignStatic() !== "" && getAlignStatic() !== getAlignMoving()) {
-        document.getElementById("runICPButton").disabled = false;
-    } else {
-        document.getElementById("runICPButton").disabled = true;
-    }
+    updateAlignButtons ();
 }
 function revealAllObjectsDisplayed() {
     for (i in objects) {
