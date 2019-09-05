@@ -433,28 +433,49 @@ function createIncrementButton(text, parentNode, callback, tooltipValue, classTy
 }
 
 
+const rotationAxisContainer = document.createElement("div");
+rotationAxisContainer.setAttribute("class", "axisTransformContainerTranslation");
+const labelContainer = document.createElement("div");
+labelContainer.innerHTML = "Rotate";
+rotationAxisContainer.appendChild(labelContainer);
+containerTransform.appendChild(rotationAxisContainer);
+
+
+const translationAxisContainer = document.createElement("div");
+const labelContainer2 = document.createElement("div");
+labelContainer2.innerHTML = "Translate";
+translationAxisContainer.appendChild(labelContainer2);
+translationAxisContainer.setAttribute("class", "axisTransformContainerRotation");
+containerTransform.appendChild(translationAxisContainer);
+
 for (const a in axis) {
 
-    // Add rotation controls for axis
-    const axisContainer = document.createElement("div");
-    axisContainer.setAttribute("class", "axisContainer");
-    axisContainer.innerHTML = a.concat(": ");
-    containerTransform.appendChild(axisContainer);
+    // Add rotation controls for rotations
+    const axisContainerRotation = document.createElement("div");
+    axisContainerRotation.setAttribute("class", "axisContainer");
+    axisContainerRotation.innerHTML = a.concat(": ");
+    rotationAxisContainer.appendChild(axisContainerRotation);
 
-    createIncrementButton("+", axisContainer, function(){
+    createIncrementButton("+", axisContainerRotation, function(){
         rotate(getAlignMoving(), axis[a][0]*rotationSpeed, axis[a][1]*rotationSpeed, axis[a][2]*rotationSpeed);
     }, "Manually adjust rotation up", "axisIncrementButton");
 
-    createIncrementButton("-", axisContainer, function(){
+    createIncrementButton("-", axisContainerRotation, function(){
         rotate(getAlignMoving(), -axis[a][0]*rotationSpeed, -axis[a][1]*rotationSpeed, -axis[a][2]*rotationSpeed);
     }, "Manually adjust rotation down", "axisIncrementButton");
 
 
-    createIncrementButton("+", axisContainer, function(){
+    // Add rotation controls for translations
+    const axisContainerTranslation = document.createElement("div");
+    axisContainerTranslation.setAttribute("class", "axisContainer");
+    axisContainerTranslation.innerHTML = a.concat(": ");
+    translationAxisContainer.appendChild(axisContainerTranslation);
+
+    createIncrementButton("+", axisContainerTranslation, function(){
         translate(getAlignMoving(), axis[a][0]*translationSpeed, axis[a][1]*translationSpeed, axis[a][2]*translationSpeed);
     }, "Manually adjust translation up", "axisIncrementButton");
 
-    createIncrementButton("-", axisContainer, function(){
+    createIncrementButton("-", axisContainerTranslation, function(){
         translate(getAlignMoving(), -axis[a][0]*translationSpeed, -axis[a][1]*translationSpeed, -axis[a][2]*translationSpeed);
     }, "Manually adjust translation down", "axisIncrementButton");
 }

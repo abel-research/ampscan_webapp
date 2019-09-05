@@ -177,28 +177,34 @@ button, input[type="button"], input[type="submit"] {
     width: 30px;
     height: 30px;
     font-size: 15px;
+    display: inline-flex;
 }
 .buttonContainer {
     position: relative;
-    padding-right: 5px;
 }
-.axisTransformContainerRotation {
-    margin-left:5px;
-    margin-bottom:5px;
+.axisTransformContainerRotation, .axisTransformContainerTranslation{
+    /*margin-left:15px;*/
+    /*margin-bottom:5px;*/
+    /*margin-top:5px;*/
+    display:block;
+    padding: 5px;
 }
-.axisTransformContainerTranslation {
-    margin-left:5px;
-    margin-bottom:5px;
-}
+/*.axisTransformContainerTranslation {*/
+/*    !*margin-left:15px;*!*/
+/*    !*margin-bottom:5px;*!*/
+/*    !*margin-top:5px;*!*/
+/*    display:block;*/
+/*}*/
 .axisTransformContainer {
     position: relative;
     font-family: 'Montserrat', sans-serif;
     font-size: 15px;
-    display:inline;
+    margin: 5px;
 }
 .axisContainer {
     position: relative;
     overflow: visible;
+    display:inline;
 }
 
 
