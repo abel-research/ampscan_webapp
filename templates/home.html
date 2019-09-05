@@ -16,11 +16,11 @@
 <div class="wrapper">
     <div class="control" id="control" style="overflow:auto;">
         <div class="tab">
-            <button class="tablinks" onclick="openTab(event, 'Home')" id="defaultTabOpen">Home</button>
-            <button class="tablinks" onclick="openTab(event, 'Align')">Align</button>
-            <button class="tablinks" onclick="openTab(event, 'Register')">Register</button>
-            <button class="tablinks" onclick="openTab(event, 'Analyse')">Analyse</button>
-            <button class="tablinks" onclick="openTab(event, 'Settings')">Settings</button>
+            <button class="tablinks" onclick="openTab(event.currentTarget, 'Home')" id="defaultTabOpen">Home</button>
+            <button class="tablinks" onclick="openTab(event.currentTarget, 'Align')">Align</button>
+            <button class="tablinks" onclick="openTab(event.currentTarget, 'Register')" id="registerTabButton">Register</button>
+            <button class="tablinks" onclick="openTab(event.currentTarget, 'Analyse')">Analyse</button>
+            <button class="tablinks" onclick="openTab(event.currentTarget, 'Settings')">Settings</button>
         </div>
 
 
@@ -46,6 +46,7 @@
             </div>
             <div class="controlOptionLineContainer">
                 <button onclick="runICP()" id="runICPButton">Run ICP</button>
+                <button onclick="goToRegistration()" id="goToRegistrationButton">Go To Registration</button>
             </div>
         </div>
 

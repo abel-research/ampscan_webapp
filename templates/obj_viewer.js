@@ -654,7 +654,7 @@ function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
 
     // If the old tab was "Align" then reveal all objects again
-    if (getCurrentTab() === "Align" && tabName !== "Align") {
+    if ((getCurrentTab() === "Align" && tabName !== "Align") || (getCurrentTab() === "Register" && tabName !== "Register")) {
         revealAllObjectsDisplayed();
         // Show obj manager
         document.getElementById("obj-manager").style.display = "block";
@@ -676,12 +676,18 @@ function openTab(evt, tabName) {
   
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.className += " active";
+    evt.className += " active";
 
     // If new tab is "Align" then only show aligning objects
     if (getCurrentTab() === "Align") {
         resetAlignDropDowns();
         updateAlign();
+        // Hide obj manager
+        document.getElementById("obj-manager").style.display = "none";
+    }
+    if (getCurrentTab() === "Register") {
+        resetRegistrationDropDowns();
+        updateRegistration();
         // Hide obj manager
         document.getElementById("obj-manager").style.display = "none";
     }
@@ -735,6 +741,10 @@ function updateDropdown() {
     if (getCurrentTab() === "Align") {
         updateAlign();
     }
+
+    if (getCurrentTab() === "Register") {
+        updateRegistration();
+    }
 }
 updateDropdown();
 
@@ -777,11 +787,88 @@ document.getElementById("alignMovingOpacity").addEventListener("input", function
 
 function getRegistrationTarget() {
     const dropdown = document.getElementById("registerTargetDropdown");
-    return dropdown.options[dropdown.selectedIndex].text;
+    if (dropdown.selectedIndex !== -1) {
+        return dropdown.options[dropdown.selectedIndex].text;
+    } else {
+        return "";
+    }
 }
+
+function setRegistrationTarget(objID) {
+    const dropdown = document.getElementById("registerTargetDropdown");
+    options = dropdown.options;
+    for (i = 0; i < options.length; i ++) {
+        if (options[i].value === objID) {
+            dropdown.selectedIndex = i;
+            return;
+        }
+    }
+    console.error("Obj not found: ".concat(objID));
+}
+
 function getRegistrationBaseline() {
     const dropdown = document.getElementById("registerBaselineDropdown");
-    return dropdown.options[dropdown.selectedIndex].text;
+    if (dropdown.selectedIndex !== -1) {
+        return dropdown.options[dropdown.selectedIndex].text;
+    } else {
+        return "";
+    }
+}
+
+function setRegistrationBaseline(objID) {
+    const dropdown = document.getElementById("registerBaselineDropdown");
+    options = dropdown.options;
+    for (i = 0; i < options.length; i ++) {
+        if (options[i].value === objID) {
+            dropdown.selectedIndex = i;
+            return;
+        }
+    }
+    console.error("Obj not found: ".concat(objID));
+}
+
+
+function goToRegistration() {
+    // Change tab
+    openTab(document.getElementById("registerTabButton"), "Register");
+
+    // Put the alignment targets in the registration target and baseline selectors
+    if (getAlignStatic() !== "")
+        setRegistrationBaseline(getAlignStatic());
+    if (getAlignMoving() !== "")
+         setRegistrationTarget(getAlignMoving());
+}
+
+function updateRegistration() {
+    for (i in objects) {
+        if (objects[i].name === getRegistrationBaseline()) {
+            objects[i].actor.setVisibility(true);
+            // if (alignMovingColour != null) {
+            //     objects[i].changeColourTemp(document.getElementById("alignMovingColour").value);
+            //     objects[i].changeOpacityTemp(document.getElementById("alignMovingOpacity").value);
+            // }
+        } else if (objects[i].name === getRegistrationTarget()){
+            objects[i].actor.setVisibility(true);
+            // if (alignStaticColour != null) {
+            //     objects[i].changeColourTemp(document.getElementById("alignStaticColour").value);
+            //     objects[i].changeOpacityTemp(document.getElementById("alignStaticOpacity").value);
+            // }
+        } else {
+            objects[i].actor.setVisibility(false);
+        }
+    }
+    refreshVTK();
+
+    updateAlignButtons ();
+}
+
+
+function resetRegistrationDropDowns() {
+    // Set moving and static to be blank
+    const dropdown1 = document.getElementById("registerBaselineDropdown");
+    dropdown1.selectedIndex = -1;
+    const dropdown2 = document.getElementById("registerTargetDropdown");
+    dropdown2.selectedIndex = -1
 }
 
 
