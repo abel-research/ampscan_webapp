@@ -371,6 +371,32 @@ function runICP() {
 }
 
 
+
+function runCentre() {
+    const formData = new FormData();
+
+    formData.append("session", session_id);
+    formData.append("movingID", getAlignMoving());
+
+    // Submit the request to run icp
+    fetch("process/align/centre", {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': csrftoken
+        }
+    })
+    .then(function(response) {
+        // Convert response to json
+        return response.json();
+    })
+    .then(function (jsonResponse) {
+        downloadPolyDataAndUpdate(getAlignMoving(), function() {
+            updateAlign();
+        });
+    })
+}
+
 function rotate(objID, x, y, z) {
     // Add the data
     var formData  = new FormData();

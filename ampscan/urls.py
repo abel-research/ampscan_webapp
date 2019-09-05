@@ -19,7 +19,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from test_app.views import home_view, obj_viewer_view,\
-    rotate_view, polydata_view, upload_view, object_list_view, icp_view, register_view, download_view, translate_view
+    rotate_view, polydata_view, upload_view, object_list_view,\
+    icp_view, register_view, download_view, translate_view, centre_view
 
 
 urlpatterns = [
@@ -32,6 +33,7 @@ urlpatterns = [
     path('upload/scan', upload_view),
     path('process/align/rotate', rotate_view),
     path('process/align/translate', translate_view),
+    path('process/align/centre', centre_view),
     path('process/align/icp', icp_view),
     path('process/register', register_view),
 ]
