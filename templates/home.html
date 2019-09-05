@@ -52,10 +52,10 @@
 
         <div id="Register" class="tabcontent">
             <div class="controlOptionLineContainer">
-                Baseline: <select class="targetDropdown" id="registerBaselineDropdown"></select>
+                Baseline: <select class="targetDropdown" id="registerBaselineDropdown" onchange="updateDropdown()"></select>
             </div>
             <div class="controlOptionLineContainer">
-                Target: <select class="targetDropdown" id="registerTargetDropdown"></select>
+                Target: <select class="targetDropdown" id="registerTargetDropdown" onchange="updateDropdown()"></select>
             </div>
             <div class="controlOptionLineContainer">
                 <button onclick="runRegistration()" id="runRegistrationButton">Run Registration</button>

@@ -837,6 +837,8 @@ function goToRegistration() {
         setRegistrationBaseline(getAlignStatic());
     if (getAlignMoving() !== "")
          setRegistrationTarget(getAlignMoving());
+
+    updateRegistration();
 }
 
 function updateRegistration() {
@@ -858,8 +860,6 @@ function updateRegistration() {
         }
     }
     refreshVTK();
-
-    updateAlignButtons ();
 }
 
 
