@@ -525,8 +525,10 @@ function updateAlignButtons () {
         // Set buttons to disabled if align moving is not selected yet
         if (getAlignMoving() === "") {
             buttons[i].disabled = true;
+            document.getElementById("runCentreButton").disabled = true;
         } else {
             buttons[i].disabled = false;
+            document.getElementById("runCentreButton").disabled = false;
         }
     }
 
@@ -536,6 +538,8 @@ function updateAlignButtons () {
     } else {
         document.getElementById("runICPButton").disabled = true;
     }
+
+    // Disable center button if no moving is selected
 }
 
 // ----------------------------------------------------------------------------
