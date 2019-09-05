@@ -141,7 +141,8 @@ button, input[type="button"], input[type="submit"] {
 /* Control panel styling*/
 .controlOptionLineContainer {
     position: relative;
-    /*border-bottom: 1px solid grey;*/
+    padding-bottom: 5px;
+    padding-top: 5px;
     font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     overflow: visible;
@@ -180,6 +181,14 @@ button, input[type="button"], input[type="submit"] {
 .buttonContainer {
     position: relative;
     padding-right: 5px;
+}
+.axisTransformContainerRotation {
+    margin-left:5px;
+    margin-bottom:5px;
+}
+.axisTransformContainerTranslation {
+    margin-left:5px;
+    margin-bottom:5px;
 }
 .axisTransformContainer {
     position: relative;
