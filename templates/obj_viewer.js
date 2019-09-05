@@ -121,6 +121,11 @@ updateWindowSize();
 // Add scans
 // ----------------------------------------------------------------------------
 
+function resetCamera() {
+    renderer.resetCamera();
+        renderer.getRenderWindow().render();
+}
+
 function updateObject(polyData, objID) {
     // objID is the name of the object being updated
     var mapper = vtk.Rendering.Core.vtkMapper.newInstance({ scalarVisibility: true });
@@ -137,7 +142,7 @@ function updateObject(polyData, objID) {
         if (prevActor != null)
             renderer.removeActor(prevActor);
         else {
-            renderer.resetCamera();
+            resetCamera();
         }
         renderer.getRenderWindow().render();
         objects[objID].setActor(actor);
@@ -153,7 +158,7 @@ function refreshVTK() {
 
 function downloadPolyDataAndUpdate(objID, callback) {
     polyData = vtk.Common.DataModel.vtkPolyData.newInstance();
-    
+
     const formData = new FormData();
     formData.append("norms", isNormsSelected());
     formData.append("session", session_id);
@@ -171,7 +176,7 @@ function downloadPolyDataAndUpdate(objID, callback) {
         return response.json();
     })
     .then(function(jsonResponse) {
-        polyData.getPoints().setData(jsonResponse["verts"], 3);    
+        polyData.getPoints().setData(jsonResponse["verts"], 3);
         polyData.getPolys().setData(jsonResponse["faces"]);
 
         // If norms enabled
@@ -250,19 +255,21 @@ var csrftoken = getCookie('csrftoken');
 const containerHome = document.getElementById('Home');
 
 // Add upload button
-// const upload_button = document.createElement('BUTTON');
-// upload_button.innerHTML = 'Show';
-// containerHome.appendChild(upload_button);
-// upload_button.addEventListener('click', polyProcess);
+var uploadInput = document.createElement("INPUT");
+uploadInput.setAttribute("accept", ".stl");
+uploadInput.setAttribute("type", "file");
+// uploadInput.style.display = "none";
+// containerHome.insertBefore(uploadInput, document.getElementById("resetCameraContainer"));
 
-// Add upload button
-var upload_button = document.createElement("INPUT");
-upload_button.setAttribute("accept", ".stl");
-upload_button.setAttribute("type", "file");
-containerHome.appendChild(upload_button);
-upload_button.addEventListener('change', function () {
+
+const uploadButton = document.createElement("BUTTON");
+uploadButton.innerHTML = "Upload Scan";
+uploadButton.addEventListener('click', function (){uploadInput.click();});
+containerHome.insertBefore(uploadButton, document.getElementById("resetCameraContainer"));
+
+uploadInput.addEventListener('change', function () {
     // Get the file from the upload button
-    const files = upload_button.files;
+    const files = uploadInput.files;
     if (!files.length) {
         // Check file is selected
         // If not don't do anything
@@ -271,7 +278,7 @@ upload_button.addEventListener('change', function () {
     const formData = new FormData();
     formData.append('user_file', files[0]);
     formData.append("session", session_id);
-    
+
     // Send upload request
     fetch("upload/scan", {
         method: 'POST',
@@ -290,6 +297,10 @@ upload_button.addEventListener('change', function () {
         downloadPolyDataAndUpdate(jsonResponse["objID"]);
     });
 }, false);
+
+
+
+
 
 // ----------------------------------------------------------------------------
 // Setup Align panel
