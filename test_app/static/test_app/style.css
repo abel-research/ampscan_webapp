@@ -2,7 +2,6 @@
 /* Style the entire page */
 *{
     box-sizing: border-box;
-    padding: 0;
     margin: 0;
     overflow: hidden;
 }
@@ -143,8 +142,6 @@ button, input[type="button"], input[type="submit"] {
 .controlOptionLineContainer {
     position: relative;
     /*border-bottom: 1px solid grey;*/
-    padding-bottom: 5px;
-    padding-top: 5px;
     font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     overflow: visible;
@@ -182,6 +179,7 @@ button, input[type="button"], input[type="submit"] {
 }
 .buttonContainer {
     position: relative;
+    padding-right: 5px;
 }
 .axisTransformContainer {
     position: relative;
