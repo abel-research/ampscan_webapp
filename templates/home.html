@@ -7,11 +7,14 @@
 
 {% load static %}
 <link href="{% static "test_app/style.css" %}" rel="stylesheet" type="text/css">
+<script type="module">import newLookupTable from "{% static "test_app/lut.js" %}"; window.vtkNewLookupTable = newLookupTable;</script>
 
 {% if not valid_file and file_loaded %}
 {% comment %} If the file isn't valid, tell the user {% endcomment %}
 <font size="3" color="red">Invalid file type</font>
 {% endif %}
+
+
 
 <div class="wrapper">
     <div class="control" id="control" style="overflow:auto;">

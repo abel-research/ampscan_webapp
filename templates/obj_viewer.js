@@ -1,4 +1,5 @@
-tempID = "stl_file";
+
+
 
 document.documentElement.style.setProperty("--rowHeight", window.outerHeight/2);
 
@@ -136,13 +137,12 @@ function resetCamera() {
 
 function updateObject(polyData, objID) {
     // objID is the name of the object being updated
-
-    const lookupTable = vtk.Common.Core.vtkLookupTable.newInstance({ hueRange: [0, 0.66] });
-    // const preset = vtkColorMaps.getPresetByName('erdc_rainbow_bright');
-    // const dataRange = [0, 255];
-    // this.lookupTable.applyColorMap(preset);
-    // this.lookupTable.setMappingRange(...dataRange);
-    // this.lookupTable.updateRange();
+    const numColors = 20;
+    const lookupTable = window.vtkNewLookupTable.newInstance();
+    lookupTable.setNumberOfColors(numColors);
+    lookupTable.setLowerCol([170,75,225]);
+    lookupTable.setMidCol([212,221,225]);
+    lookupTable.setUpperCol([0, 0, 255]);
 
     var mapper = vtk.Rendering.Core.vtkMapper.newInstance({
         interpolateScalarsBeforeMapping: true,
@@ -223,8 +223,6 @@ function downloadPolyDataAndUpdate(objID, callback) {
                     mx = Math.max(jsonResponse["scalars"][i], mx);
                 }
             }
-            mn = -10
-            mx = 10
             objects[objID].actor.getMapper().setScalarRange(mn, mx);
             const vtScalar = vtk.Common.Core.vtkDataArray.newInstance({
                 numberOfComponents: 1,
