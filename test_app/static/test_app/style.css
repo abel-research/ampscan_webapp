@@ -6,6 +6,12 @@
     overflow: hidden;
 }
 
+:root{
+    --rowHeight: 0px;
+
+}
+
+
 
 
 body {font-family: 'Montserrat', sans-serif;}
@@ -13,28 +19,29 @@ body {font-family: 'Montserrat', sans-serif;}
 /* Style the grid */
 .wrapper {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(10, 1fr);
+    grid-template-columns: auto 100px 100px auto;
+    grid-template-rows: var(--rowHeight);
     width: 100vw;
     height: 100vh;
+    grid-template-areas:
+        "a b c d"
+        "a b c e";
 }
+
 .viewer {
-    grid-column: 1 / span 6;
-    grid-row: 1 / span 10;
+    grid-area: a;
 }
 .control {
     border-style: solid;
     border-width: thin;
     border-color: rgb(150, 150, 150);
-    grid-column: 7 / span 4;
-    grid-row: 1 / span 5;
+    grid-area: d;
 }
 .obj-manager {
     border-style: solid;
     border-width: thin;
     border-color: rgb(150, 150, 150);
-    grid-column: 7 / span 4;
-    grid-row: 6 / span 5;
+    grid-area: e;
 }
 
 

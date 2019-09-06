@@ -1,5 +1,6 @@
 tempID = "stl_file";
 
+document.documentElement.style.setProperty("--rowHeight", window.outerHeight/2);
 
 class AmpObjectContainer {
     constructor(name, display, type, colour=[1, 1, 1], opacity=1) {
