@@ -6,27 +6,11 @@ const macro = vtk.macro;
 const vtkParentClass = vtk.Common.Core.vtkLookupTable;
 
 // ----------------------------------------------------------------------------
-// Global methods
-// ----------------------------------------------------------------------------
-
-// Add module-level functions or api that you want to expose statically via
-// the next section...
-
-function moduleScopedMethod() {
-  // do stuff
-}
-
-function moduleScopedStaticMethod()  {
-// do more stuff
-    console.log();
-}
-
-// ----------------------------------------------------------------------------
 // Static API
 // ----------------------------------------------------------------------------
 
 export const STATIC = {
-  moduleScopedStaticMethod,
+
 };
 
 // ----------------------------------------------------------------------------
@@ -50,23 +34,23 @@ function vtkNewLookupTable(publicAPI, model) {
   publicAPI.forceBuild = () =>{
 
         const maxIndex1 = model.numberOfColors + 1;
-        const spacing = 1/maxIndex1
-        const u = model.colors.length
+        const spacing = 1/maxIndex1;
+        const u = model.colors.length;
         let rgba1 = [];
         for (let i = 0; i < maxIndex1; i++){
-            let x = i * spacing
+            let x = i * spacing;
             
             for (var j = 0; j < u; j++){
               if (model.colors[j][3] <= x && model.colors[j+1][3] > x){
                 break
               }
             }
-            const x0 = model.colors[j][3]
-            const x1 = model.colors[j+1][3]
+            const x0 = model.colors[j][3];
+            const x1 = model.colors[j+1][3];
             for (let k = 0; k < 3; k++){
-              const y0 = model.colors[j][k]
-              const y1 = model.colors[j+1][k]
-              rgba1[k] = y0 + (x - x0) * ((y1 - y0)/(x1 - x0))
+              const y0 = model.colors[j][k];
+              const y1 = model.colors[j+1][k];
+              rgba1[k] = y0 + (x - x0) * ((y1 - y0)/(x1 - x0));
             rgba1[3] = 255;
             
             model.table[i * 4] = rgba1[0] + 0.5;
@@ -75,7 +59,6 @@ function vtkNewLookupTable(publicAPI, model) {
             model.table[i * 4 + 3] = rgba1[3] + 0.5;
 
         }
-      console.log(model.table)
       }
         superClass.buildSpecialColors();
 

@@ -140,9 +140,6 @@ function updateObject(polyData, objID) {
     const numColors = 20;
     const lookupTable = window.vtkNewLookupTable.newInstance();
     lookupTable.setNumberOfColors(numColors);
-    lookupTable.setLowerCol([170,75,225]);
-    lookupTable.setMidCol([212,221,225]);
-    lookupTable.setUpperCol([0, 0, 255]);
 
     var mapper = vtk.Rendering.Core.vtkMapper.newInstance({
         interpolateScalarsBeforeMapping: true,
