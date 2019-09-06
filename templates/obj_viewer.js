@@ -17,6 +17,8 @@ class AmpObjectContainer {
 
     setActorVisibility(display) {
         this.actor.setVisibility(display);
+        if (this.checkbox != null)
+            this.checkbox.checked = display;
         refreshVTK();
     }
 
@@ -79,7 +81,12 @@ class AmpObjectContainer {
         this.resetColour();
         this.resetVisibility();
     }
+}
 
+function hideAllObjects() {
+    for (objID in objects) {
+        objects[objID].setActorVisibility(false);
+    }
 }
 
 const objects = {};
@@ -128,7 +135,19 @@ function resetCamera() {
 
 function updateObject(polyData, objID) {
     // objID is the name of the object being updated
-    var mapper = vtk.Rendering.Core.vtkMapper.newInstance({ scalarVisibility: true });
+
+    const lookupTable = vtk.Common.Core.vtkLookupTable.newInstance({ hueRange: [0, 0.66] });
+    // const preset = vtkColorMaps.getPresetByName('erdc_rainbow_bright');
+    // const dataRange = [0, 255];
+    // this.lookupTable.applyColorMap(preset);
+    // this.lookupTable.setMappingRange(...dataRange);
+    // this.lookupTable.updateRange();
+
+    var mapper = vtk.Rendering.Core.vtkMapper.newInstance({
+        interpolateScalarsBeforeMapping: true,
+        useLookupTableScalarRange: false,
+        lookupTable: lookupTable,
+        scalarVisibility: true });
     var actor = vtk.Rendering.Core.vtkActor.newInstance();
 
     actor.setMapper(mapper);
@@ -146,6 +165,7 @@ function updateObject(polyData, objID) {
         }
         renderer.getRenderWindow().render();
         objects[objID].setActor(actor);
+        objects[objID].resetVisibility()
     }
     addActor();
 
@@ -202,6 +222,8 @@ function downloadPolyDataAndUpdate(objID, callback) {
                     mx = Math.max(jsonResponse["scalars"][i], mx);
                 }
             }
+            mn = -10
+            mx = 10
             objects[objID].actor.getMapper().setScalarRange(mn, mx);
             const vtScalar = vtk.Common.Core.vtkDataArray.newInstance({
                 numberOfComponents: 1,
@@ -656,6 +678,7 @@ function normsChange() {
     for (i in objects) {
         downloadPolyDataAndUpdate(i);
     }
+
 }
 
 function isNormsSelected() {
@@ -923,7 +946,12 @@ function runRegistration() {
     })
     .then(function (jsonResponse) {
         objects[jsonResponse["newObjID"]] = new AmpObjectContainer(jsonResponse["newObjID"], true, "reg");
-        downloadPolyDataAndUpdate(jsonResponse["newObjID"]);
+        downloadPolyDataAndUpdate(jsonResponse["newObjID"], function() {
+            openTab(document.getElementById("defaultTabOpen"), "Home");
+            hideAllObjects();
+            objects[jsonResponse["newObjID"]].setActorVisibility(true);
+        });
+        resetRegistrationDropDowns();
     })
 }
 
