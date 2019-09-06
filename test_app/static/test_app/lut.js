@@ -49,40 +49,34 @@ function vtkNewLookupTable(publicAPI, model) {
     // rather then traversing through HSV and then converting to RGB for the colour map
   publicAPI.forceBuild = () =>{
 
-        const maxIndex1 = model.numberOfColors - 1;
-
-        if(maxIndex1) {
-            model.rIncLM = (model.lowerCol[0] - model.midCol[0]) / (maxIndex1);
-            model.gIncLM = (model.lowerCol[1] - model.midCol[1]) / (maxIndex1);
-            model.bIncLM = (model.lowerCol[2] - model.midCol[2]) / (maxIndex1);
-            model.rIncMU = (model.upperCol[0] - model.midCol[0]) / (maxIndex1);
-            model.gIncMU = (model.upperCol[1] - model.midCol[1]) / (maxIndex1);
-            model.bIncMU = (model.upperCol[2] - model.midCol[2]) / (maxIndex1);
-        }
-
+        const maxIndex1 = model.numberOfColors + 1;
+        const spacing = 1/maxIndex1
+        const u = model.colors.length
         let rgba1 = [];
-        for (let i = 0; i <=maxIndex1/2; i++){
-            rgba1[0] = model.lowerCol[0] + (i * model.rIncLM);
-            rgba1[1] = model.lowerCol[1] + (i * model.gIncLM);
-            rgba1[2] = model.lowerCol[2] + (i * model.bIncLM);
+        for (let i = 0; i < maxIndex1; i++){
+            let x = i * spacing
+            
+            for (var j = 0; j < u; j++){
+              if (model.colors[j][3] <= x && model.colors[j+1][3] > x){
+                break
+              }
+            }
+            const x0 = model.colors[j][3]
+            const x1 = model.colors[j+1][3]
+            for (let k = 0; k < 3; k++){
+              const y0 = model.colors[j][k]
+              const y1 = model.colors[j+1][k]
+              rgba1[k] = y0 + (x - x0) * ((y1 - y0)/(x1 - x0))
             rgba1[3] = 255;
-
+            
             model.table[i * 4] = rgba1[0] + 0.5;
             model.table[i * 4 + 1] = rgba1[1]+ 0.5;
             model.table[i * 4 + 2] = rgba1[2]+ 0.5;
             model.table[i * 4 + 3] = rgba1[3] + 0.5;
 
         }
-        for (let i=0; i <=maxIndex1/2; i++){
-            rgba1[0] = model.midCol[0] + (i * model.rIncMU);
-            rgba1[1] = model.midCol[1] + (i * model.gIncMU);
-            rgba1[2] = model.midCol[2] + (i * model.bIncMU);
-            rgba1[3] = 255;
-            model.table[(i+maxIndex1/2) * 4] = rgba1[0] + 0.5;
-            model.table[(i+maxIndex1/2) * 4 + 1] = rgba1[1]+ 0.5;
-            model.table[(i+maxIndex1/2) * 4 + 2] = rgba1[2]+ 0.5;
-            model.table[(i+maxIndex1/2) * 4 + 3] = rgba1[3]+0.5;
-        }
+      console.log(model.table)
+      }
         superClass.buildSpecialColors();
 
         model.buildTime.modified();
@@ -97,17 +91,12 @@ function vtkNewLookupTable(publicAPI, model) {
 // Object factory
 // ----------------------------------------------------------------------------
 const DEFAULT_VALUES = {
-    //c1 and c2 are the lightest and darkest values for the colour map
-    lowerCol: [212.0, 221.0, 225.0],
-    midCol: [170.0, 75.0, 65.0],
-    upperCol: [170.0, 75.0, 65.0],
-    //the amount the red, green and blue values are incremented when creating the colour map
-    rIncLM: 0,
-    gIncLM: 0,
-    bIncLM: 0,
-    rIncMU: 0,
-    gIncMU: 0,
-    bIncMU: 0,
+    colors: [
+             [37.0, 48.0, 94.0, 0.0],
+             [212.0, 221.0, 225.0, 0.5],
+             [170.0, 75.0, 65.0, 1.0]
+            ],
+    numberOfColors: 10
 };
 
 // ----------------------------------------------------------------------------
