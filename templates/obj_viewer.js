@@ -733,13 +733,11 @@ function openTab(evt, tabName) {
 
     // If new tab is "Align" then only show aligning objects
     if (getCurrentTab() === "Align") {
-        resetAlignDropDowns();
         updateAlign();
         // Hide obj manager
         document.getElementById("obj-manager").style.display = "none";
     }
     if (getCurrentTab() === "Register") {
-        resetRegistrationDropDowns();
         updateRegistration();
         // Hide obj manager
         document.getElementById("obj-manager").style.display = "none";
