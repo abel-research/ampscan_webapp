@@ -1,6 +1,4 @@
 
-
-
 document.documentElement.style.setProperty("--rowHeight", window.outerHeight/2);
 
 class AmpObjectContainer {
@@ -135,11 +133,60 @@ function resetCamera() {
         renderer.getRenderWindow().render();
 }
 
+/**
+ * Creates the scalar bar dynamically based on the number of colours
+ *
+ * @param lut the lookup table used by the mapper for the registration objects
+ *
+ * @param container The div container for this to be placed in
+ */
+function createScalarBar(lut, container) {
+    const table = lut.getTable();
+
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
+
+    document.documentElement.style.setProperty('--legendColourRowHeight', window.outerHeight / (table.length + 6) - 3 + 'px');
+    let rgba1 = [];
+    let legendDiv = container;
+    var newSpan = document.createElement("span");
+    newSpan.classList.add("key");
+    newSpan.innerText = "Shape Deviation /mm";
+    legendDiv.appendChild(newSpan);
+    var ul = document.createElement("ul");
+    ul.style.setProperty("list-style", "none");
+    legendDiv.appendChild(ul);
+    console.log(lut.getNumberOfAvailableColors() );
+    for (let i = 0; i < table.length/4; i++) {
+        var newli = document.createElement("li");
+        rgba1[0] = table[i*4];
+        rgba1[1] = table[i*4 + 1];
+        rgba1[2] = table[i*4 + 2];
+        rgba1[3] = table[i*4 + 3];
+        newli.style.backgroundColor = "rgb(" + rgba1 + ")";
+        newli.classList.add("colourLegend");
+        ul.appendChild(newli);
+    }
+
+    // createTicks(4, 0, 80, Nocolours);
+}
+
+
+function createLUT() {
+    const lookupTable = window.vtkNewLookupTable.newInstance();
+    const numColors = 20;
+    lookupTable.setNumberOfColors(numColors);
+    lookupTable.build();
+    createScalarBar(lookupTable, document.getElementById("legend"));
+    return lookupTable
+}
+
+
 function updateObject(polyData, objID) {
     // objID is the name of the object being updated
-    const numColors = 20;
-    const lookupTable = window.vtkNewLookupTable.newInstance();
-    lookupTable.setNumberOfColors(numColors);
+
+    let lookupTable = createLUT();
 
     var mapper = vtk.Rendering.Core.vtkMapper.newInstance({
         interpolateScalarsBeforeMapping: true,

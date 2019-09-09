@@ -25,8 +25,8 @@ function vtkNewLookupTable(publicAPI, model) {
   const superClass = Object.assign({}, publicAPI);
 
   // Public API methods
-  publicAPI.exposedMethod = () => {
-    // This is a publicly exposed method of this object
+  publicAPI.getTable = () => {
+      return model.table;
   };
 
   //new force build method that traverses straight through the RGB colour space

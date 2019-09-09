@@ -8,7 +8,9 @@
 
 :root{
     --rowHeight: 0px;
-
+    --legendHeight: 800px;
+    --legendColourRowHeight:100px;
+    --legendLabelRowHeight:100px;
 }
 
 
@@ -19,7 +21,7 @@ body {font-family: 'Montserrat', sans-serif;}
 /* Style the grid */
 .wrapper {
     display: grid;
-    grid-template-columns: auto 100px 100px auto;
+    grid-template-columns: auto 100px 40px auto;
     grid-template-rows: var(--rowHeight);
     width: 100vw;
     height: 100vh;
@@ -42,6 +44,50 @@ body {font-family: 'Montserrat', sans-serif;}
     border-width: thin;
     border-color: rgb(150, 150, 150);
     grid-area: e;
+}
+#legend {
+    border-top: 2px solid #edeff1;
+    border-bottom: 2px solid #edeff1;
+}
+
+#tick-legend{
+    border-top: 2px solid #edeff1;
+    border-right: 2px solid #edeff1;
+    border-bottom: 2px solid #edeff1;
+}
+.my-legend{
+    grid-area: b;
+    height: var(--legendHeight);
+}
+.tick-legend{
+    padding-right: 50px;
+    grid-area: c;
+    width: 40px;
+    border-top: 2px solid #edeff1;
+    height: var(--legendHeight);
+}
+#colourList {
+    margin: 0;
+    padding: 0;
+}
+.colourLegend{
+    height: var(--legendColourRowHeight);
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.tickLegend{
+    height: var(--legendLabelRowHeight);
+    font-size: x-large;
+}
+.bottomTick{
+    height: 10px;
+    width: 40px;
+    font-size: x-large;
+}
+.tickUl{
+    padding-top: 115px;
+    padding-left: 0px;
 }
 
 
