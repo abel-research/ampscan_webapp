@@ -99,7 +99,7 @@ const session_id = {{ session_id }}
 // Setup renderer
 // ----------------------------------------------------------------------------
 const renderWindow = vtk.Rendering.Core.vtkRenderWindow.newInstance();
-const renderer = vtk.Rendering.Core.vtkRenderer.newInstance({ background: [0.9, 0.9, 0.9] });
+const renderer = vtk.Rendering.Core.vtkRenderer.newInstance({ background: [0.95, 0.95, 0.95] });
 renderWindow.addRenderer(renderer);
 
 const openglRenderWindow = vtk.Rendering.OpenGL.vtkRenderWindow.newInstance();
@@ -147,19 +147,18 @@ function createScalarBar(lut, container) {
         container.removeChild(container.firstChild);
     }
 
-    document.documentElement.style.setProperty('--legendColourRowHeight', window.outerHeight / (table.length + 6) - 3 + 'px');
+    document.documentElement.style.setProperty('--legendColourRowHeight', (window.outerHeight-60) / (table.length/4) + 'px');
     let rgba1 = [];
     let legendDiv = container;
     var newSpan = document.createElement("span");
     newSpan.classList.add("key");
-    newSpan.innerText = "Shape Deviation /mm";
+    document.getElementById("keyLabel").innerHTML = "Shape Deviation /mm";
     legendDiv.appendChild(newSpan);
-    var ul = document.createElement("ul");
+    var ul = document.createElement("div");
     ul.style.setProperty("list-style", "none");
     legendDiv.appendChild(ul);
-    console.log(lut.getNumberOfAvailableColors() );
-    for (let i = 0; i < table.length/4; i++) {
-        var newli = document.createElement("li");
+    for (let i = 0; i < table.length/4-4; i++) {
+        var newli = document.createElement("div");
         rgba1[0] = table[i*4];
         rgba1[1] = table[i*4 + 1];
         rgba1[2] = table[i*4 + 2];
@@ -175,7 +174,7 @@ function createScalarBar(lut, container) {
 
 function createLUT() {
     const lookupTable = window.vtkNewLookupTable.newInstance();
-    const numColors = 20;
+    const numColors = 40;
     lookupTable.setNumberOfColors(numColors);
     lookupTable.build();
     createScalarBar(lookupTable, document.getElementById("legend"));

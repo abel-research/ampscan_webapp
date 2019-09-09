@@ -11,6 +11,8 @@
     --legendHeight: 800px;
     --legendColourRowHeight:100px;
     --legendLabelRowHeight:100px;
+
+    --vtkBackgroundColour:rgb(243, 243, 243);
 }
 
 
@@ -21,13 +23,14 @@ body {font-family: 'Montserrat', sans-serif;}
 /* Style the grid */
 .wrapper {
     display: grid;
-    grid-template-columns: auto 100px 40px auto;
+    grid-template-columns: auto 40px 40px auto;
     grid-template-rows: var(--rowHeight);
     width: 100vw;
     height: 100vh;
     grid-template-areas:
-        "a b c d"
-        "a b c e";
+        "a c c d"
+        "a b1 b2 d"
+        "a b1 b2 e";
 }
 
 .viewer {
@@ -48,6 +51,13 @@ body {font-family: 'Montserrat', sans-serif;}
 #legend {
     border-top: 2px solid #edeff1;
     border-bottom: 2px solid #edeff1;
+    background-color: var(--vtkBackgroundColour);
+}
+#keyLabel {
+    grid-area: c;
+    height: 60px;
+    font-size: 16px;
+    background-color: var(--vtkBackgroundColour);
 }
 
 #tick-legend{
@@ -56,7 +66,7 @@ body {font-family: 'Montserrat', sans-serif;}
     border-bottom: 2px solid #edeff1;
 }
 .my-legend{
-    grid-area: b;
+    grid-area: b1;
     height: var(--legendHeight);
 }
 .tick-legend{
@@ -67,14 +77,14 @@ body {font-family: 'Montserrat', sans-serif;}
     height: var(--legendHeight);
 }
 #colourList {
-    margin: 0;
-    padding: 0;
+    margin: 0px;
+    padding: 0px;
 }
 .colourLegend{
     height: var(--legendColourRowHeight);
     width: 100%;
-    margin: 0;
-    padding: 0;
+    margin: 0px;
+    padding: 0px;
 }
 .tickLegend{
     height: var(--legendLabelRowHeight);
