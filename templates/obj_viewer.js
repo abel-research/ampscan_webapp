@@ -544,8 +544,9 @@ function translate(objID, x, y, z) {
         'X-CSRFToken': csrftoken
         }
     }).then(function (reponse) {
-        downloadPolyDataAndUpdate(objID);
-    })
+        // downloadPolyDataAndUpdate(objID);
+    });
+    objects[objID].actor.addPosition ([x, y, z]);
     refreshVTK();
 }
 
