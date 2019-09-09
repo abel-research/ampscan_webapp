@@ -90,6 +90,14 @@ function hideAllObjects() {
     }
 }
 
+function removeObject(objID) {
+    renderer.removeActor(objects[objID].actor);
+    if (!(delete objects[objID])) {
+        alert("Object doesn't exist: " + objID);
+    }
+    updateObjectTable();
+}
+
 const objects = {};
 
 
@@ -644,11 +652,14 @@ function updateObjectTable() {
 
     const removeButton = document.createElement("BUTTON");
     removeButton.innerHTML = "Remove";
+    removeButton.addEventListener("click", function() {
+        removeObject(selectedObjID);
+    })
 
     // Make save button call save on object
-    var saveObjID = null;
+    var selectedObjID = null;
     saveButton.addEventListener("click", function() {
-        saveObject(saveObjID)
+        saveObject(selectedObjID)
     });
 
     overflowMenu.appendChild(saveButton);
@@ -687,7 +698,7 @@ function updateObjectTable() {
         overflowButton.addEventListener("click", function(event) {
 
             // Remove objectOverflowButton tag from from
-            saveObjID = event.target.id.substring(20);
+            selectedObjID = event.target.id.substring(20);
 
             // Create overflow menu
             // const overflowMenu = document.getElementById("overflowMenu");
