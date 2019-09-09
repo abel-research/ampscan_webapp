@@ -517,8 +517,12 @@ function rotate(objID, x, y, z) {
         'X-CSRFToken': csrftoken
         }
     }).then(function (reponse) {
-        downloadPolyDataAndUpdate(objID);
-    })
+        // downloadPolyDataAndUpdate(objID);
+    });
+    objects[objID].actor.rotateX (x*57.2958);
+    objects[objID].actor.rotateY (y*57.2958);
+    objects[objID].actor.rotateZ (z*57.2958);
+    refreshVTK();
 }
 
 
@@ -542,6 +546,7 @@ function translate(objID, x, y, z) {
     }).then(function (reponse) {
         downloadPolyDataAndUpdate(objID);
     })
+    refreshVTK();
 }
 
 const containerTransform = document.getElementById('transformationContainer');
