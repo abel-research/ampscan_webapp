@@ -128,8 +128,22 @@ renderWindow.addRenderer(renderer);
 const openglRenderWindow = vtk.Rendering.OpenGL.vtkRenderWindow.newInstance();
 renderWindow.addView(openglRenderWindow);
 
-const container2 = document.getElementById('viewer');
+const container2 = document.getElementById('topLeftViewer');
 openglRenderWindow.setContainer(container2);
+
+
+
+const renderWindowTopRight = vtk.Rendering.Core.vtkRenderWindow.newInstance();
+const rendererTopRight = vtk.Rendering.Core.vtkRenderer.newInstance({ background: [0.95, 0.95, 0.95] });
+renderWindowTopRight.addRenderer(rendererTopRight);
+
+const openglRenderWindowTopRight = vtk.Rendering.OpenGL.vtkRenderWindow.newInstance();
+renderWindowTopRight.addView(openglRenderWindowTopRight);
+
+const containerTopRight = document.getElementById('topRightViewer');
+openglRenderWindowTopRight.setContainer(containerTopRight);
+
+
 
 const interactor = vtk.Rendering.Core.vtkRenderWindowInteractor.newInstance();
 interactor.setView(openglRenderWindow);
@@ -155,6 +169,8 @@ updateWindowSize();
 function resetCamera() {
     renderer.resetCamera();
     renderer.getRenderWindow().render();
+    rendererTopRight.resetCamera();
+    rendererTopRight.getRenderWindow().render();
 }
 
 /**
@@ -239,12 +255,14 @@ function updateObject(polyData, objID) {
         let prevActor = objects[objID].actor;
 
         renderer.addActor(actor);
+        rendererTopRight.addActor(actor);
         if (prevActor != null)
             renderer.removeActor(prevActor);
         else {
             resetCamera();
         }
         renderer.getRenderWindow().render();
+        rendererTopRight.getRenderWindow().render();
         objects[objID].setActor(actor);
         objects[objID].resetVisibility()
     }
@@ -255,6 +273,7 @@ function updateObject(polyData, objID) {
 
 function refreshVTK() {
     renderer.getRenderWindow().render(); // Rerender
+    rendererTopRight.getRenderWindow().render(); // Rerender
 }
 
 function downloadPolyDataAndUpdate(objID, callback) {

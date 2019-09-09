@@ -33,8 +33,14 @@ body {font-family: 'Montserrat', sans-serif;}
         "a b1 b2 e";
 }
 
-.viewer {
+#viewer {
     grid-area: a;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+        "f g"
+        "h i";
 }
 .control {
     border-style: solid;
@@ -51,6 +57,20 @@ body {font-family: 'Montserrat', sans-serif;}
 }
 #tabContainer {
     grid-area: t;
+}
+
+
+#topLeftViewer {
+    grid-area: f;
+}
+#topRightViewer {
+    grid-area: g;
+}
+#bottomLeftViewer {
+    grid-area: h;
+}
+#bottomRightViewer {
+    grid-area: i;
 }
 
 
