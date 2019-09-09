@@ -24,11 +24,11 @@ body {font-family: 'Montserrat', sans-serif;}
 .wrapper {
     display: grid;
     grid-template-columns: auto 40px 40px auto;
-    grid-template-rows: var(--rowHeight);
+    grid-template-rows: auto 1fr 1fr;
     width: 100vw;
     height: 100vh;
     grid-template-areas:
-        "a c  c  d"
+        "a c  c  t"
         "a b1 b2 d"
         "a b1 b2 e";
 }
@@ -48,6 +48,9 @@ body {font-family: 'Montserrat', sans-serif;}
     border-width: thin;
     border-color: rgb(150, 150, 150);
     grid-area: e;
+}
+#tabContainer {
+    grid-area: t;
 }
 
 

@@ -17,16 +17,15 @@
 
 
 <div class="wrapper">
+    <div class="tab" id="tabContainer">
+        <button class="tablinks" onclick="openTab(event.currentTarget, 'Home')" id="defaultTabOpen">Home</button>
+        <button class="tablinks" onclick="openTab(event.currentTarget, 'Align')">Align</button>
+        <button class="tablinks" onclick="openTab(event.currentTarget, 'Register')" id="registerTabButton">Register</button>
+        <button class="tablinks" onclick="openTab(event.currentTarget, 'Analyse')">Analyse</button>
+        <button class="tablinks" onclick="openTab(event.currentTarget, 'Settings')">Settings</button>
+    </div>
+
     <div class="control" id="control" style="overflow:auto;">
-        <div class="tab">
-            <button class="tablinks" onclick="openTab(event.currentTarget, 'Home')" id="defaultTabOpen">Home</button>
-            <button class="tablinks" onclick="openTab(event.currentTarget, 'Align')">Align</button>
-            <button class="tablinks" onclick="openTab(event.currentTarget, 'Register')" id="registerTabButton">Register</button>
-            <button class="tablinks" onclick="openTab(event.currentTarget, 'Analyse')">Analyse</button>
-            <button class="tablinks" onclick="openTab(event.currentTarget, 'Settings')">Settings</button>
-        </div>
-
-
          <div id="Home" class="tabcontent">
              <div class="controlOptionLineContainer" id="resetCameraContainer">
                 <button onclick="resetCamera();">Reset Camera</button>
