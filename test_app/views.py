@@ -44,6 +44,9 @@ class AmpEnv:
         else:
             raise ValueError("Obj not found: {}".format(name))
 
+    def remove_obj(self, name):
+        del self.obj_views[name]
+
     def get_object_views(self):
         return self.obj_views.values()
 
@@ -190,6 +193,12 @@ def home_view(request):
             
     if request.method == "GET":
         return render(request, "home.html", context=context)
+
+
+def remove_view(request):
+    if request.method == "POST":
+        get_session(request).remove_obj(request.POST.get("objID"))
+    return JsonResponse({"success": "true"})
 
 
 def upload_view(request):

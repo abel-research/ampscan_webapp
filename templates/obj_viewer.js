@@ -96,6 +96,20 @@ function removeObject(objID) {
         alert("Object doesn't exist: " + objID);
     }
     updateObjectTable();
+    refreshVTK();
+
+    // Remove from server
+    const formData = new FormData();
+    formData.append("session", session_id);
+    formData.append("objID", objID);
+
+    fetch("process/remove", {
+        method: 'POST',
+        body: formData,
+        headers: {
+        'X-CSRFToken': csrftoken
+        }
+    })
 }
 
 const objects = {};
@@ -382,6 +396,7 @@ uploadInput.addEventListener('change', function () {
         objects[jsonResponse["objID"]] =
             new AmpObjectContainer(jsonResponse["objID"], jsonResponse["properties"]["display"], jsonResponse["properties"]["type"]);
         downloadPolyDataAndUpdate(jsonResponse["objID"]);
+        uploadInput.value = null;
     });
 }, false);
 
