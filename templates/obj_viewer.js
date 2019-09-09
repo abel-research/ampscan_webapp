@@ -17,6 +17,7 @@ class AmpObjectContainer {
 
     setActorVisibility(display) {
         this.actor.setVisibility(display);
+        this.display = display;
         if (this.checkbox != null)
             this.checkbox.checked = display;
         refreshVTK();
