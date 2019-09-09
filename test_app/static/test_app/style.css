@@ -28,7 +28,7 @@ body {font-family: 'Montserrat', sans-serif;}
     width: 100vw;
     height: 100vh;
     grid-template-areas:
-        "a c c d"
+        "a c  c  d"
         "a b1 b2 d"
         "a b1 b2 e";
 }
@@ -78,7 +78,12 @@ body {font-family: 'Montserrat', sans-serif;}
 }
 #colourList {
     margin: 0px;
-    padding: 0px;
+    padding: 0px;;
+    background-color: var(--vtkBackgroundColour);
+}
+#scaleContainer {
+    background-color: var(--vtkBackgroundColour);
+    grid-area: b2;
 }
 .colourLegend{
     height: var(--legendColourRowHeight);
