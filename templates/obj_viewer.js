@@ -165,7 +165,7 @@ function createScalarBar(lut, container) {
     var ul = document.createElement("div");
     ul.style.setProperty("list-style", "none");
     legendDiv.appendChild(ul);
-    for (let i = 0; i < table.length/4-4; i++) {
+    for (let i = table.length/4-4; i >= 0; i--) {
         var newli = document.createElement("div");
         rgba1[0] = table[i*4];
         rgba1[1] = table[i*4 + 1];
