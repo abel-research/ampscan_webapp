@@ -633,6 +633,18 @@ function updateAlignButtons () {
 // Setup object panel
 // ----------------------------------------------------------------------------
 
+function hideOverflowMenus() {
+    const menus = document.getElementsByClassName("overflowMenu");
+    for (m in menus) {
+        if (menus[m].style !== undefined)
+            menus[m].style.display = "none";
+    }
+}
+
+document.getElementById("wrapper").addEventListener("click", function() {
+    hideOverflowMenus();
+});
+
 function updateObjectTable() {
     var lastClicked = null;
     const objectTable = document.getElementById("objTable");
@@ -718,6 +730,8 @@ function updateObjectTable() {
                 lastClicked = event.target.id;
                 event.target.parentElement.parentElement.appendChild(overflowMenu);
             }
+            // Stops overflow from being hidden by click elsewhere on screen
+            event.stopPropagation();
         });
 
         cell1.setAttribute("class", "objectTableCell");
@@ -773,6 +787,9 @@ function getCurrentTab() {
 
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
+
+    // Each time a new tab is opened hide the overflow menus
+    hideOverflowMenus();
 
     // If the old tab was "Align" then reveal all objects again
     if ((getCurrentTab() === "Align" && tabName !== "Align") || (getCurrentTab() === "Register" && tabName !== "Register")) {
