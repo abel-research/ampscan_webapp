@@ -118,6 +118,7 @@ function updateWindowSize() {
     // Update window size when window size changes
     const { width, height } = container2.getBoundingClientRect();
     openglRenderWindow.setSize(width, height);//+10 for no gap
+    updateScalarHeight();
     renderWindow.render();
 }
 
@@ -130,7 +131,7 @@ updateWindowSize();
 
 function resetCamera() {
     renderer.resetCamera();
-        renderer.getRenderWindow().render();
+    renderer.getRenderWindow().render();
 }
 
 /**
@@ -146,8 +147,6 @@ function createScalarBar(lut, container) {
     while (container.firstChild) {
         container.removeChild(container.firstChild);
     }
-
-    document.documentElement.style.setProperty('--legendColourRowHeight', (window.outerHeight-60) / (table.length/4) + 'px');
     let rgba1 = [];
     let legendDiv = container;
     var newSpan = document.createElement("span");
@@ -167,8 +166,22 @@ function createScalarBar(lut, container) {
         newli.classList.add("colourLegend");
         ul.appendChild(newli);
     }
+    updateScalarHeight(lut);
 
     // createTicks(4, 0, 80, Nocolours);
+}
+
+function updateScalarHeight(lut) {
+    if (lut !== undefined) {
+        document.documentElement.style.setProperty(
+            '--legendColourRowHeight',
+            (window.outerHeight - 60 * 2) / (lut.getTable().length / 4) + 'px');
+    }
+    else if (lookupTable !== undefined) {
+        document.documentElement.style.setProperty(
+            '--legendColourRowHeight',
+            (window.outerHeight - 60 * 2) / (lookupTable.getTable().length / 4) + 'px');
+    }
 }
 
 
@@ -181,11 +194,12 @@ function createLUT() {
     return lookupTable
 }
 
+var lookupTable;
 
 function updateObject(polyData, objID) {
     // objID is the name of the object being updated
 
-    let lookupTable = createLUT();
+    lookupTable = createLUT();
 
     var mapper = vtk.Rendering.Core.vtkMapper.newInstance({
         interpolateScalarsBeforeMapping: true,
