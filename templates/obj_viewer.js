@@ -182,7 +182,6 @@ renderers["rendererBottomRight"]["renderer"].getActiveCamera().setDirectionOfPro
 renderers["rendererBottomLeft"]["renderer"].getActiveCamera().setDirectionOfProjection(1, 0, 0);
 
 
-
 // Static cameras use parallel projection
 renderers["rendererTopRight"]["renderer"].getActiveCamera().setParallelProjection(true);
 renderers["rendererBottomRight"]["renderer"].getActiveCamera().setParallelProjection(true);
@@ -227,6 +226,11 @@ function resetCamera() {
         renderObject2["renderer"].resetCameraClippingRange();
         renderObject2["renderer"].getRenderWindow().render();
     }
+
+    // if ()
+    clippedCamera = renderers["rendererTopRight"]["renderer"].getActiveCamera();
+    clippedCamera.setClippingRange(clippedCamera.getDistance(), clippedCamera.getDistance()+5);
+    renderObject2["renderer"].getRenderWindow().render();
 }
 
 /**

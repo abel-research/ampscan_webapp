@@ -150,7 +150,6 @@ def translate_view(request):
     # AmpScan translation
     obj = get_session(request).get_obj(request.POST.get("objID"))
     obj.translate([float(request.POST["x"]), float(request.POST["y"]), float(request.POST["z"])])
-    print(obj.vert.mean(axis=0))
 
     return JsonResponse({"success": True})
 
