@@ -310,8 +310,8 @@ function updateScalars(objID) {
 
 // Update the scalar max/min ranges for the sliders
 function updateScalarsMaxMin() {
-    document.getElementById("scalarMin").min = minScalar.toFixed(1);
-    document.getElementById("scalarMax").max = maxScalar.toFixed(1);
+    document.getElementById("scalarMin").min = minScalar.toFixed(0);
+    document.getElementById("scalarMax").max = maxScalar.toFixed(0);
 }
 var maxScalar = 0;
 var minScalar = 0;
