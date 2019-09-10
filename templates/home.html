@@ -49,8 +49,13 @@
             <div class="controlOptionLineContainer">
                 <button onclick="runICP()" id="runICPButton">Run ICP</button>
                 <button onclick="runCentre()" id="runCentreButton">Centre</button>
-                <button onclick="goToRegistration()" id="goToRegistrationButton">Go To Registration</button>
             </div>
+             <div class="controlOptionLineContainer" id="resetCameraContainer">
+                <button onclick="resetCamera();">Reset Cameras</button>
+             </div>
+             <div class="controlOptionLineContainer">
+                <button onclick="goToRegistration()" id="goToRegistrationButton">Go To Registration</button>
+             </div>
         </div>
 
         <div id="Register" class="tabcontent">
@@ -76,6 +81,12 @@
             <label for="normsTickbox">Norms</label>
             <label class="switch">
                 <input type="checkbox" id="normsTickbox" onclick="normsChange()">
+                <span class="slider"></span>
+            </label>
+
+            <label for="normsTickbox">Norms</label>
+            <label class="switch">
+                <input type="checkbox" id="edgesTickbox" onclick="edgesChange()">
                 <span class="slider"></span>
             </label>
         </div>
