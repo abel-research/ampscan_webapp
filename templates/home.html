@@ -88,14 +88,14 @@
 
             <div class="controlOptionLineContainer">{# Add spacing#}</div>
 
-            <div id="registrationControls">
+            <div id="registrationControls" style="display:none">
                 <div class="controlOptionLineContainer">
                     <label for="scalarMin">Min Deviation:</label>
-                    <input type="number" id="scalarMin" value="-10" style="width:50px"><span>mm</span>
+                    <input type="number" id="scalarMin" value="-10" oninput="scalarsRangeChanged();" style="width:50px"><span>mm</span>
                 </div>
                 <div class="controlOptionLineContainer">
                     <label for="scalarMax">Max Deviation:</label>
-                    <input type="number" id="scalarMax"  value="10" style="width:50px"><span>mm</span>
+                    <input type="number" id="scalarMax"  value="10" oninput="scalarsRangeChanged();" style="width:50px"><span>mm</span>
                 </div>
                 <div class="controlOptionLineContainer">
                     <button onclick="exportRegObject()" id="finishRegistrationButton">Finish Registration</button>

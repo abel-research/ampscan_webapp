@@ -294,6 +294,17 @@ function updateScalarHeight(lut) {
     }
 }
 
+function updateScalars(objID) {
+    let mn = document.getElementById("scalarMin").value / 1;
+    let mx = document.getElementById("scalarMax").value / 1;
+    objects[objID].actor.getMapper().setScalarRange(mn, mx);
+    refreshVTK();
+}
+
+function scalarsRangeChanged() {
+    updateScalars("_regObject");
+}
+
 
 function createLUT() {
     const lookupTable = window.vtkNewLookupTable.newInstance();
@@ -391,15 +402,15 @@ function downloadPolyDataAndUpdate(objID, callback) {
 
         // Apply scalars to object
         if (jsonResponse.hasOwnProperty("scalars")) {
-            let mn=1000000, mx=-1000000;
-            // Find the min and max for scalar range
-            for (i in jsonResponse["scalars"]) {
-                if (!isNaN(jsonResponse["scalars"][i])) {
-                    mn = Math.min(jsonResponse["scalars"][i], mn);
-                    mx = Math.max(jsonResponse["scalars"][i], mx);
-                }
-            }
-            objects[objID].actor.getMapper().setScalarRange(mn, mx);
+            // let mn=1000000, mx=-1000000;
+            // // Find the min and max for scalar range
+            // for (i in jsonResponse["scalars"]) {
+            //     if (!isNaN(jsonResponse["scalars"][i])) {
+            //         mn = Math.min(jsonResponse["scalars"][i], mn);
+            //         mx = Math.max(jsonResponse["scalars"][i], mx);
+            //     }
+            // }
+            updateScalars(objID);
             const vtScalar = vtk.Common.Core.vtkDataArray.newInstance({
                 numberOfComponents: 1,
                 values: jsonResponse["scalars"],
@@ -1160,6 +1171,7 @@ function runRegistration() {
             downloadPolyDataAndUpdate("_regObject", function() {
             hideAllObjects();
             objects["_regObject"].setActorVisibility(true);
+            document.getElementById("registrationControls").style.display = "block";
         });
     })
 }
