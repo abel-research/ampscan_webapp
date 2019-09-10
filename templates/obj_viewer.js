@@ -154,14 +154,15 @@ function addRenderer(name, parentNode, interactive=false) {
 // const primaryRenderer = addRenderer("primaryRenderer", document.getElementById('mainViewer'), true);
 addRenderer("rendererTopRight", document.getElementById('topRightViewer'));
 addRenderer("rendererTopLeft", document.getElementById('topLeftViewer'));
-addRenderer("rendererBottomRight", document.getElementById('bottomRightViewer'));
-addRenderer("rendererBottomLeft", document.getElementById('bottomLeftViewer'), true);
+addRenderer("rendererBottomRight", document.getElementById('bottomRightViewer'), true);
+addRenderer("rendererBottomLeft", document.getElementById('bottomLeftViewer'));
 
 function updateWindowSize() {
     // Update window size when window size changes
     for (var renderObject of Object.values(renderers)) {
         const {width, height} = renderObject["container"].getBoundingClientRect();
         renderObject["openglRenderWindow"].setSize(width, height);
+        console.log(width, height);
         updateScalarHeight();
         renderObject["renderer"].getRenderWindow().render();
     }
