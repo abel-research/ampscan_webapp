@@ -91,7 +91,9 @@ function hideAllObjects() {
 }
 
 function removeObject(objID) {
-    renderer.removeActor(objects[objID].actor);
+    for (var renderObject of Object.values(renderers)) {
+        renderObject["renderer"].removeActor(objects[objID].actor);
+    }
     if (!(delete objects[objID])) {
         alert("Object doesn't exist: " + objID);
     }
@@ -119,30 +121,75 @@ const objects = {};
 const session_id = {{ session_id }}
 
 // ----------------------------------------------------------------------------
-// Setup renderer
+// Setup renderers
 // ----------------------------------------------------------------------------
-const renderWindow = vtk.Rendering.Core.vtkRenderWindow.newInstance();
-const renderer = vtk.Rendering.Core.vtkRenderer.newInstance({ background: [0.95, 0.95, 0.95] });
-renderWindow.addRenderer(renderer);
+const renderers = {};
 
-const openglRenderWindow = vtk.Rendering.OpenGL.vtkRenderWindow.newInstance();
-renderWindow.addView(openglRenderWindow);
+// Create renderer and add to list of renderers
+function addRenderer(name, parentNode, interactive=false) {
+    const renderWindow = vtk.Rendering.Core.vtkRenderWindow.newInstance();
+    const renderer = vtk.Rendering.Core.vtkRenderer.newInstance({ background: [0.95, 0.95, 0.95] });
+    renderWindow.addRenderer(renderer);
 
-const container2 = document.getElementById('viewer');
-openglRenderWindow.setContainer(container2);
+    const openglRenderWindow = vtk.Rendering.OpenGL.vtkRenderWindow.newInstance();
+    renderWindow.addView(openglRenderWindow);
 
-const interactor = vtk.Rendering.Core.vtkRenderWindowInteractor.newInstance();
-interactor.setView(openglRenderWindow);
-interactor.initialize();
-interactor.bindEvents(container2);
-interactor.setInteractorStyle(vtk.Interaction.Style.vtkInteractorStyleTrackballCamera.newInstance());
+    const container = parentNode;
+    openglRenderWindow.setContainer(container);
+
+    let interactor;
+    if (interactive) {
+        // Add interactor to main renderer
+        interactor = vtk.Rendering.Core.vtkRenderWindowInteractor.newInstance();
+        interactor.setView(openglRenderWindow);
+        interactor.initialize();
+        interactor.bindEvents(container);
+        interactor.setInteractorStyle(vtk.Interaction.Style.vtkInteractorStyleTrackballCamera.newInstance());
+    }
+
+    renderers[name] = {"renderer":renderer, "container":container, "openglRenderWindow":openglRenderWindow, "interactor": interactor};
+}
+
+
+function showAlignViews() {
+    const alignViews = document.getElementsByClassName("alignViewContainer");
+    for (let view of alignViews) {
+        view.style.display = "block";
+    }
+    document.getElementById("mainViewer").style.display = "none";
+    updateWindowSize();
+}
+function showMain() {
+    const alignViews = document.getElementsByClassName("alignViewContainer");
+    for (let view of alignViews) {
+        view.style.display = "none";
+    }
+    document.getElementById("mainViewer").style.display = "block";
+    updateWindowSize();
+}
+
+// Add renderers
+addRenderer("primaryRenderer", document.getElementById('mainViewer'), true);
+addRenderer("rendererTopRight", document.getElementById('topRightViewer'));
+addRenderer("rendererTopLeft", document.getElementById('topLeftViewer'));
+addRenderer("rendererBottomRight", document.getElementById('bottomRightViewer'), true);
+addRenderer("rendererBottomLeft", document.getElementById('bottomLeftViewer'));
+
+renderers["rendererTopRight"]["renderer"].getActiveCamera().setDirectionOfProjection(1, 0, 0);
+renderers["rendererTopLeft"]["renderer"].getActiveCamera().setDirectionOfProjection(0, 1, 0);
+renderers["rendererBottomRight"]["renderer"].getActiveCamera().setDirectionOfProjection(1, 1, 1);
+renderers["rendererBottomLeft"]["renderer"].getActiveCamera().setDirectionOfProjection(0, 0, 1);
+
+showMain();
 
 function updateWindowSize() {
     // Update window size when window size changes
-    const { width, height } = container2.getBoundingClientRect();
-    openglRenderWindow.setSize(width, height);//+10 for no gap
+    for (var renderObject of Object.values(renderers)) {
+        const {width, height} = renderObject["container"].getBoundingClientRect();
+        renderObject["openglRenderWindow"].setSize(width, height);
+        renderObject["renderer"].getRenderWindow().render();
+    }
     updateScalarHeight();
-    renderWindow.render();
 }
 
 window.addEventListener("resize", updateWindowSize);
@@ -153,8 +200,18 @@ updateWindowSize();
 // ----------------------------------------------------------------------------
 
 function resetCamera() {
-    renderer.resetCamera();
-    renderer.getRenderWindow().render();
+    for (var renderObject of Object.values(renderers)) {
+        renderObject["renderer"].resetCamera();
+    }
+    renderers["rendererTopRight"]["renderer"].getActiveCamera().dolly(0.75);
+    renderers["rendererTopLeft"]["renderer"].getActiveCamera().dolly(0.9);
+    renderers["rendererBottomRight"]["renderer"].getActiveCamera().dolly(1.2);
+    renderers["rendererBottomLeft"]["renderer"].getActiveCamera().dolly(1.5);
+
+    for (var renderObject2 of Object.values(renderers)) {
+        renderObject2["renderer"].resetCameraClippingRange();
+        renderObject2["renderer"].getRenderWindow().render();
+    }
 }
 
 /**
@@ -238,13 +295,20 @@ function updateObject(polyData, objID) {
         // Remove any previous actors for this object
         let prevActor = objects[objID].actor;
 
-        renderer.addActor(actor);
+
+        for (var renderObject of Object.values(renderers)) {
+            renderObject["renderer"].addActor(actor);
+        }
         if (prevActor != null)
-            renderer.removeActor(prevActor);
+            for (var renderObject of Object.values(renderers)) {
+                renderObject["renderer"].removeActor(prevActor);
+            }
         else {
             resetCamera();
         }
-        renderer.getRenderWindow().render();
+        for (var renderObject of Object.values(renderers)) {
+            renderObject["renderer"].getRenderWindow().render();
+        }
         objects[objID].setActor(actor);
         objects[objID].resetVisibility()
     }
@@ -254,7 +318,9 @@ function updateObject(polyData, objID) {
 }
 
 function refreshVTK() {
-    renderer.getRenderWindow().render(); // Rerender
+    for (var renderObject of Object.values(renderers)) {
+        renderObject["renderer"].getRenderWindow().render(); // Rerender
+    }
 }
 
 function downloadPolyDataAndUpdate(objID, callback) {
@@ -285,7 +351,7 @@ function downloadPolyDataAndUpdate(objID, callback) {
             const vtkNorm = vtk.Common.Core.vtkDataArray.newInstance({
                 numberOfComponents: 1,
                 values: jsonResponse["norm"]
-            })
+            });
             polyData.getPointData().setNormals(vtkNorm);
         }
 
@@ -817,6 +883,7 @@ function openTab(evt, tabName) {
         revealAllObjectsDisplayed();
         // Show obj manager
         document.getElementById("obj-manager").style.display = "block";
+        showMain();
     }
 
     currentTab = tabName;
@@ -839,6 +906,7 @@ function openTab(evt, tabName) {
 
     // If new tab is "Align" then only show aligning objects
     if (getCurrentTab() === "Align") {
+        showAlignViews();
         updateAlign();
         // Hide obj manager
         document.getElementById("obj-manager").style.display = "none";
