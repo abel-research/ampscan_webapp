@@ -82,6 +82,32 @@ body {font-family: 'Montserrat', sans-serif;}
 }
 
 
+
+/*Loading screen*/
+.loadingScreen {
+    position: absolute;
+    background-color: rgba(50, 50, 50, 0.9);
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    animation-name: loading;
+    animation-delay: 1s;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    pointer-events:all;
+}
+@keyframes loading {
+    from {
+        background-color: rgba(50, 50, 50, 0.9);
+        pointer-events: all;
+    }
+    to {
+        background-color: rgba(50, 50, 50, 0);
+        pointer-events:none;
+    }
+}
+
+
 /* Scalar bar styling*/
 #legend {
     border-top: 2px solid #edeff1;
