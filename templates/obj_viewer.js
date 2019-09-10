@@ -1154,14 +1154,23 @@ function runRegistration() {
         return response.json();
     })
     .then(function (jsonResponse) {
-        objects[jsonResponse["newObjID"]] = new AmpObjectContainer(jsonResponse["newObjID"], true, "reg");
-        downloadPolyDataAndUpdate(jsonResponse["newObjID"], function() {
-            openTab(document.getElementById("defaultTabOpen"), "Home");
+            if (!objects.hasOwnProperty("_regObject")) {
+                objects["_regObject"] = new AmpObjectContainer("_regObject", true, "reg");
+            }
+            downloadPolyDataAndUpdate("_regObject", function() {
             hideAllObjects();
-            objects[jsonResponse["newObjID"]].setActorVisibility(true);
+            objects["_regObject"].setActorVisibility(true);
         });
-        resetRegistrationDropDowns();
     })
+}
+
+function exportRegObject() {
+    // TODO export with new name
+    // objects["_regObject"] = new AmpObjectContainer(objID, true, "reg");
+    openTab(document.getElementById("defaultTabOpen"), "Home");
+    hideAllObjects();
+    objects["_regObject"].setActorVisibility(true);
+    resetRegistrationDropDowns();
 }
 
 // ----------------------------------------------------------------------------

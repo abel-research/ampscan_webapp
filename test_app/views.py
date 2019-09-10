@@ -126,7 +126,7 @@ def register_view(request):
     # reg.addActor(CMap = self.CMap02P)
     reg.addActor(CMap=CMapN2P)
 
-    name = request.POST.get("baselineID") + "_reg"
+    name = "_regObject"
     get_session(request).add_obj(reg, name, obj_type="reg")
 
     return JsonResponse({"newObjID": name})
