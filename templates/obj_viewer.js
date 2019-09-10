@@ -171,14 +171,23 @@ function showMain() {
 // Add renderers
 addRenderer("primaryRenderer", document.getElementById('mainViewer'), true);
 addRenderer("rendererTopRight", document.getElementById('topRightViewer'));
-addRenderer("rendererTopLeft", document.getElementById('topLeftViewer'));
-addRenderer("rendererBottomRight", document.getElementById('bottomRightViewer'), true);
+addRenderer("rendererTopLeft", document.getElementById('topLeftViewer'), true);
+addRenderer("rendererBottomRight", document.getElementById('bottomRightViewer'));
 addRenderer("rendererBottomLeft", document.getElementById('bottomLeftViewer'));
 
-renderers["rendererTopRight"]["renderer"].getActiveCamera().setDirectionOfProjection(1, 0, 0);
-renderers["rendererTopLeft"]["renderer"].getActiveCamera().setDirectionOfProjection(0, 1, 0);
-renderers["rendererBottomRight"]["renderer"].getActiveCamera().setDirectionOfProjection(1, 1, 1);
-renderers["rendererBottomLeft"]["renderer"].getActiveCamera().setDirectionOfProjection(0, 0, 1);
+// Set camera directions
+renderers["rendererTopRight"]["renderer"].getActiveCamera().setDirectionOfProjection(0, 0, 1);
+renderers["rendererTopLeft"]["renderer"].getActiveCamera().setDirectionOfProjection(1, 1, 1);
+renderers["rendererBottomRight"]["renderer"].getActiveCamera().setDirectionOfProjection(0, 1, 0);
+renderers["rendererBottomLeft"]["renderer"].getActiveCamera().setDirectionOfProjection(1, 0, 0);
+
+
+
+// Static cameras use parallel projection
+renderers["rendererTopRight"]["renderer"].getActiveCamera().setParallelProjection(true);
+renderers["rendererBottomRight"]["renderer"].getActiveCamera().setParallelProjection(true);
+renderers["rendererBottomLeft"]["renderer"].getActiveCamera().setParallelProjection(true);
+
 
 showMain();
 
@@ -198,15 +207,20 @@ updateWindowSize();
 // ----------------------------------------------------------------------------
 // Add scans
 // ----------------------------------------------------------------------------
-
+var rolled = false;
 function resetCamera() {
     for (var renderObject of Object.values(renderers)) {
         renderObject["renderer"].resetCamera();
     }
-    renderers["rendererTopRight"]["renderer"].getActiveCamera().dolly(0.75);
-    renderers["rendererTopLeft"]["renderer"].getActiveCamera().dolly(0.9);
-    renderers["rendererBottomRight"]["renderer"].getActiveCamera().dolly(1.2);
-    renderers["rendererBottomLeft"]["renderer"].getActiveCamera().dolly(1.5);
+    renderers["rendererTopRight"]["renderer"].getActiveCamera().zoom(1.5);
+    renderers["rendererTopLeft"]["renderer"].getActiveCamera().dolly(1.3);
+    renderers["rendererBottomRight"]["renderer"].getActiveCamera().zoom(1);
+    renderers["rendererBottomLeft"]["renderer"].getActiveCamera().zoom(1);
+
+    if (!rolled) {
+        renderers["rendererBottomLeft"]["renderer"].getActiveCamera().roll(90);
+        rolled = true;
+    }
 
     for (var renderObject2 of Object.values(renderers)) {
         renderObject2["renderer"].resetCameraClippingRange();
