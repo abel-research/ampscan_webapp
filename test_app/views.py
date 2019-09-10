@@ -185,6 +185,21 @@ def centre_view(request):
     return JsonResponse({"success": True})
 
 
+def centre_relative_view(request):
+    """
+    View for aligning
+    """
+    # TODO add option for global or local centering
+
+    # AmpScan ICP alignment
+    moving = get_session(request).get_obj(request.POST.get("movingID"))
+    static = get_session(request).get_obj(request.POST.get("staticID"))
+
+    moving.centreStatic(static)
+
+    return JsonResponse({"success": True})
+
+
 def home_view(request):
     """
     View for the home page

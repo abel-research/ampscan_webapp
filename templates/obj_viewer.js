@@ -555,14 +555,21 @@ function runICP() {
 
 
 
-function runCentre() {
+function runCentre(global) {
     const formData = new FormData();
 
     formData.append("session", session_id);
     formData.append("movingID", getAlignMoving());
 
     // Submit the request to run icp
-    fetch("process/align/centre", {
+    let url;
+    if (global) {
+        url = "process/align/centre";
+    } else {
+        url = "process/align/centre_relative";
+        formData.append("staticID", getAlignStatic());
+    }
+    fetch(url, {
         method: 'POST',
         body: formData,
         headers: {
