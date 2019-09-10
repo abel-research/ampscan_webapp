@@ -213,10 +213,11 @@ function resetCamera() {
         renderObject["renderer"].resetCamera();
     }
     renderers["rendererTopRight"]["renderer"].getActiveCamera().zoom(1.5);
-    renderers["rendererTopLeft"]["renderer"].getActiveCamera().dolly(1.3);
+    renderers["rendererTopLeft"]["renderer"].getActiveCamera().dolly(1);
     renderers["rendererBottomRight"]["renderer"].getActiveCamera().zoom(1);
     renderers["rendererBottomLeft"]["renderer"].getActiveCamera().zoom(1);
 
+    // Make all limbs vertical
     if (!rolled) {
         renderers["rendererBottomLeft"]["renderer"].getActiveCamera().roll(90);
         rolled = true;
