@@ -84,26 +84,40 @@ body {font-family: 'Montserrat', sans-serif;}
 
 
 /*Loading screen*/
-.loadingScreen {
+#loadingScreen {
     position: absolute;
-    background-color: rgba(50, 50, 50, 0.9);
+    display: block;
+    background-color: rgba(220, 220, 220, 0.98);
     width: 100vw;
     height: 100vh;
-    z-index: 1;
-    animation-name: loading;
-    animation-delay: 1s;
+    z-index: 2;
     animation-duration: 0.5s;
+    animation-delay: 0.2s;
     animation-fill-mode: forwards;
     pointer-events:all;
 }
 @keyframes loading {
     from {
-        background-color: rgba(50, 50, 50, 0.9);
+        background-color: rgba(220, 220, 220, 0.98);
         pointer-events: all;
     }
     to {
         background-color: rgba(50, 50, 50, 0);
         pointer-events:none;
+    }
+}
+#loadingLogo {
+    width: 100vw;
+    height: 100vh;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+@keyframes loadingLogo {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
     }
 }
 
