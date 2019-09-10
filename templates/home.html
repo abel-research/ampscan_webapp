@@ -51,6 +51,16 @@
                 <button onclick="runCentre(true)" id="runCentreButton">Centre Global</button>
                 <button onclick="runCentre(false)" id="runCentreButton">Centre Relative</button>
             </div>
+            <div class="controlOptionLineContainer">
+                <label for="sliceToggle">Slicing</label>
+                <label class="switch">
+                    <input type="checkbox" id="sliceToggle" onclick="sliceToggle()">
+                    <span class="slider"></span>
+                </label>
+
+                <input type="range" id="sliceDistanceSlider" min="-200" max="200" oninput="updateSlices()">
+
+            </div>
              <div class="controlOptionLineContainer" id="resetCameraContainer">
                 <button onclick="resetCamera();">Reset Cameras</button>
              </div>

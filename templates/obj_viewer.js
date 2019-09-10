@@ -227,10 +227,21 @@ function resetCamera() {
         renderObject2["renderer"].getRenderWindow().render();
     }
 
-    // if ()
-    clippedCamera = renderers["rendererTopRight"]["renderer"].getActiveCamera();
-    clippedCamera.setClippingRange(clippedCamera.getDistance(), clippedCamera.getDistance()+5);
-    renderObject2["renderer"].getRenderWindow().render();
+    updateSlices();
+}
+
+function sliceToggle() {
+    resetCamera();
+}
+
+function updateSlices() {
+    // If slicing is enabled
+    if (document.getElementById("sliceToggle").checked) {
+        let displacement = document.getElementById("sliceDistanceSlider").value/1;
+        clippedCamera = renderers["rendererTopRight"]["renderer"].getActiveCamera();
+        clippedCamera.setClippingRange(clippedCamera.getDistance()+displacement, clippedCamera.getDistance()+displacement + 5);
+        renderers["rendererTopRight"]["renderer"].getRenderWindow().render();
+    }
 }
 
 /**
