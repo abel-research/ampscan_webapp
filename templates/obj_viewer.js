@@ -294,12 +294,27 @@ function updateScalarHeight(lut) {
     }
 }
 
+// Update the scalar ranges
 function updateScalars(objID) {
-    let mn = document.getElementById("scalarMin").value / 1;
-    let mx = document.getElementById("scalarMax").value / 1;
+    let scalarMin = document.getElementById("scalarMin");
+    let scalarMax = document.getElementById("scalarMax");
+    document.getElementById("scalarMinLabel").innerHTML = scalarMin.value/1 + "mm";
+    document.getElementById("scalarMaxLabel").innerHTML = scalarMax.value/1 + "mm";
+    let mn = scalarMin.value / 1;
+    let mx = scalarMax.value / 1;
     objects[objID].actor.getMapper().setScalarRange(mn, mx);
+    document.getElementById("scalarMin").max = document.getElementById("scalarMax").value;
+    document.getElementById("scalarMax").min = document.getElementById("scalarMin").value;
     refreshVTK();
 }
+
+// Update the scalar max/min ranges for the sliders
+function updateScalarsMaxMin() {
+    document.getElementById("scalarMin").min = minScalar.toFixed(1);
+    document.getElementById("scalarMax").max = maxScalar.toFixed(1);
+}
+var maxScalar = 0;
+var minScalar = 0;
 
 function scalarsRangeChanged() {
     updateScalars("_regObject");
@@ -402,14 +417,16 @@ function downloadPolyDataAndUpdate(objID, callback) {
 
         // Apply scalars to object
         if (jsonResponse.hasOwnProperty("scalars")) {
-            // let mn=1000000, mx=-1000000;
-            // // Find the min and max for scalar range
-            // for (i in jsonResponse["scalars"]) {
-            //     if (!isNaN(jsonResponse["scalars"][i])) {
-            //         mn = Math.min(jsonResponse["scalars"][i], mn);
-            //         mx = Math.max(jsonResponse["scalars"][i], mx);
-            //     }
-            // }
+            let mn=1000000, mx=-1000000;
+            // Find the min and max for scalar range
+            for (i in jsonResponse["scalars"]) {
+                if (!isNaN(jsonResponse["scalars"][i])) {
+                    mn = Math.min(jsonResponse["scalars"][i], mn);
+                    mx = Math.max(jsonResponse["scalars"][i], mx);
+                }
+            }
+            maxScalar = mx;
+            minScalar = mn;
             updateScalars(objID);
             const vtScalar = vtk.Common.Core.vtkDataArray.newInstance({
                 numberOfComponents: 1,
@@ -1172,6 +1189,7 @@ function runRegistration() {
             hideAllObjects();
             objects["_regObject"].setActorVisibility(true);
             document.getElementById("registrationControls").style.display = "block";
+            updateScalarsMaxMin();
         });
     })
 }

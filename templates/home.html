@@ -91,11 +91,13 @@
             <div id="registrationControls" style="display:none">
                 <div class="controlOptionLineContainer">
                     <label for="scalarMin">Min Deviation:</label>
-                    <input type="number" id="scalarMin" value="-10" oninput="scalarsRangeChanged();" style="width:50px"><span>mm</span>
+                    <input type="range" id="scalarMin" min="-10" max="0" value="-8" step="0.2"
+                           oninput="scalarsRangeChanged();" style="width:100px"><span id="scalarMinLabel">mm</span>
                 </div>
                 <div class="controlOptionLineContainer">
                     <label for="scalarMax">Max Deviation:</label>
-                    <input type="number" id="scalarMax"  value="10" oninput="scalarsRangeChanged();" style="width:50px"><span>mm</span>
+                    <input type="range" id="scalarMax" min="0" max="10" value="8" step="0.2"
+                           oninput="scalarsRangeChanged();" style="width:100px"><span id="scalarMaxLabel">mm</span>
                 </div>
                 <div class="controlOptionLineContainer">
                     <button onclick="exportRegObject()" id="finishRegistrationButton">Finish Registration</button>
