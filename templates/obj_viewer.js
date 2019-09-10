@@ -150,8 +150,26 @@ function addRenderer(name, parentNode, interactive=false) {
     renderers[name] = {"renderer":renderer, "container":container, "openglRenderWindow":openglRenderWindow, "interactor": interactor};
 }
 
+
+function showAlignViews() {
+    const alignViews = document.getElementsByClassName("alignViewContainer");
+    for (let view of alignViews) {
+        view.style.display = "block";
+    }
+    document.getElementById("mainViewer").style.display = "none";
+    updateWindowSize();
+}
+function showMain() {
+    const alignViews = document.getElementsByClassName("alignViewContainer");
+    for (let view of alignViews) {
+        view.style.display = "none";
+    }
+    document.getElementById("mainViewer").style.display = "block";
+    updateWindowSize();
+}
+
 // Add renderers
-// const primaryRenderer = addRenderer("primaryRenderer", document.getElementById('mainViewer'), true);
+addRenderer("primaryRenderer", document.getElementById('mainViewer'), true);
 addRenderer("rendererTopRight", document.getElementById('topRightViewer'));
 addRenderer("rendererTopLeft", document.getElementById('topLeftViewer'));
 addRenderer("rendererBottomRight", document.getElementById('bottomRightViewer'), true);
@@ -162,14 +180,16 @@ renderers["rendererTopLeft"]["renderer"].getActiveCamera().setDirectionOfProject
 renderers["rendererBottomRight"]["renderer"].getActiveCamera().setDirectionOfProjection(1, 1, 1);
 renderers["rendererBottomLeft"]["renderer"].getActiveCamera().setDirectionOfProjection(0, 0, 1);
 
+showMain();
+
 function updateWindowSize() {
     // Update window size when window size changes
     for (var renderObject of Object.values(renderers)) {
         const {width, height} = renderObject["container"].getBoundingClientRect();
         renderObject["openglRenderWindow"].setSize(width, height);
-        updateScalarHeight();
         renderObject["renderer"].getRenderWindow().render();
     }
+    updateScalarHeight();
 }
 
 window.addEventListener("resize", updateWindowSize);
@@ -863,6 +883,7 @@ function openTab(evt, tabName) {
         revealAllObjectsDisplayed();
         // Show obj manager
         document.getElementById("obj-manager").style.display = "block";
+        showMain();
     }
 
     currentTab = tabName;
@@ -885,6 +906,7 @@ function openTab(evt, tabName) {
 
     // If new tab is "Align" then only show aligning objects
     if (getCurrentTab() === "Align") {
+        showAlignViews();
         updateAlign();
         // Hide obj manager
         document.getElementById("obj-manager").style.display = "none";
