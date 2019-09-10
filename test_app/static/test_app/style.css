@@ -91,8 +91,8 @@ body {font-family: 'Montserrat', sans-serif;}
     width: 100vw;
     height: 100vh;
     z-index: 2;
-    animation-duration: 0.5s;
-    animation-delay: 0.2s;
+    animation-duration: 1s;
+    animation-delay: 0.1s;
     animation-fill-mode: forwards;
     pointer-events:all;
 }
