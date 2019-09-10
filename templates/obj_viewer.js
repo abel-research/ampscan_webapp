@@ -547,10 +547,15 @@ function getAlignMoving() {
 }
 function setAlignMoving(objID) {
     const dropdown = document.getElementById("alignMovingDropdown");
+    if (objID === "") {
+        dropdown.selectedIndex = -1;
+        return;
+    }
     options = dropdown.options;
     for (i = 0; i < options.length; i ++) {
         if (options[i].value === objID) {
             dropdown.selectedIndex = i;
+            updateAlign();
             return;
         }
     }
@@ -565,10 +570,15 @@ function getAlignStatic() {
 }
 function setAlignStatic(objID) {
     const dropdown = document.getElementById("alignStaticDropdown");
+    if (objID === "") {
+        dropdown.selectedIndex = -1;
+        return;
+    }
     options = dropdown.options;
     for (i = 0; i < options.length; i ++) {
         if (options[i].value === objID) {
             dropdown.selectedIndex = i;
+            updateAlign();
             return;
         }
     }
