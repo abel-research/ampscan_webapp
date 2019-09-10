@@ -532,6 +532,12 @@ uploadInput.addEventListener('change', function () {
 // Setup Align panel
 // ----------------------------------------------------------------------------
 
+function swapAlignTargets() {
+    let moving = getAlignMoving();
+    setAlignMoving(getAlignStatic());
+    setAlignStatic(moving);
+}
+
 function getAlignMoving() {
     const dropdown = document.getElementById("alignMovingDropdown");
     if (dropdown.selectedIndex !== -1)
@@ -556,6 +562,17 @@ function getAlignStatic() {
         return dropdown.options[dropdown.selectedIndex].text;
     else
         return "";
+}
+function setAlignStatic(objID) {
+    const dropdown = document.getElementById("alignStaticDropdown");
+    options = dropdown.options;
+    for (i = 0; i < options.length; i ++) {
+        if (options[i].value === objID) {
+            dropdown.selectedIndex = i;
+            return;
+        }
+    }
+    console.error("Obj not found: ".concat(objID));
 }
 
 function resetAlignDropDowns() {
