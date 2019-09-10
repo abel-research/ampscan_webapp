@@ -157,12 +157,16 @@ addRenderer("rendererTopLeft", document.getElementById('topLeftViewer'));
 addRenderer("rendererBottomRight", document.getElementById('bottomRightViewer'), true);
 addRenderer("rendererBottomLeft", document.getElementById('bottomLeftViewer'));
 
+renderers["rendererTopRight"]["renderer"].getActiveCamera().setDirectionOfProjection(1, 0, 0);
+renderers["rendererTopLeft"]["renderer"].getActiveCamera().setDirectionOfProjection(0, 1, 0);
+renderers["rendererBottomRight"]["renderer"].getActiveCamera().setDirectionOfProjection(1, 1, 1);
+renderers["rendererBottomLeft"]["renderer"].getActiveCamera().setDirectionOfProjection(0, 0, 1);
+
 function updateWindowSize() {
     // Update window size when window size changes
     for (var renderObject of Object.values(renderers)) {
         const {width, height} = renderObject["container"].getBoundingClientRect();
         renderObject["openglRenderWindow"].setSize(width, height);
-        console.log(width, height);
         updateScalarHeight();
         renderObject["renderer"].getRenderWindow().render();
     }
@@ -178,7 +182,15 @@ updateWindowSize();
 function resetCamera() {
     for (var renderObject of Object.values(renderers)) {
         renderObject["renderer"].resetCamera();
-        renderObject["renderer"].getRenderWindow().render();
+    }
+    renderers["rendererTopRight"]["renderer"].getActiveCamera().dolly(0.75);
+    renderers["rendererTopLeft"]["renderer"].getActiveCamera().dolly(0.9);
+    renderers["rendererBottomRight"]["renderer"].getActiveCamera().dolly(1.2);
+    renderers["rendererBottomLeft"]["renderer"].getActiveCamera().dolly(1.5);
+
+    for (var renderObject2 of Object.values(renderers)) {
+        renderObject2["renderer"].resetCameraClippingRange();
+        renderObject2["renderer"].getRenderWindow().render();
     }
 }
 
