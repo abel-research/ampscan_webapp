@@ -176,7 +176,6 @@ def centre_view(request):
     """
     View for aligning
     """
-    # TODO add option for global or local centering
 
     # AmpScan ICP alignment
     moving = get_session(request).get_obj(request.POST.get("movingID"))
@@ -189,7 +188,6 @@ def centre_relative_view(request):
     """
     View for aligning
     """
-    # TODO add option for global or local centering
 
     # AmpScan ICP alignment
     moving = get_session(request).get_obj(request.POST.get("movingID"))
