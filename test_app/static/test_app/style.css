@@ -12,7 +12,8 @@
     --legendColourRowHeight:100px;
     --legendLabelRowHeight:100px;
 
-    --vtkBackgroundColour:rgb(243, 243, 243);
+    --vtkBackgroundColour:rgb(255, 255, 255);
+    --panelBackgroundColour:rgb(255, 255, 255);
 }
 
 
@@ -31,6 +32,9 @@ body {font-family: 'Montserrat', sans-serif;}
         "a c  c  t"
         "a b1 b2 d"
         "a b1 b2 e";
+    background-color: var(--vtkBackgroundColour);
+    padding: 3px;
+    grid-gap: 3px;
 }
 
 #viewer {
@@ -43,24 +47,27 @@ body {font-family: 'Montserrat', sans-serif;}
         "h i";
 }
 .control {
-    border-style: solid;
-    border-width: thin;
-    border-color: rgb(150, 150, 150);
     min-width: 250px;
     grid-area: d;
+    background-color: var(--panelBackgroundColour);
+    z-index: 1;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 .obj-manager {
-    border-style: solid;
-    border-width: thin;
-    border-color: rgb(150, 150, 150);
     grid-area: e;
+    background-color: var(--panelBackgroundColour);
+    z-index: 1;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 #tabContainer {
     grid-area: t;
+    z-index: 1;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
 
 .alignViewContainer {
+    margin: 1px;
     border-style: solid;
     border-width: thin;
     border-color: rgb(150, 150, 150);
@@ -124,8 +131,6 @@ body {font-family: 'Montserrat', sans-serif;}
 
 /* Scalar bar styling*/
 #legend {
-    border-top: 2px solid #edeff1;
-    border-bottom: 2px solid #edeff1;
     background-color: var(--vtkBackgroundColour);
 }
 #keyLabel {
@@ -265,6 +270,8 @@ input:checked + .slider:before {
 }
 .tab button.active {
     background-color: rgb(190, 190, 190);
+    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.2);
+    z-index:2;
 }
 .tabcontent {
     display: none;
