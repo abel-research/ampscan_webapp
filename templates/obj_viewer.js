@@ -368,6 +368,7 @@ function updateObject(polyData, objID) {
         for (var renderObject of Object.values(renderers)) {
             renderObject["renderer"].getRenderWindow().render();
         }
+        updateEdges()
         objects[objID].setActor(actor);
         objects[objID].resetVisibility()
     }
@@ -451,6 +452,15 @@ function downloadPolyDataAndUpdate(objID, callback) {
 function hideObject(objID) {
     objects[objID].display = false;
     objects[objID].actor.setVisibility(false);
+}
+
+function updateEdges() {
+    let edgesEnabled = document.getElementById("edgesTickbox").checked;
+    for (objID in objects) {
+        if (objects[objID].actor !== null)
+            objects[objID].actor.getProperty().setEdgeVisibility(edgesEnabled);
+    }
+    refreshVTK();
 }
 
 
