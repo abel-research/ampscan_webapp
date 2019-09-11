@@ -50,6 +50,7 @@ class AmpObjectContainer {
 
     setActorColour(r, g, b) {
         this.actor.getProperty().setColor(r, g, b);
+        this.actor.getProperty().setEdgeColor(r, g, b);
         refreshVTK();
     }
 
@@ -457,8 +458,12 @@ function hideObject(objID) {
 function updateEdges() {
     let edgesEnabled = document.getElementById("edgesTickbox").checked;
     for (objID in objects) {
-        if (objects[objID].actor !== null)
-            objects[objID].actor.getProperty().setEdgeVisibility(edgesEnabled);
+        if (objects[objID].actor !== null) {
+            if (edgesEnabled)
+                objects[objID].actor.getProperty().setRepresentationToWireframe();
+            else
+                objects[objID].actor.getProperty().setRepresentationToSurface();
+        }
     }
     refreshVTK();
 }
