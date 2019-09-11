@@ -354,23 +354,23 @@ function updateObject(polyData, objID) {
         // Remove any previous actors for this object
         let prevActor = objects[objID].actor;
 
-
-        for (var renderObject of Object.values(renderers)) {
+        let renderObject;
+        for (renderObject of Object.values(renderers)) {
             renderObject["renderer"].addActor(actor);
         }
         if (prevActor != null)
-            for (var renderObject of Object.values(renderers)) {
+            for (renderObject of Object.values(renderers)) {
                 renderObject["renderer"].removeActor(prevActor);
             }
         else {
             resetCamera();
         }
-        for (var renderObject of Object.values(renderers)) {
+        for (renderObject of Object.values(renderers)) {
             renderObject["renderer"].getRenderWindow().render();
         }
-        updateEdges()
         objects[objID].setActor(actor);
-        objects[objID].resetVisibility()
+        objects[objID].resetVisibility();
+        updateEdges();
     }
     addActor();
 
