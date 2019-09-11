@@ -372,6 +372,13 @@ button, input[type="button"], input[type="submit"] {
 }
 
 
+/* Setting options container*/
+.settingsOption {
+    position: absolute;
+    left: 150px;
+}
+
+
 /* Rotation and translation panel */
 .axisIncrementButton {
     position: relative;
