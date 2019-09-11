@@ -157,7 +157,7 @@ function getPlotlyGraphData(){
                 <th class="objectTableCell"> </th>
             </tr>
         </table>
-        <div id="reg graph" style="margin: 0 auto;border: 1px solid black;height: 85vh;min-height: 300px;">
+        <div id="reg graph" style="margin: 0 auto;">
             <script>
                 var trace1 = {
                     type: 'bar',
@@ -174,11 +174,15 @@ function getPlotlyGraphData(){
                 var data = [ trace1 ];
 
                 var layout = {
-                  title: 'Responsive to window\'s size!',
+                  title: 'Test graph',
                   font: {size: 18}
                 };
 
-                Plotly.newPlot('reg graph', data, layout, {responsive: false});</script>
+                Plotly.newPlot('reg graph', data, layout, {
+                    responsive: true,
+                    width: window.innerWidth / 1.4,
+                    height: window.innerHeight / 1.4 - 50
+                });</script>
         </div>
 {#        <div id="overflowMenu" class="overflowMenu">#}
 {#            <button>Save</button>#}
