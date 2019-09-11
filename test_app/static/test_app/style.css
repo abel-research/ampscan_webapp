@@ -271,7 +271,7 @@ input:checked + .slider:before {
 }
 .tab button.active {
     background-color: rgb(190, 190, 190);
-    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.2);
     z-index:2;
 }
 .tabcontent {
