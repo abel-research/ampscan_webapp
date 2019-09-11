@@ -39,15 +39,16 @@
         </div>
 
         <div id="Align" class="tabcontent">
+
             <div class="controlOptionLineContainer">
                 Static: <select class="targetDropdown" id="alignStaticDropdown" onchange="updateDropdown()"></select>
-                <input type="color" class="targetColour" id="alignStaticColour" value="#ff0000">
+                <input type="color" class="targetColour" id="alignStaticColour" value="#aa4b41">
                 <input type="range" class="targetOpacity" id="alignStaticOpacity" value="75" min="0" max="100">
                 <button style="position:absolute;left:335px" onclick="swapAlignTargets()">⮃</button>
             </div>
             <div class="controlOptionLineContainer">
                 Moving: <select class="targetDropdown" id="alignMovingDropdown" onchange="updateDropdown()"></select>
-                <input type="color" class="targetColour" id="alignMovingColour" value="#0000ff">
+                <input type="color" class="targetColour" id="alignMovingColour" value="#25305e">
                 <input type="range" class="targetOpacity" id="alignMovingOpacity" value="75" min="0" max="100">
             </div>
             <div class="controlOptionLineContainer" id="transformationContainer">
@@ -82,6 +83,9 @@
             </div>
             <div class="controlOptionLineContainer">
                 Target: <select class="targetDropdown" id="registerTargetDropdown" onchange="updateDropdown()"></select>
+            </div>
+            <div class="controlOptionLineContainer">
+                <input type="range" id="sliceDistanceSlider" min="1" max="20">
             </div>
             <div class="controlOptionLineContainer">
                 <button onclick="runRegistration()" id="runRegistrationButton">Run Registration</button>
