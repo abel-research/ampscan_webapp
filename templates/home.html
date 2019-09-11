@@ -3,7 +3,14 @@
 {% block content %}
 
 
-{% comment %} Add icon {% endcomment %}
+{# Add interactive plotly graph #}
+{#<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>#}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+function getPlotlyGraphData(){
+    return [{"x":[1,2,3],"y":[2,4,3]},{"x":[1,2,3],"y":[9,7,8]}];
+}
+</script>
 
 {% load static %}
 <link href="{% static "test_app/style.css" %}" rel="stylesheet" type="text/css">
@@ -150,6 +157,29 @@
                 <th class="objectTableCell"> </th>
             </tr>
         </table>
+        <div id="reg graph" style="margin: 0 auto;border: 1px solid black;height: 85vh;min-height: 300px;">
+            <script>
+                var trace1 = {
+                    type: 'bar',
+                    x: [1, 2, 3, 4],
+                    y: [5, 10, 2, 8],
+                    marker: {
+                        color: '#C8A2C8',
+                        line: {
+                            width: 2.5
+                        }
+                    }
+                };
+
+                var data = [ trace1 ];
+
+                var layout = {
+                  title: 'Responsive to window\'s size!',
+                  font: {size: 18}
+                };
+
+                Plotly.newPlot('reg graph', data, layout, {responsive: false});</script>
+        </div>
 {#        <div id="overflowMenu" class="overflowMenu">#}
 {#            <button>Save</button>#}
 {#            <button>Remove</button>#}
@@ -186,3 +216,29 @@
 <script>document.getElementById("loadingLogo").style["animation-name"] = "loadingLogo";</script>
 
 {% endblock content %}
+
+
+
+&lt;script>
+function getPlotlyGridData(){
+return {'cols':{
+    'Date':{'data':[1, 2]},
+    'Amount':{'data':[3, 4]},
+    'Source':['data.gov','2013-11-11']},
+    'meta':{}
+};
+}
+$('#plotly-data-export').click(function(){
+var hiddenform = $('<div id="hiddenform" '+
+    'style="display:none;">'+
+    '<form action="https://plot.ly/datagrid" '+
+    'method="post" target="_blank">'+
+    '<input type="text" '+
+    'name="data" /></form></div>')
+    .appendTo('body');
+hiddenform.find('input').val(
+    JSON.stringify( getPlotlyGridData()));
+hiddenform.find('form').submit();
+hiddenform.remove();
+});
+&lt;/script>
