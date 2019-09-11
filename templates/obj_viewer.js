@@ -239,7 +239,10 @@ function updateSlices() {
     if (document.getElementById("sliceToggle").checked) {
         let displacement = document.getElementById("sliceDistanceSlider").value/1;
         clippedCamera = renderers["rendererTopRight"]["renderer"].getActiveCamera();
-        clippedCamera.setClippingRange(clippedCamera.getDistance()+displacement, clippedCamera.getDistance()+displacement + 5);
+        const sliceThickness = document.getElementById("sliceThicknessSlider").value/1;
+        clippedCamera.setClippingRange(
+            clippedCamera.getDistance()+displacement,
+            clippedCamera.getDistance()+displacement + sliceThickness);
         renderers["rendererTopRight"]["renderer"].getRenderWindow().render();
     }
 }
