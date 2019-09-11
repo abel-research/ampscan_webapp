@@ -265,13 +265,13 @@ input:checked + .slider:before {
     font-size: 15px;
     font-family: 'Montserrat', sans-serif;
     border-radius: 0;
+    box-shadow: none;
 }
 .tab button:hover {
     background-color: rgb(225, 225, 225);
 }
 .tab button.active {
     background-color: rgb(190, 190, 190);
-    box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.2);
     z-index:2;
 }
 .tabcontent {
@@ -353,7 +353,7 @@ button {
     border-radius: 6px;
     -webkit-transition-duration: 0.2s; /* Safari */
     transition-duration: 0.2s;
-    box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
     text-align: center;
 }
 button:hover {
@@ -411,6 +411,7 @@ button:hover {
     height: 30px;
     font-size: 15px;
     display: inline-flex;
+    margin-left: 5px;
 }
 .buttonContainer {
     position: relative;
