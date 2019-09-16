@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'test_app'
+    'test_app',
+    'webpack_loader'
 ]
 
 MIDDLEWARE = [
@@ -72,6 +73,19 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'ampscan.wsgi.application'
+
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'CACHE': not DEBUG,
+        'BUNDLE_DIR_NAME': '/bundles/', # must end with slash
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+        'POLL_INTERVAL': 0.1,
+        'TIMEOUT': None,
+        'IGNORE': [r'.+\.hot-update.js', r'.+\.map']
+    }
+}
+
 
 
 # Database
@@ -123,11 +137,12 @@ USE_TZ = True
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, 'assets'),
 ]
 
-STATIC_ROOT = os.path.join("/static/")
+STATIC_ROOT = os.path.join(BASE_DIR+"/staticfiles/")
 
-STATIC_URL = '/static/'
+STATIC_URL = '/staticfiles/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
