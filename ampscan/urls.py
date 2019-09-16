@@ -26,7 +26,7 @@ from test_app.views import home_view, obj_viewer_view,\
 urlpatterns = [
     path('admin', admin.site.urls),
     path('', home_view, name="home"),
-    path('obj_viewer.js', obj_viewer_view),
+    path('main.js', obj_viewer_view),
     path('download/polydata', polydata_view),
     path('download/stl_file', download_view),
     path('download/object-list', object_list_view),

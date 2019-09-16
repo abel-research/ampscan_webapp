@@ -136,7 +136,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "test_app", "static", "test_app", "js"),
     os.path.join(BASE_DIR, 'assets'),
 ]
 

@@ -122,7 +122,7 @@ def register_view(request):
     CMap = np.c_[CMap1[:, :-1], CMap2]
     CMapN2P = np.transpose(CMap) / 255.0
     # CMap02P = np.flip(np.transpose(CMap1) / 255.0, axis=0)
-    reg = registration(baseline, target, steps=5, smooth=1).reg
+    reg = registration(baseline, target, steps=3, smooth=1).reg
     # reg.addActor(CMap = self.CMap02P)
     reg.addActor(CMap=CMapN2P)
 
@@ -202,6 +202,9 @@ def home_view(request):
     View for the home page
     """
     context = {}
+
+    sid = generate_next_session()
+    context["session_id"] = sid
             
     if request.method == "GET":
         return render(request, "home.html", context=context)
@@ -256,10 +259,7 @@ def obj_viewer_view(request):
     View for the object viewer javascipt script
     """
     context = {}
-
-    sid = generate_next_session()
-    context["session_id"] = sid
-    return render(request, "obj_viewer.js", context=context)
+    return render(request, "static/test_app/js/main.js", context=context)
 
 
 def object_list_view(request):

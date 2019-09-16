@@ -1,90 +1,6 @@
 
 document.documentElement.style.setProperty("--rowHeight", window.outerHeight/2);
 
-class AmpObjectContainer {
-    constructor(name, display, type, colour=[1, 1, 1], opacity=1) {
-        this.name = name;
-        this.display = display;
-        this.type = type;
-        this.colour = colour;
-        this.opacity = opacity;
-
-        this.polydata = null;
-        this.checkbox = null;
-        this.actor = null;
-        // Note actor is set during polyUpdate
-    }
-
-    setActorVisibility(display) {
-        this.actor.setVisibility(display);
-        this.display = display;
-        if (this.checkbox != null)
-            this.checkbox.checked = display;
-        refreshVTK();
-    }
-
-    resetVisibility() {
-        this.setActorVisibility(this.display);
-    }
-
-    toggleDisplay() {
-        let display = this.checkbox.checked;
-
-        this.display = display;
-        this.setActorVisibility(display);
-    }
-
-    addDisplayCheckbox(checkbox) {
-        var ob = this;
-        this.checkbox = checkbox;
-        checkbox.addEventListener("change", function(){ob.toggleDisplay()});
-    }
-
-    setActor(actor) {
-        this.actor = actor;
-    }
-
-    resetColour() {
-        this.setActorColour(this.colour[0], this.colour[1], this.colour[2]);
-    }
-
-    setActorColour(r, g, b) {
-        this.actor.getProperty().setColor(r, g, b);
-        this.actor.getProperty().setEdgeColor(r, g, b);
-        refreshVTK();
-    }
-
-    changeColourTemp(colour) {
-        console.log(this.actor.getProperty().getColor());
-        // colour come in as hex e.g. #ff92aa
-        const r = parseInt(colour.substr(1, 2), 16) / 255;
-        const g = parseInt(colour.substr(3, 2), 16) / 255;
-        const b = parseInt(colour.substr(5, 2), 16) / 255;
-        this.setActorColour(r, g, b)
-    }
-
-    resetOpacity() {
-        this.setActorOpacity(this.opacity);
-    }
-
-    setActorOpacity(opacity) {
-        this.actor.getProperty().setOpacity(opacity);
-        refreshVTK();
-    }
-
-    changeOpacityTemp(opacity) {
-        // Opacity come in as 0-100
-        this.setActorOpacity(opacity/100)
-    }
-
-    resetVis() {
-        // Call to reset to defaults
-        this.resetOpacity();
-        this.resetColour();
-        this.resetVisibility();
-    }
-}
-
 function hideAllObjects() {
     for (objID in objects) {
         objects[objID].setActorVisibility(false);
@@ -119,7 +35,11 @@ const objects = {};
 
 
 // Get session id
-const session_id = {{ session_id }}
+var session_id;
+
+function setSessionID(id) {
+    session_id = id;
+}
 
 // ----------------------------------------------------------------------------
 // Setup renderers
@@ -324,130 +244,12 @@ function scalarsRangeChanged() {
     updateScalars("_regObject");
 }
 
-
-function createLUT() {
-    const lookupTable = window.vtkNewLookupTable.newInstance();
-    const numColors = 40;
-    lookupTable.setNumberOfColors(numColors);
-    lookupTable.build();
-    createScalarBar(lookupTable, document.getElementById("legend"));
-    return lookupTable
-}
-
 var lookupTable;
-
-function updateObject(polyData, objID) {
-    // objID is the name of the object being updated
-
-    lookupTable = createLUT();
-
-    var mapper = vtk.Rendering.Core.vtkMapper.newInstance({
-        interpolateScalarsBeforeMapping: true,
-        useLookupTableScalarRange: false,
-        lookupTable: lookupTable,
-        scalarVisibility: true });
-    var actor = vtk.Rendering.Core.vtkActor.newInstance();
-
-    actor.setMapper(mapper);
-    mapper.setInputData(polyData);
-
-    function addActor() {
-        // Remove any previous actors for this object
-        let prevActor = objects[objID].actor;
-
-        let renderObject;
-        for (renderObject of Object.values(renderers)) {
-            renderObject["renderer"].addActor(actor);
-        }
-        if (prevActor != null)
-            for (renderObject of Object.values(renderers)) {
-                renderObject["renderer"].removeActor(prevActor);
-            }
-        else {
-            resetCamera();
-        }
-        for (renderObject of Object.values(renderers)) {
-            renderObject["renderer"].getRenderWindow().render();
-        }
-        objects[objID].setActor(actor);
-        objects[objID].resetVisibility();
-        updateEdges();
-    }
-    addActor();
-
-    return actor;
-}
 
 function refreshVTK() {
     for (var renderObject of Object.values(renderers)) {
         renderObject["renderer"].getRenderWindow().render(); // Rerender
     }
-}
-
-function downloadPolyDataAndUpdate(objID, callback) {
-    polyData = vtk.Common.DataModel.vtkPolyData.newInstance();
-
-    const formData = new FormData();
-    formData.append("norms", isNormsSelected());
-    formData.append("session", session_id);
-    formData.append("objID", objID);
-
-    fetch("download/polydata", {
-        method: 'POST',
-        body: formData,
-        headers: {
-        'X-CSRFToken': csrftoken
-        }
-    })
-    .then(function(response) {
-        // Convert reponse to json
-        return response.json();
-    })
-    .then(function(jsonResponse) {
-        polyData.getPoints().setData(jsonResponse["verts"], 3);
-        polyData.getPolys().setData(jsonResponse["faces"]);
-
-        // If norms enabled
-        if (jsonResponse.hasOwnProperty("norm")){
-            const vtkNorm = vtk.Common.Core.vtkDataArray.newInstance({
-                numberOfComponents: 1,
-                values: jsonResponse["norm"]
-            });
-            polyData.getPointData().setNormals(vtkNorm);
-        }
-
-        updateObject(polyData, objID);
-        updateObjectTable();
-        updateDropdown();
-
-        // Apply scalars to object
-        if (jsonResponse.hasOwnProperty("scalars")) {
-            let mn=1000000, mx=-1000000;
-            // Find the min and max for scalar range
-            for (i in jsonResponse["scalars"]) {
-                if (!isNaN(jsonResponse["scalars"][i])) {
-                    mn = Math.min(jsonResponse["scalars"][i], mn);
-                    mx = Math.max(jsonResponse["scalars"][i], mx);
-                }
-            }
-            maxScalar = mx;
-            minScalar = mn;
-            updateScalars(objID);
-            const vtScalar = vtk.Common.Core.vtkDataArray.newInstance({
-                numberOfComponents: 1,
-                values: jsonResponse["scalars"],
-            });
-            polyData.getPointData().setScalars(vtScalar);
-            refreshVTK();
-        }
-
-        objects[objID].polydata = polyData;
-
-        // Execute callback once finished loading object
-        if (typeof callback !== 'undefined')
-            callback();
-    });
-    return polyData;
 }
 
 function hideObject(objID) {
@@ -1248,35 +1050,3 @@ function exportRegObject() {
     resetRegistrationDropDowns();
 }
 
-// ----------------------------------------------------------------------------
-// Save object
-// ---------------------------------------------------------------------------
-
-function saveObject(objID) {
-    const formData = new FormData();
-
-    formData.append("session", session_id);
-    formData.append("objID", objID);
-
-    fetch('download/stl_file', {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRFToken': csrftoken
-        }
-    })
-    .then(resp => resp.blob())
-    .then(blob => {
-        // Download file at address
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        // the filename to download to
-        a.download = objID+'.stl';
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-      })
-      .catch(() => alert('File download failed'));
-}
