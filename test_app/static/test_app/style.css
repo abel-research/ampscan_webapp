@@ -24,7 +24,7 @@ body {font-family: 'Montserrat', sans-serif;}
 /* Style the grid */
 .wrapper {
     display: grid;
-    grid-template-columns: 50% 40px 40px auto;
+    grid-template-columns: 50vw 40px 40px auto;
     grid-template-rows: auto 1fr 1fr;
     width: 100vw;
     height: 100vh;
@@ -41,7 +41,7 @@ body {font-family: 'Montserrat', sans-serif;}
     grid-area: a;
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 50% 50%;
+    grid-template-rows: 50vh 50vh;
     grid-template-areas:
         "f g"
         "h i";

@@ -1,6 +1,8 @@
 <!doctype html>
+{% load render_bundle from webpack_loader %}
 <html>
 <head>
+    {% render_bundle 'main' %}
     <title>AmpScan</title>
     {% load static %}
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
@@ -12,5 +14,5 @@
    
    {% endblock %} 
 
-    </body>
+</body>
 </html>

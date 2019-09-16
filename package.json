@@ -1,0 +1,33 @@
+{
+  "name": "ampscan_webapp",
+  "version": "0.0.1",
+  "description": "A web interface for AmpScan with tools for analysis and visualisation of digitised surface scan data for applications within Prosthetics and Orthotics (P&O)",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js --mode development ",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abel-research/ampscan_webapp.git"
+  },
+  "author": "Jack Parsons",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/abel-research/ampscan_webapp/issues"
+  },
+  "homepage": "https://github.com/abel-research/ampscan_webapp#readme",
+  "devDependencies": {
+    "vtk.js": "^11.1.3",
+    "webpack": "^4.40.2",
+    "webpack-bundle-tracker": "^0.4.2-beta",
+    "webpack-cli": "^3.2.3",
+    "autoprefixer": "^9.6.1",
+    "require": "^2.4.20"
+  },
+  "dependencies": {
+    "autoprefixer": "^9.6.1",
+    "require": "^2.4.20",
+    "vtk.js": "^11.1.3"
+  }
+}
