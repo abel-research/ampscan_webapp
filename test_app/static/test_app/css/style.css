@@ -24,14 +24,14 @@ body {font-family: 'Montserrat', sans-serif;}
 /* Style the grid */
 .wrapper {
     display: grid;
-    grid-template-columns: 50vw 7vw auto;
+    grid-template-columns: 50vw auto;
     grid-template-rows: auto 1fr 1fr;
     width: 100vw;
     height: 100vh;
     grid-template-areas:
-        "a s t"
-        "a s d"
-        "a s e";
+        "a t"
+        "a d"
+        "a e";
     background-color: var(--vtkBackgroundColour);
     padding: 3px;
     grid-gap: 3px;
@@ -51,18 +51,18 @@ body {font-family: 'Montserrat', sans-serif;}
     grid-area: d;
     background-color: var(--panelBackgroundColour);
     z-index: 1;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 2px 6px 0px rgba(50,50,50,0.2);
 }
 .obj-manager {
     grid-area: e;
     background-color: var(--panelBackgroundColour);
     z-index: 1;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 2px 6px 0px rgba(50,50,50,0.2);
 }
 #tabContainer {
     grid-area: t;
     z-index: 1;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 2px 6px 0px rgba(50,50,50,0.2);
 }
 
 
@@ -131,22 +131,27 @@ body {font-family: 'Montserrat', sans-serif;}
 
 /* Scalar bar styling*/
 #scalarBarContainer {
-    grid-area: s;
+    width: 7vw;
+    height: 50vh;
+    z-index: 5;
+    position: absolute;
+    left: 0;
+    top: 25vh;
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 5vh 95vh;
+    grid-template-rows: 60px calc(100vh - 120px);
     grid-template-areas:
         "scalar1 scalar1"
         "scalar2 scalar3";
 }
 #legend {
-    background-color: var(--vtkBackgroundColour);
+    background-color: rgba(0, 0, 0, 0);
 }
 #keyLabel {
     grid-area: scalar1;
     height: 60px;
     font-size: 16px;
-    background-color: var(--vtkBackgroundColour);
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .legend{
@@ -155,8 +160,8 @@ body {font-family: 'Montserrat', sans-serif;}
 }
 #colourList {
     margin: 0px;
-    padding: 0px;;
-    background-color: var(--vtkBackgroundColour);
+    padding: 0px;
+    background-color: rgba(0, 0, 0, 0);
 }
 .colourLegend{
     height: var(--legendColourRowHeight);
@@ -166,10 +171,12 @@ body {font-family: 'Montserrat', sans-serif;}
 }
 
 #scaleContainer {
-    background-color: var(--vtkBackgroundColour);
+    background-color: rgba(0, 0, 0, 0);
     grid-area: scalar3;
 }
 .tickLegend {
+    padding-left: 10px;
+    border-top: solid 1px darkgrey;
     height: var(--legendLabelRowHeight);
 }
 
@@ -220,7 +227,7 @@ input:checked + .slider {
 }
 
 input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 2px 4px 0 rgba(100,100,100,0.1);
 }
 
 input:checked + .slider:before {
@@ -314,7 +321,7 @@ table {
     position: absolute;
     right: 0px;
     background-color: #f1f1f1;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 2px 6px 0px rgba(50,50,50,0.2);
     z-index: 1;
 }
 .overflowContainer {
@@ -339,7 +346,7 @@ button {
     border-radius: 6px;
     -webkit-transition-duration: 0.2s; /* Safari */
     transition-duration: 0.2s;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px 0 rgba(100,100,100,0.1);
     text-align: center;
 }
 button:hover {
@@ -364,7 +371,7 @@ button:hover {
     height: 80%;
     left: 80px;
     font-family: 'Montserrat', sans-serif;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px 0 rgba(100,100,100,0.1);
 }
 
 .targetColour {
@@ -372,7 +379,7 @@ button:hover {
     height: 80%;
     width: 25px;
     left: 190px;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px 0 rgba(100,100,100,0.1);
 }
 
 .targetOpacity {

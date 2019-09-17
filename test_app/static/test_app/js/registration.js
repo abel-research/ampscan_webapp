@@ -118,7 +118,7 @@ function runRegistration() {
             objects["_regObject"].setActorVisibility(true);
             document.getElementById("registrationControls").style.display = "block";
             updateScalarsMaxMin();
-            document.getElementById("scalarBarContainer").style.display = "block";
+            document.getElementById("scalarBarContainer").style.display = "grid";
         });
     })
 }

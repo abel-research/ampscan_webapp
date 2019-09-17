@@ -14,38 +14,36 @@ function createScalarBar(lut, container) {
         container.removeChild(container.firstChild);
     }
     let rgba1 = [];
-    let legendDiv = container;
-    var newSpan = document.createElement("span");
-    newSpan.classList.add("key");
     document.getElementById("keyLabel").innerHTML = "Shape Deviation /mm";
-    legendDiv.appendChild(newSpan);
-    var ul = document.createElement("div");
-    ul.style.setProperty("list-style", "none");
-    legendDiv.appendChild(ul);
     for (let i = table.length/4-4; i >= 0; i--) {
-        var newli = document.createElement("div");
+        let newli = document.createElement("div");
         rgba1[0] = table[i*4];
         rgba1[1] = table[i*4 + 1];
         rgba1[2] = table[i*4 + 2];
         rgba1[3] = table[i*4 + 3];
         newli.style.backgroundColor = "rgb(" + rgba1 + ")";
         newli.classList.add("colourLegend");
-        ul.appendChild(newli);
+        container.appendChild(newli);
     }
     updateScalarHeight(lut);
 
 }
 
 function updateScalarHeight(lut) {
+    let noColours;
     if (lut !== undefined) {
-        document.documentElement.style.setProperty(
-            '--legendColourRowHeight',
-            (window.outerHeight - 60 * 2) / (lut.getTable().length / 4) + 'px');
+        noColours = (lut.getTable().length / 4);
+        for (const elem of document.getElementsByClassName("colourLegend")) {
+            elem.style.height = 100/(noColours) + "%";
+        }
+        // document.documentElement.style.setProperty("--legendColourRowHeight", 100/(noColours) + "%");
     }
     else if (lookupTable !== undefined) {
-        document.documentElement.style.setProperty(
-            '--legendColourRowHeight',
-            (window.outerHeight - 60 * 2) / (lookupTable.getTable().length / 4) + 'px');
+        noColours = (lookupTable.getTable().length / 4);
+        for (const elem of document.getElementsByClassName("colourLegend")) {
+            elem.style.height = 100/(noColours) + "%";
+        }
+        // document.documentElement.style.setProperty("--legendColourRowHeight", 100/(noColours) + "%");
     }
 }
 
@@ -95,7 +93,7 @@ function createTicks(min, max) {
         tickDiv.removeChild(tickDiv.firstChild);
     }
 
-    document.documentElement.style.setProperty("--legendLabelRowHeight", "calc("+100/(noTicks) + "% - "+60/noTicks+"px");
+    document.documentElement.style.setProperty("--legendLabelRowHeight", 100/(noTicks+1) + "%");
 
     for (let i = 0; i <= noTicks; i++) {
         let tick = document.createElement("div");
