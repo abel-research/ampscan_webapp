@@ -140,20 +140,8 @@ body {font-family: 'Montserrat', sans-serif;}
     background-color: var(--vtkBackgroundColour);
 }
 
-#tick-legend{
-    border-top: 2px solid #edeff1;
-    border-right: 2px solid #edeff1;
-    border-bottom: 2px solid #edeff1;
-}
-.my-legend{
+.legend{
     grid-area: b1;
-    height: var(--legendHeight);
-}
-.tick-legend{
-    padding-right: 50px;
-    grid-area: c;
-    width: 40px;
-    border-top: 2px solid #edeff1;
     height: var(--legendHeight);
 }
 #colourList {
@@ -161,31 +149,20 @@ body {font-family: 'Montserrat', sans-serif;}
     padding: 0px;;
     background-color: var(--vtkBackgroundColour);
 }
-#scaleContainer {
-    background-color: var(--vtkBackgroundColour);
-    grid-area: b2;
-}
 .colourLegend{
     height: var(--legendColourRowHeight);
     width: 100%;
     margin: 0px;
     padding: 0px;
 }
-.tickLegend{
+
+#scaleContainer {
+    background-color: var(--vtkBackgroundColour);
+    grid-area: b2;
+}
+.tickLegend {
     height: var(--legendLabelRowHeight);
-    font-size: x-large;
 }
-.bottomTick{
-    height: 10px;
-    width: 40px;
-    font-size: x-large;
-}
-.tickUl{
-    padding-top: 115px;
-    padding-left: 0px;
-}
-
-
 
 
 /* The switch - the box around the slider */

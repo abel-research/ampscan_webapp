@@ -1,11 +1,11 @@
-
-
 /**
  * Creates the scalar bar dynamically based on the number of colours
  *
  * @param lut the lookup table used by the mapper for the registration objects
  *
  * @param container The div container for this to be placed in
+ * @param lowerRange
+ * @param upperRange
  */
 function createScalarBar(lut, container) {
     const table = lut.getTable();
@@ -34,7 +34,6 @@ function createScalarBar(lut, container) {
     }
     updateScalarHeight(lut);
 
-    createTicks(4, 0, 80, Nocolours);
 }
 
 function updateScalarHeight(lut) {
@@ -56,11 +55,13 @@ function updateScalars(objID) {
     let scalarMax = document.getElementById("scalarMax");
     document.getElementById("scalarMinLabel").innerHTML = scalarMin.value/1 + "mm";
     document.getElementById("scalarMaxLabel").innerHTML = scalarMax.value/1 + "mm";
-    let mn = scalarMin.value / 1;
-    let mx = scalarMax.value / 1;
-    objects[objID].actor.getMapper().setScalarRange(mn, mx);
+    let lowerRange = scalarMin.value / 1;
+    let upperRange = scalarMax.value / 1;
+    objects[objID].actor.getMapper().setScalarRange(lowerRange, upperRange);
     document.getElementById("scalarMin").max = document.getElementById("scalarMax").value;
     document.getElementById("scalarMax").min = document.getElementById("scalarMin").value;
+    createScalarBar(lookupTable, document.getElementById("legend"));
+    createTicks(lowerRange, upperRange);
     refreshVTK();
 }
 
@@ -69,8 +70,6 @@ function updateScalarsMaxMin() {
     document.getElementById("scalarMin").min = minScalar.toFixed(0);
     document.getElementById("scalarMax").max = maxScalar.toFixed(0);
 }
-var maxScalar = 0;
-var minScalar = 0;
 
 function scalarsRangeChanged() {
     updateScalars("_regObject");
@@ -78,31 +77,35 @@ function scalarsRangeChanged() {
 
 /**
  * Creates the ticks for the scalar bar dynamically based on the max and min pressure amounts, no of ticks and the no of colours
- *
- * @param No - the number of ticks
+ * @param noTicks - the number of ticks
  * @param min - the minimum pressure amount
  * @param max - the maximum pressure amount
- * @param Nocolours - the no of colours in the colour map
+ * @param noColours - the no of colours in the colour map
  */
-function createTicks(No, min, max, Nocolours) {
-    step = (max - min) / No;
-    tickDiv = document.getElementById("tick-legend");
-    var ul = document.createElement("ul");
-    ul.classList.add("tickUl");
-    ul.style.setProperty("list-style", "none");
-    ul.setAttribute("class", "colourList");
-    tickDiv.appendChild(ul);
-    height = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--legendColourRowHeight')) * Nocolours;
-    document.documentElement.style.setProperty("--legendLabelRowHeight", (height / No + "px"));
-    for (let i = 0; i <= No; i++) {
-        var newLi = document.createElement("li");
-        newLi.innerText = Math.floor((max - (i * step)));
-        newLi.classList.add("tickLegend");
-        if (i === No) {
-            newLi.classList.add("bottomTick");
-            newLi.classList.remove("tickLegend");
-        }
-        ul.appendChild(newLi);
+function createTicks(min, max) {
+    let noTicks = max-min;
+    while (noTicks < 10 && noTicks !== 0) {
+        noTicks *= 2;
+    }
+    let step = ((max.toFixed(8) - min.toFixed(8)) / (noTicks.toFixed(8)));
+    let tickDiv = document.getElementById("scaleContainer");
+
+    // Clear div
+    while (tickDiv.firstChild) {
+        tickDiv.removeChild(tickDiv.firstChild);
+    }
+
+    document.documentElement.style.setProperty("--legendLabelRowHeight", "calc("+100/(noTicks) + "% - "+60/noTicks+"px");
+
+    for (let i = 0; i <= noTicks; i++) {
+        let tick = document.createElement("div");
+        tick.innerText = "" + (max - (i * step));
+        tick.classList.add("tickLegend");
+        // if (i === No) {
+        //     tick.classList.add("bottomTick");
+        //     tick.classList.remove("tickLegend");
+        // }
+        tickDiv.appendChild(tick);
     }
 }
 

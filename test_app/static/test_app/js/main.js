@@ -108,6 +108,8 @@ renderers["rendererTopRight"]["renderer"].getActiveCamera().setParallelProjectio
 renderers["rendererBottomRight"]["renderer"].getActiveCamera().setParallelProjection(true);
 renderers["rendererBottomLeft"]["renderer"].getActiveCamera().setParallelProjection(true);
 
+var maxScalar = 0;
+var minScalar = 0;
 
 showMain();
 

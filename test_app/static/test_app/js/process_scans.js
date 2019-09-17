@@ -114,6 +114,8 @@ function downloadPolyDataAndUpdate(objID, callback) {
         // Execute callback once finished loading object
         if (typeof callback !== 'undefined')
             callback();
+    }).catch(function() {
+        alert("Scan download failed - probably due to improper registration attempted or presence of NaNs in object.")
     });
     return polyData;
 }
