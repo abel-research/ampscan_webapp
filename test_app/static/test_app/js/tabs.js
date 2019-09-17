@@ -51,5 +51,8 @@ function openTab(evt, tabName) {
         updateRegistration();
         // Hide obj manager
         document.getElementById("obj-manager").style.display = "none";
+    } else {
+        // If the new tab is not on registration
+        // document.getElementById("scalarBarContainer").style.display = "none";
     }
 }

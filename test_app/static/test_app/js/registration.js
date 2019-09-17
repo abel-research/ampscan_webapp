@@ -110,14 +110,15 @@ function runRegistration() {
         return response.json();
     })
     .then(function (jsonResponse) {
-            if (!objects.hasOwnProperty("_regObject")) {
-                objects["_regObject"] = new AmpObjectContainer("_regObject", true, "reg");
-            }
-            downloadPolyDataAndUpdate("_regObject", function() {
+        if (!objects.hasOwnProperty("_regObject")) {
+            objects["_regObject"] = new AmpObjectContainer("_regObject", true, "reg");
+        }
+        downloadPolyDataAndUpdate("_regObject", function() {
             hideAllObjects();
             objects["_regObject"].setActorVisibility(true);
             document.getElementById("registrationControls").style.display = "block";
             updateScalarsMaxMin();
+            document.getElementById("scalarBarContainer").style.display = "block";
         });
     })
 }

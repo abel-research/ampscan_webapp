@@ -24,14 +24,14 @@ body {font-family: 'Montserrat', sans-serif;}
 /* Style the grid */
 .wrapper {
     display: grid;
-    grid-template-columns: 50vw 40px 40px auto;
+    grid-template-columns: 50vw 7vw auto;
     grid-template-rows: auto 1fr 1fr;
     width: 100vw;
     height: 100vh;
     grid-template-areas:
-        "a c  c  t"
-        "a b1 b2 d"
-        "a b1 b2 e";
+        "a s t"
+        "a s d"
+        "a s e";
     background-color: var(--vtkBackgroundColour);
     padding: 3px;
     grid-gap: 3px;
@@ -130,18 +130,27 @@ body {font-family: 'Montserrat', sans-serif;}
 
 
 /* Scalar bar styling*/
+#scalarBarContainer {
+    grid-area: s;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 5vh 95vh;
+    grid-template-areas:
+        "scalar1 scalar1"
+        "scalar2 scalar3";
+}
 #legend {
     background-color: var(--vtkBackgroundColour);
 }
 #keyLabel {
-    grid-area: c;
+    grid-area: scalar1;
     height: 60px;
     font-size: 16px;
     background-color: var(--vtkBackgroundColour);
 }
 
 .legend{
-    grid-area: b1;
+    grid-area: scalar2;
     height: var(--legendHeight);
 }
 #colourList {
@@ -158,7 +167,7 @@ body {font-family: 'Montserrat', sans-serif;}
 
 #scaleContainer {
     background-color: var(--vtkBackgroundColour);
-    grid-area: b2;
+    grid-area: scalar3;
 }
 .tickLegend {
     height: var(--legendLabelRowHeight);
