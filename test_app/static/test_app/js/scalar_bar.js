@@ -34,7 +34,7 @@ function createScalarBar(lut, container) {
     }
     updateScalarHeight(lut);
 
-    // createTicks(4, 0, 80, Nocolours);
+    createTicks(4, 0, 80, Nocolours);
 }
 
 function updateScalarHeight(lut) {
