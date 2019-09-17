@@ -12,7 +12,7 @@
     --legendColourRowHeight:100px;
     --legendLabelRowHeight:100px;
 
-    --vtkBackgroundColour:rgb(255, 255, 255);
+    --vtkBackgroundColour:rgb(247, 247, 247);
     --panelBackgroundColour:rgb(255, 255, 255);
 }
 
@@ -131,18 +131,21 @@ body {font-family: 'Montserrat', sans-serif;}
 
 /* Scalar bar styling*/
 #scalarBarContainer {
-    width: 7vw;
+    width: 10vw;
     height: 50vh;
     z-index: 5;
     position: absolute;
     left: 0;
     top: 25vh;
-    display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 60px calc(100vh - 120px);
+    display: none;
+    grid-template-columns: calc(45% - 5) calc(45% - 5);
+    grid-template-rows: 60px calc(100vh - 130px);
     grid-template-areas:
         "scalar1 scalar1"
         "scalar2 scalar3";
+    box-shadow: 0px 2px 6px 0px rgba(50,50,50,0.2);
+    background-color: var(--panelBackgroundColour);
+    padding: 5px;
 }
 #legend {
     background-color: rgba(0, 0, 0, 0);

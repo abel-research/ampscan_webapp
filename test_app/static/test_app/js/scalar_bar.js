@@ -26,7 +26,6 @@ function createScalarBar(lut, container) {
         container.appendChild(newli);
     }
     updateScalarHeight(lut);
-
 }
 
 function updateScalarHeight(lut) {

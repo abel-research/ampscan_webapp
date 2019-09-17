@@ -2,7 +2,7 @@
 
 function createLUT() {
     const lookupTable = window.vtkNewLookupTable.newInstance();
-    const numColors = 40;
+    const numColors = 1000;
     lookupTable.setNumberOfColors(numColors);
     lookupTable.build();
     createScalarBar(lookupTable, document.getElementById("legend"));

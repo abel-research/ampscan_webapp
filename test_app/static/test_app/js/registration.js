@@ -131,3 +131,7 @@ function exportRegObject() {
     objects["_regObject"].setActorVisibility(true);
     resetRegistrationDropDowns();
 }
+
+function numberOfColoursChanged() {
+
+}

@@ -49,7 +49,7 @@ const renderers = {};
 // Create renderer and add to list of renderers
 function addRenderer(name, parentNode, interactive=false) {
     const renderWindow = vtk.Rendering.Core.vtkRenderWindow.newInstance();
-    const renderer = vtk.Rendering.Core.vtkRenderer.newInstance({ background: [1, 1, 1] });
+    const renderer = vtk.Rendering.Core.vtkRenderer.newInstance({ background: [0.97, 0.97, 0.97] });
     renderWindow.addRenderer(renderer);
 
     const openglRenderWindow = vtk.Rendering.OpenGL.vtkRenderWindow.newInstance();

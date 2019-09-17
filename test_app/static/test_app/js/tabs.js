@@ -53,6 +53,6 @@ function openTab(evt, tabName) {
         document.getElementById("obj-manager").style.display = "none";
     } else {
         // If the new tab is not on registration
-        // document.getElementById("scalarBarContainer").style.display = "none";
+        document.getElementById("scalarBarContainer").style.display = "none";
     }
 }
