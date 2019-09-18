@@ -133,6 +133,7 @@ body {font-family: 'Montserrat', sans-serif;}
 #scalarBarContainer {
     width: 8vw;
     min-width: 90px;
+    min-height: 400px;
     height: 50vh;
     z-index: 5;
     position: absolute;
