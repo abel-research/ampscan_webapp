@@ -20,7 +20,7 @@ from django.conf import settings
 
 from test_app.views import home_view, obj_viewer_view,\
     rotate_view, polydata_view, upload_view, object_list_view,\
-    icp_view, register_view, download_view, translate_view, centre_view, centre_relative_view, remove_view
+    icp_view, register_view, download_view, translate_view, centre_view, centre_relative_view, remove_view, csa_view
 
 
 urlpatterns = [
@@ -38,6 +38,7 @@ urlpatterns = [
     path('process/align/icp', icp_view),
     path('process/register', register_view),
     path('process/remove', remove_view),
+    path('analyse/csa', csa_view),
 ]
 
 # Only use in development

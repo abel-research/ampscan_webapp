@@ -178,12 +178,7 @@
         <div>
             Graphs
         </div>
-        <div id="graph1">
-            <script>
-                {# TODO add proper name and data #}
-                addHistogram("graph1", "Graph 1", "x-axis", "y-axis", [[0, 0], [1, 3], [2, 2]])
-            </script>
-        <div>
+        <div id="csaGraph">
 
         </div>
     </div>
@@ -214,8 +209,6 @@
 
 <script src="{% static "main.js" %}" type="text/javascript">
     setSessionID({{ session_id }});
-    {# Make the window resize #}
-    window.dispatchEvent(new Event('resize'));
 </script>
 
 {# When everything is ready, fade out loading screen #}

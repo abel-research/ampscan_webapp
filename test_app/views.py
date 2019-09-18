@@ -5,7 +5,7 @@ from django.conf import settings
 from django.http import JsonResponse
 
 import os
-from AmpScan import AmpObject, registration, align
+from AmpScan import AmpObject, registration, align, analyse
 from random import randrange
 import vtk
 import numpy as np
@@ -195,6 +195,25 @@ def centre_relative_view(request):
     moving.centreStatic(static)
 
     return JsonResponse({"success": True})
+
+
+def csa_view(request):
+    slWidth = 10
+    axis = 2
+    if request.method == "POST":
+        amp = get_session(request).get_obj(request.POST.get("objID"))
+
+        # Find the brim edges
+        ind = np.where(amp.faceEdges[:, 1] == -99999)[0]
+        # Define max Z from lowest point on brim
+        maxZ = amp.vert[amp.edges[ind, :], 2].min()
+        # Create slices
+        slices = np.arange(amp.vert[:, 2].min() + slWidth,
+                           maxZ, slWidth)
+        polys = analyse.create_slices(amp, slices, axis)
+        PolyArea = analyse.calc_csa(polys)
+
+        return JsonResponse({"xData": [i/len(PolyArea) for i in range(len(PolyArea))], "yData": PolyArea.tolist()})
 
 
 def home_view(request):

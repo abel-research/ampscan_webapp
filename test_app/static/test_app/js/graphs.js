@@ -67,20 +67,48 @@ function extractData(dataset) {
 }
 
 
+function fetchCSAGraph() {
+    if (getRegistrationTarget() === "") {
+        return
+    }
+    const formData = new FormData();
+    formData.append("session", session_id);
+    formData.append("objID", getRegistrationTarget());
+
+    fetch("analyse/csa", {
+        method: 'POST',
+        body: formData,
+        headers: {
+        'X-CSRFToken': csrftoken
+        }
+    })
+    .then(function(response) {
+        // Convert reponse to json
+        return response.json();
+    })
+    .then(function(jsonResponse) {
+        let xData = jsonResponse["xData"];
+        let yData = jsonResponse["yData"];
+        addHistogram("csaGraph", "Cross Section Area", "Length /%", "Area /mm^2", xData, yData);
+    });
+}
+
+
 /**
  * Adds a histogram to the container which resizes with it as the screen is resized
  * @param container The container to place the graph into
  * @param title The title displayed on the chart
  * @param xlabel
  * @param ylabel
- * @param dataset List of pairs corresponding to points on graph. May also be object mapping key to values.
+ * @param xData
+ * @param yData
  */
-function addHistogram(container, title, xlabel, ylabel, dataset) {
+function addHistogram(container, title, xlabel, ylabel, xData, yData) {
 
     // Process dataset
-    let d = extractData(dataset);
-    let xData = d[0];
-    let yData = d[1];
+    // let d = extractData(dataset);
+    // let xData = d[0];
+    // let yData = d[1];
 
     var trace1 = {
         type: 'bar',

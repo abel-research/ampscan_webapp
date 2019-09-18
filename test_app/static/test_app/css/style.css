@@ -70,9 +70,13 @@ body {font-family: 'Montserrat', sans-serif;}
     padding: 10px;
     height: 100%;
 }
-#graph1 {
+#csaGraph {
     height: 40vh;
     width: 50vw;
+}
+.plot-container {
+    height: 100%;
+    width: 100%;
 }
 
 
