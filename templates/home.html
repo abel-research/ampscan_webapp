@@ -5,23 +5,25 @@
 {% block content %}
 
 
-{# Add interactive plotly graph #}
-{#<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>#}
+{# Add interactive plotly graphs #}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 <link href="{% static "test_app/css/style.css" %}" rel="stylesheet" type="text/css">
 
 {# Add program scripts #}
-<script src="{% static "test_app/js/AmpObjectContainer.js" %}"></script>
-<script src="{% static "test_app/js/process_scans.js" %}"></script>
-<script src="{% static "test_app/js/registration.js" %}"></script>
-<script src="{% static "test_app/js/tabs.js" %}"></script>
-<script src="{% static "test_app/js/drop_down.js" %}"></script>
-<script src="{% static "test_app/js/align.js" %}"></script>
-<script src="{% static "test_app/js/object_table.js" %}"></script>
-<script src="{% static "test_app/js/home.js" %}"></script>
-<script src="{% static "test_app/js/scalar_bar.js" %}"></script>
+<div>
+    <script src="{% static "test_app/js/AmpObjectContainer.js" %}"></script>
+    <script src="{% static "test_app/js/process_scans.js" %}"></script>
+    <script src="{% static "test_app/js/registration.js" %}"></script>
+    <script src="{% static "test_app/js/tabs.js" %}"></script>
+    <script src="{% static "test_app/js/drop_down.js" %}"></script>
+    <script src="{% static "test_app/js/align.js" %}"></script>
+    <script src="{% static "test_app/js/object_table.js" %}"></script>
+    <script src="{% static "test_app/js/home.js" %}"></script>
+    <script src="{% static "test_app/js/scalar_bar.js" %}"></script>
+    <script type="module">import newLookupTable from "{% static "test_app/js/lut.js" %}"; window.vtkNewLookupTable = newLookupTable;</script>
+</div>
 
-<script type="module">import newLookupTable from "{% static "test_app/js/lut.js" %}"; window.vtkNewLookupTable = newLookupTable;</script>
 
 {#<script type="text/javascript" src="https://unpkg.com/@babel/polyfill@7.0.0/dist/polyfill.js"></script>#}
 {#<script type="text/javascript" src="https://unpkg.com/vtk.js"></script>#}
@@ -171,15 +173,8 @@
         </table>
     </div>
 
-    <div class="bottomRightPanel" id="obj-manager" style="overflow-x:auto;overflow-y:auto;">
-        <table id="objTable">
-            <tr>
-                <th class="objectTableCell">Name</th>
-                <th class="objectTableCell">Show</th>
-                <th class="objectTableCell">Type</th>
-                <th class="objectTableCell"> </th>
-            </tr>
-        </table>
+    <div class="bottomRightPanel" id="registrationGraphPanel" style="overflow-x:auto;overflow-y:auto;">
+
     </div>
 
     <div class="viewer" id="viewer">

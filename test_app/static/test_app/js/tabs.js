@@ -19,6 +19,7 @@ function openTab(evt, tabName) {
         revealAllObjectsDisplayed();
         // Show obj manager
         document.getElementById("obj-manager").style.display = "block";
+        document.getElementById("registrationGraphPanel").style.display = "none";
         showMain();
     }
 
@@ -51,6 +52,8 @@ function openTab(evt, tabName) {
         updateRegistration();
         // Hide obj manager
         document.getElementById("obj-manager").style.display = "none";
+        // Bring in registration graph panel
+        document.getElementById("registrationGraphPanel").style.display = "block";
     } else {
         // If the new tab is not on registration
         document.getElementById("scalarBarContainer").style.display = "none";
