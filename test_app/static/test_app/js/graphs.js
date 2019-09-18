@@ -104,7 +104,7 @@ function fetchCSAGraph() {
             let yData2 = yData;
             console.log([xData1, xData2], [yData1, yData2]);
             addLineGraph("csaGraph", "Cross Section Area", "Length /%", "Area /cm^2",
-                [xData1, xData2], [yData1, yData2]);
+                [xData1, xData2], [yData1, yData2], [getRegistrationTarget(), getRegistrationBaseline()]);
         });
     });
 }
@@ -119,13 +119,14 @@ function fetchCSAGraph() {
  * @param xData
  * @param yData
  */
-function addLineGraph(container, title, xlabel, ylabel, xData, yData) {
+function addLineGraph(container, title, xlabel, ylabel, xData, yData, traceNames) {
 
     // Process dataset
     let traces = [];
     for (let i = 0; i < xData.length; i++) {
         traces.push({
             type: 'scatter',
+            name: traceNames[i],
             x: xData[i],
             y: yData[i],
             hoverinfo:"y"
