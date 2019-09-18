@@ -2,11 +2,19 @@
 
 function createLUT() {
     const lookupTable = window.vtkNewLookupTable.newInstance();
-    const numColors = 1000;
+    const numColors = getNumberOfColours();
     lookupTable.setNumberOfColors(numColors);
     lookupTable.build();
     createScalarBar(lookupTable, document.getElementById("legend"));
     return lookupTable
+}
+
+function updateLookupTable(objID) {
+    if (objects[objID] !== undefined && objects[objID].actor !== undefined) {
+        let mapper = objects[objID].actor.getMapper();
+        lookupTable = createLUT();
+        mapper.setLookupTable(lookupTable);
+    }
 }
 
 function updateObject(polyData, objID) {
@@ -114,8 +122,9 @@ function downloadPolyDataAndUpdate(objID, callback) {
         // Execute callback once finished loading object
         if (typeof callback !== 'undefined')
             callback();
-    }).catch(function() {
-        alert("Scan download failed - probably due to improper registration attempted or presence of NaNs in object.")
+    }).catch(function(e) {
+        alert("Scan download failed - probably due to improper registration attempted or presence of NaNs in object.");
+        console.error(e)
     });
     return polyData;
 }

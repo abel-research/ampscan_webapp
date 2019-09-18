@@ -133,5 +133,11 @@ function exportRegObject() {
 }
 
 function numberOfColoursChanged() {
+    console.log(1232);
+    updateLookupTable("_regObject");
+    createScalarBar(lookupTable, document.getElementById("legend"));
+}
 
+function getNumberOfColours() {
+    return document.getElementById("noColours").value/1;
 }
