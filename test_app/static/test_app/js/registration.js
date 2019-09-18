@@ -14,6 +14,7 @@ function getRegistrationTarget() {
 
 function setRegistrationTarget(objID) {
     const dropdown = document.getElementById("registerTargetDropdown");
+    updateDropdown();
     options = dropdown.options;
     for (i = 0; i < options.length; i ++) {
         if (options[i].value === objID) {
@@ -35,6 +36,7 @@ function getRegistrationBaseline() {
 
 function setRegistrationBaseline(objID) {
     const dropdown = document.getElementById("registerBaselineDropdown");
+    updateDropdown();
     options = dropdown.options;
     for (i = 0; i < options.length; i ++) {
         if (options[i].value === objID) {

@@ -263,9 +263,3 @@ function selectNorms(val) {
 
 setupTabs();
 updateDropdown();
-
-
-
-
-
-// fetchCSAGraph();

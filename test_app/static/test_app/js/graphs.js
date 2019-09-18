@@ -68,6 +68,7 @@ function extractData(dataset) {
 
 
 function fetchCSAGraph() {
+    console.log("adding graph");
     if (getRegistrationTarget() === "") {
         return
     }
@@ -89,7 +90,7 @@ function fetchCSAGraph() {
     .then(function(jsonResponse) {
         let xData = jsonResponse["xData"];
         let yData = jsonResponse["yData"];
-        addHistogram("csaGraph", "Cross Section Area", "Length /%", "Area /mm^2", xData, yData);
+        addLineGraph("csaGraph", "Cross Section Area", "Length /%", "Area /cm^2", xData, yData);
     });
 }
 
@@ -103,32 +104,21 @@ function fetchCSAGraph() {
  * @param xData
  * @param yData
  */
-function addHistogram(container, title, xlabel, ylabel, xData, yData) {
+function addLineGraph(container, title, xlabel, ylabel, xData, yData) {
 
     // Process dataset
-    // let d = extractData(dataset);
-    // let xData = d[0];
-    // let yData = d[1];
 
     var trace1 = {
-        type: 'bar',
+        type: 'scatter',
         x: xData,
         y: yData,
-        marker: {
-            line: {
-                width: 0,
-                color: '#595959',
-            },
-            color: '#62BDC2',
-        },
-        // This doesn't work
-        hovertext: {
-            font: {
-                family: "Lato, sans-serif",
-                size: 18,
-                color: "#ffffff",
-            }
-        },
+        // marker: {
+        //     line: {
+        //         width: 1,
+        //         color: '#595959',
+        //     },
+        //     color: '#62BDC2',
+        // },
         //Only display trace on hover for y axis
         hoverinfo:"y"
     };

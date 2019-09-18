@@ -213,7 +213,7 @@ def csa_view(request):
         polys = analyse.create_slices(amp, slices, axis)
         PolyArea = analyse.calc_csa(polys)
 
-        return JsonResponse({"xData": [i/len(PolyArea) for i in range(len(PolyArea))], "yData": PolyArea.tolist()})
+        return JsonResponse({"xData": [i/len(PolyArea)*100 for i in range(len(PolyArea))], "yData": PolyArea.tolist()})
 
 
 def home_view(request):

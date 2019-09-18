@@ -28,6 +28,7 @@ function updateDropdown() {
 
     if (getCurrentTab() === "Register") {
         updateRegistration();
+        fetchCSAGraph();
     }
 }
 
