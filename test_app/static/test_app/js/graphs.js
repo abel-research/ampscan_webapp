@@ -13,7 +13,7 @@ function getLayout() {
             "b": 70,
             "l": 60,
             "r": 40,
-            "t": 70
+            "t": 30
         },
         xaxis: {
             fixedrange: true,
@@ -111,18 +111,10 @@ function addHistogram(container, title, xlabel, ylabel, dataset) {
     layout.title = title;
     layout.xaxis.title = {text:xlabel};
     layout.yaxis.title = {text:ylabel};
-    layout.height = "400";
+
     Plotly.newPlot(container, data, layout, {
         responsive: true,
         displayModeBar: false,
         scrollZoom: false,
-    });
-
-    // make the histogram resize
-    window.addEventListener("resize", function () {
-        Plotly.relayout(container, {
-            width: document.getElementById("graph1").style.width,
-            height: "100%"
-        });
     });
 }
