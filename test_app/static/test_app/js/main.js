@@ -120,6 +120,7 @@ function updateWindowSize() {
         renderObject["openglRenderWindow"].setSize(width, height);
         renderObject["renderer"].getRenderWindow().render();
     }
+
     updateScalarHeight();
 }
 
