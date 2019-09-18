@@ -24,7 +24,7 @@ body {font-family: 'Montserrat', sans-serif;}
 /* Style the grid */
 .wrapper {
     display: grid;
-    grid-template-columns: 50vw auto;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: auto 1fr 1fr;
     width: 100vw;
     height: 100vh;
@@ -40,8 +40,8 @@ body {font-family: 'Montserrat', sans-serif;}
 #viewer {
     grid-area: a;
     display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 50vh 50vh;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     grid-template-areas:
         "f g"
         "h i";
@@ -63,6 +63,15 @@ body {font-family: 'Montserrat', sans-serif;}
     grid-area: t;
     z-index: 1;
     box-shadow: 0px 2px 6px 0px rgba(50,50,50,0.2);
+}
+
+
+#registrationGraphPanel {
+    padding: 10px;
+    height: 100%;
+}
+#graph1 {
+    height: 100%;
 }
 
 
