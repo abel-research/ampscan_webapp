@@ -9,11 +9,16 @@ function createLUT() {
     return lookupTable
 }
 
+/**
+ * Update the lookup table if for example the number of colours option has changed
+ * @param objID
+ */
 function updateLookupTable(objID) {
     if (objects[objID] !== undefined && objects[objID].actor !== undefined) {
         let mapper = objects[objID].actor.getMapper();
         lookupTable = createLUT();
         mapper.setLookupTable(lookupTable);
+        refreshVTK();
     }
 }
 
