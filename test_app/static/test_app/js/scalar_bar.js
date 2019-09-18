@@ -81,7 +81,7 @@ function scalarsRangeChanged() {
  */
 function createTicks(min, max) {
     let noTicks = max-min;
-    while (noTicks < 10 && noTicks !== 0) {
+    while (noTicks < 6 && noTicks !== 0) {
         noTicks *= 2;
     }
     let step = ((max.toFixed(8) - min.toFixed(8)) / (noTicks.toFixed(8)));
