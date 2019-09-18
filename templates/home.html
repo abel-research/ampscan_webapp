@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
 
-
 {% block content %}
 
+<link href="{% static "test_app/css/style.css" %}" rel="stylesheet" type="text/css">
+<link href="{% static "test_app/css/slider.css" %}" rel="stylesheet" type="text/css">
 
 {# Add interactive plotly graphs #}
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-<link href="{% static "test_app/css/style.css" %}" rel="stylesheet" type="text/css">
 
 {# Add program scripts #}
 <div>
