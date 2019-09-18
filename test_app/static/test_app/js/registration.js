@@ -79,6 +79,7 @@ function updateRegistration() {
             objects[i].actor.setVisibility(false);
         }
     }
+    fetchCSAGraph();
     refreshVTK();
 }
 

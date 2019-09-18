@@ -67,30 +67,45 @@ function extractData(dataset) {
 }
 
 
+function fetchCSAData(session_id1, objID, callback) {
+    if (objects[objID] !== undefined) {
+        const formData = new FormData();
+        formData.append("session", session_id1);
+        formData.append("objID", objID);
+
+        fetch("analyse/csa", {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': csrftoken
+            }
+        })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (jsonResponse) {
+            let xData = jsonResponse["xData"];
+            let yData = jsonResponse["yData"];
+            callback(xData, yData);
+        });
+    } else {
+        callback()
+    }
+}
+
 function fetchCSAGraph() {
     console.log("adding graph");
-    if (getRegistrationTarget() === "") {
-        return
-    }
-    const formData = new FormData();
-    formData.append("session", session_id);
-    formData.append("objID", getRegistrationTarget());
 
-    fetch("analyse/csa", {
-        method: 'POST',
-        body: formData,
-        headers: {
-        'X-CSRFToken': csrftoken
-        }
-    })
-    .then(function(response) {
-        // Convert reponse to json
-        return response.json();
-    })
-    .then(function(jsonResponse) {
-        let xData = jsonResponse["xData"];
-        let yData = jsonResponse["yData"];
-        addLineGraph("csaGraph", "Cross Section Area", "Length /%", "Area /cm^2", xData, yData);
+    fetchCSAData(session_id, getRegistrationTarget(), function (xData, yData) {
+        let xData1 = xData;
+        let yData1 = yData;
+        fetchCSAData(session_id, getRegistrationBaseline(), function (xData, yData) {
+            let xData2 = xData;
+            let yData2 = yData;
+            console.log([xData1, xData2], [yData1, yData2]);
+            addLineGraph("csaGraph", "Cross Section Area", "Length /%", "Area /cm^2",
+                [xData1, xData2], [yData1, yData2]);
+        });
     });
 }
 
@@ -107,23 +122,17 @@ function fetchCSAGraph() {
 function addLineGraph(container, title, xlabel, ylabel, xData, yData) {
 
     // Process dataset
+    let traces = [];
+    for (let i = 0; i < xData.length; i++) {
+        traces.push({
+            type: 'scatter',
+            x: xData[i],
+            y: yData[i],
+            hoverinfo:"y"
+        });
+    }
 
-    var trace1 = {
-        type: 'scatter',
-        x: xData,
-        y: yData,
-        // marker: {
-        //     line: {
-        //         width: 1,
-        //         color: '#595959',
-        //     },
-        //     color: '#62BDC2',
-        // },
-        //Only display trace on hover for y axis
-        hoverinfo:"y"
-    };
-
-    var data = [trace1];
+    var data = traces;
 
     let layout = getLayout();
     layout.title = title;
