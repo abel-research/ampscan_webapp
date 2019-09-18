@@ -465,6 +465,7 @@ button[disabled]{
     position: relative;
     overflow: visible;
     display:inline;
+    padding-right: 30px;
 }
 
 

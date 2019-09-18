@@ -16,7 +16,7 @@ function updateDropdown() {
         let dropdown = dropdowns[dd];
         let si = dropdown.selectedIndex;
         dropdown.options.length = 0;
-        dropdown.options[dropdown.options.length] = new Option("-", "");
+        dropdown.options[dropdown.options.length] = new Option("", "");
         for (i in objects) {
             dropdown.options[dropdown.options.length] = new Option(objects[i].name, i);
         }
