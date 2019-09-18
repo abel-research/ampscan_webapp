@@ -64,13 +64,13 @@
             <div class="controlOptionLineContainer">
                 Static: <select class="targetDropdown" id="alignStaticDropdown" onchange="updateDropdown()"></select>
                 <input type="color" class="targetColour" id="alignStaticColour" value="#aa4b41">
-                <input type="range" class="targetOpacity" id="alignStaticOpacity" value="75" min="0" max="100">
+                <input type="range" class="targetOpacity slider" id="alignStaticOpacity" value="75" min="0" max="100">
                 <button style="position:absolute;left:335px" onclick="swapAlignTargets()">⮃</button>
             </div>
             <div class="controlOptionLineContainer">
                 Moving: <select class="targetDropdown" id="alignMovingDropdown" onchange="updateDropdown()"></select>
                 <input type="color" class="targetColour" id="alignMovingColour" value="#25305e">
-                <input type="range" class="targetOpacity" id="alignMovingOpacity" value="75" min="0" max="100">
+                <input type="range" class="targetOpacity slider" id="alignMovingOpacity" value="75" min="0" max="100">
             </div>
             <div class="controlOptionLineContainer" id="transformationContainer">
 
@@ -84,10 +84,11 @@
                 <label for="sliceToggle">Slicing</label>
                 <label class="switch">
                     <input type="checkbox" id="sliceToggle" onclick="sliceToggle()">
-                    <span class="slider"></span>
+                    <span class="toggleSlider"></span>
                 </label>
-
-                <input type="range" id="sliceDistanceSlider" min="-200" max="200" oninput="updateSlices()">
+                <div class="slideContainer">
+                    <input type="range" class="slider" id="sliceDistanceSlider" min="-200" max="200" oninput="updateSlices()">
+                </div>
 
             </div>
              <div class="controlOptionLineContainer" id="resetCameraContainer">
@@ -119,13 +120,17 @@
             <div id="registrationControls" style="display:none">
                 <div class="controlOptionLineContainer">
                     <label for="scalarMin">Min Deviation:</label>
-                    <input type="range" id="scalarMin" min="-10" max="0" value="-8" step="1"
-                           oninput="scalarsRangeChanged();" style="width:100px"><span id="scalarMinLabel">mm</span>
+                    <div class="slideContainer">
+                        <input type="range" class="slider" id="scalarMin" min="-10" max="0" value="-8" step="1"
+                               oninput="scalarsRangeChanged();" style="width:100px"><span id="scalarMinLabel">mm</span>
+                    </div>
                 </div>
                 <div class="controlOptionLineContainer">
                     <label for="scalarMax">Max Deviation:</label>
-                    <input type="range" id="scalarMax" min="0" max="10" value="8" step="1"
-                           oninput="scalarsRangeChanged();" style="width:100px"><span id="scalarMaxLabel">mm</span>
+                    <div class="slideContainer">
+                        <input type="range" class="slider" id="scalarMax" min="0" max="10" value="8" step="1"
+                               oninput="scalarsRangeChanged();" style="width:100px"><span id="scalarMaxLabel">mm</span>
+                    </div>
                 </div>
                 <div class="controlOptionLineContainer">
                     <button onclick="exportRegObject()" id="finishRegistrationButton">Finish Registration</button>
@@ -145,7 +150,7 @@
                 <label for="normsTickbox">Norms:</label>
                 <label class="switch settingsOption">
                     <input type="checkbox" id="normsTickbox" onclick="normsChange()">
-                    <span class="slider"></span>
+                    <span class="toggleSlider"></span>
                 </label>
             </div>
 
@@ -153,13 +158,16 @@
                 <label for="edgesTickbox">Edge outlines:</label>
                 <label class="switch settingsOption">
                     <input type="checkbox" id="edgesTickbox" onclick="updateEdges()">
-                    <span class="slider"></span>
+                    <span class="toggleSlider"></span>
                 </label>
             </div>
 
             <div class="controlOptionLineContainer">
                 <label for="sliceThicknessSlider">Slice Thickness:</label>
-                <input type="range" id="sliceThicknessSlider" value="10" min="1" max="50" class="settingsOption">
+
+                <div class="slideContainer">
+                    <input type="range" id="sliceThicknessSlider" value="10" min="1" max="50" class="settingsOption slider">
+                </div>
             </div>
         </div>
     </div>

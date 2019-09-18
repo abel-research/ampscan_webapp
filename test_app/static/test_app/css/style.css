@@ -226,20 +226,21 @@ body {font-family: 'Montserrat', sans-serif;}
 }
 
 /* The slider */
-.slider {
+.toggleSlider {
     position: absolute;
     cursor: pointer;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ddd;
+    background-color: darkgrey  ;
     -webkit-transition: 0.2s;
     transition: 0.2s;
     border-radius: 4px;
+    box-shadow: 0px 2px 6px 0px rgba(50,50,50,0.2);
 }
 
-.slider:before {
+.toggleSlider:before {
     position: absolute;
     content: "";
     height: 16px;
@@ -254,15 +255,15 @@ body {font-family: 'Montserrat', sans-serif;}
 
 }
 
-input:checked + .slider {
+input:checked + .toggleSlider {
     background-color: mediumseagreen;
 }
 
-input:focus + .slider {
+input:focus + .toggleSlider {
     box-shadow: 0 2px 4px 0 rgba(100,100,100,0.1);
 }
 
-input:checked + .slider:before {
+input:checked + .toggleSlider:before {
     -webkit-transform: translateX(32px);
     -ms-transform: translateX(32px);
     transform: translateX(32px);
@@ -382,7 +383,7 @@ button {
     text-align: center;
 }
 button:hover {
-    background-color: #a9a9a9;
+    background-color: darkgrey;
     color: white;
     cursor: pointer;
 }
@@ -392,6 +393,39 @@ button[disabled]{
     color: lightgray;
     cursor: default;
 }
+
+/* Slider styling */
+.slideContainer {
+    display: inline-flex;
+    height: 100%;
+}
+input[type=range]{
+    -webkit-appearance: none;
+    height: 30px;
+}
+input[type=range]::-webkit-slider-runnable-track {
+    width: 300px;
+    height: 5px;
+    background: lightgray;
+    border: none;
+    border-radius: 3px;
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: seagreen;
+    margin-top: -4px;
+}
+input[type=range]:focus {
+    outline: none;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: lightgray;
+}
+
 
 
 /* Control panel styling*/
