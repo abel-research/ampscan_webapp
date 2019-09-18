@@ -24,7 +24,7 @@ body {font-family: 'Montserrat', sans-serif;}
 /* Style the grid */
 .wrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 50vw;
     grid-template-rows: auto 1fr 1fr;
     width: 100vw;
     height: 100vh;
@@ -151,15 +151,15 @@ body {font-family: 'Montserrat', sans-serif;}
 #scalarBarContainer {
     width: 8vw;
     min-width: 90px;
-    min-height: 400px;
+    min-height: 350px;
     height: 50vh;
     z-index: 5;
     position: absolute;
-    right: 50vw;
+    right: calc(50vw + 5px);
     top:0;
     margin:3px;
     display: none;
-    grid-template-columns: calc(45% - 5) calc(45% - 5);
+    grid-template-columns: calc(45% - 5px) calc(45% - 5px);
     grid-template-rows: 70px calc(100% - 80px);
     grid-template-areas:
         "scalar1 scalar1"
@@ -279,10 +279,17 @@ input:checked + .toggleSlider:before {
     background-color: #f1f1f1;
     white-space: nowrap;
     display: flex;
+    /*padding-right: 5px;*/
+    /*padding-left: 5px;*/
+    /*alignment: right;*/
+    /*align-items: stretch;*/
 }
 .tab button {
+    /*margin-right: 5px;*/
+    /*margin-left: 5px;*/
+    float: right;
     background-color: inherit;
-    float: left;
+    /*float: left;*/
     border: none;
     outline: none;
     cursor: pointer;
@@ -290,7 +297,7 @@ input:checked + .toggleSlider:before {
     transition: 0.4s;
     font-size: 15px;
     font-family: 'Montserrat', sans-serif;
-    border-radius: 0;
+    border-radius: 0px;
     box-shadow: none;
 }
 .tab button:hover {
@@ -298,6 +305,7 @@ input:checked + .toggleSlider:before {
 }
 .tab button.active {
     background-color: rgb(190, 190, 190);
+    color: seagreen;
     z-index:2;
 }
 .tabcontent {
@@ -383,9 +391,10 @@ button {
     text-align: center;
 }
 button:hover {
-    background-color: darkgrey;
-    color: white;
+    /*background-color: lightgray;*/
+    color: seagreen;
     cursor: pointer;
+    border-color: seagreen;
 }
 button:disabled,
 button[disabled]{
