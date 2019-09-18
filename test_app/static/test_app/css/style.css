@@ -46,14 +46,14 @@ body {font-family: 'Montserrat', sans-serif;}
         "f g"
         "h i";
 }
-.control {
+.topRightPanel {
     min-width: 250px;
     grid-area: d;
     background-color: var(--panelBackgroundColour);
     z-index: 1;
     box-shadow: 0px 2px 6px 0px rgba(50,50,50,0.2);
 }
-.obj-manager {
+.bottomRightPanel {
     grid-area: e;
     background-color: var(--panelBackgroundColour);
     z-index: 1;

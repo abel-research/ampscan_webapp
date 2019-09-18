@@ -25,24 +25,13 @@ function createScalarBar(lut, container) {
         newli.classList.add("colourLegend");
         container.appendChild(newli);
     }
-    updateScalarHeight(lut);
+    updateScalarHeight();
 }
 
-function updateScalarHeight(lut) {
-    let noColours;
-    if (lut !== undefined) {
-        noColours = (lut.getTable().length / 4);
-        for (const elem of document.getElementsByClassName("colourLegend")) {
-            elem.style.height = 100/(noColours) + "%";
-        }
-        // document.documentElement.style.setProperty("--legendColourRowHeight", 100/(noColours) + "%");
-    }
-    else if (lookupTable !== undefined) {
-        noColours = (lookupTable.getTable().length / 4);
-        for (const elem of document.getElementsByClassName("colourLegend")) {
-            elem.style.height = 100/(noColours) + "%";
-        }
-        // document.documentElement.style.setProperty("--legendColourRowHeight", 100/(noColours) + "%");
+function updateScalarHeight() {
+    let noColours = getNumberOfColours();
+    for (const elem of document.getElementsByClassName("colourLegend")) {
+        elem.style.height = 100/(noColours) + "%";
     }
 }
 

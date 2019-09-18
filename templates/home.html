@@ -48,7 +48,7 @@
         <button class="tablinks" onclick="openTab(event.currentTarget, 'Settings')">Settings</button>
     </div>
 
-    <div class="control" id="control" style="overflow:auto;">
+    <div class="topRightPanel" id="control" style="overflow:auto;">
          <div id="Home" class="tabcontent">
              <div class="controlOptionLineContainer" id="resetCameraContainer">
                 <button onclick="resetCamera();">Reset Camera</button>
@@ -160,7 +160,18 @@
         </div>
     </div>
 
-    <div class="obj-manager" id="obj-manager" style="overflow-x:auto;overflow-y:auto;">
+    <div class="bottomRightPanel" id="obj-manager" style="overflow-x:auto;overflow-y:auto;">
+        <table id="objTable">
+            <tr>
+                <th class="objectTableCell">Name</th>
+                <th class="objectTableCell">Show</th>
+                <th class="objectTableCell">Type</th>
+                <th class="objectTableCell"> </th>
+            </tr>
+        </table>
+    </div>
+
+    <div class="bottomRightPanel" id="obj-manager" style="overflow-x:auto;overflow-y:auto;">
         <table id="objTable">
             <tr>
                 <th class="objectTableCell">Name</th>
