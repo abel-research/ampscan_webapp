@@ -103,7 +103,7 @@ function fetchCSAGraph() {
             let xData2 = xData;
             let yData2 = yData;
             console.log([xData1, xData2], [yData1, yData2]);
-            addLineGraph("csaGraph", "Cross Section Area", "Length /%", "Area /cm^2",
+            addLineGraph("csaGraphReg", "Cross Section Area", "Length /%", "Area /cm^2",
                 [xData1, xData2], [yData1, yData2], [getRegistrationTarget(), getRegistrationBaseline()]);
         });
     });

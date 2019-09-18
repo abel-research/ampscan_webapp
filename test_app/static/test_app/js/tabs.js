@@ -15,11 +15,14 @@ function openTab(evt, tabName) {
     hideOverflowMenus();
 
     // If the old tab was "Align" then reveal all objects again
-    if ((getCurrentTab() === "Align" && tabName !== "Align") || (getCurrentTab() === "Register" && tabName !== "Register")) {
+    if ((getCurrentTab() === "Align" && tabName !== "Align") ||
+        (getCurrentTab() === "Register" && tabName !== "Register") ||
+        (getCurrentTab() === "Analyse" && tabName !== "Analyse")) {
         revealAllObjectsDisplayed();
         // Show obj manager
         document.getElementById("obj-manager").style.display = "block";
         document.getElementById("registrationGraphPanel").style.display = "none";
+        document.getElementById("analyseGraphPanel").style.display = "none";
         showMain();
     }
 
@@ -48,14 +51,21 @@ function openTab(evt, tabName) {
         // Hide obj manager
         document.getElementById("obj-manager").style.display = "none";
     }
+
+    // If the new tab is Register
     if (getCurrentTab() === "Register") {
         updateRegistration();
         // Hide obj manager
         document.getElementById("obj-manager").style.display = "none";
         // Bring in registration graph panel
         document.getElementById("registrationGraphPanel").style.display = "block";
-    } else {
-        // If the new tab is not on registration
-        document.getElementById("scalarBarContainer").style.display = "none";
+    }
+
+    // If the new tab is Analyse
+    if (getCurrentTab() === "Analyse") {
+        updateAnalyse();
+        document.getElementById("obj-manager").style.display = "none";
+        // Bring in analyse graph panel
+        document.getElementById("analyseGraphPanel").style.display = "block";
     }
 }

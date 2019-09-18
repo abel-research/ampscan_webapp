@@ -22,6 +22,7 @@
     <script src="{% static "test_app/js/home.js" %}"></script>
     <script src="{% static "test_app/js/scalar_bar.js" %}"></script>
     <script src="{% static "test_app/js/graphs.js" %}"></script>
+    <script src="{% static "test_app/js/analyse.js" %}"></script>
     <script type="module">import newLookupTable from "{% static "test_app/js/lut.js" %}"; window.vtkNewLookupTable = newLookupTable;</script>
 </div>
 
@@ -180,7 +181,17 @@
                 <option>CSA Graph</option>
             </select>
         </div>
-        <div id="csaGraph">
+        <div id="csaGraphReg">
+
+        </div>
+    </div>
+    <div class="bottomRightPanel" id="analyseGraphPanel" style="overflow-x:hidden;overflow-y:hidden;display:none">
+        <div>
+            <select id="analyseGraphSelector">
+                <option>CSA Graph</option>
+            </select>
+        </div>
+        <div id="csaGraphAnalyse">
 
         </div>
     </div>

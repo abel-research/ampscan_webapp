@@ -70,7 +70,11 @@ body {font-family: 'Montserrat', sans-serif;}
     padding: 10px;
     height: 100%;
 }
-#csaGraph {
+#csaGraphReg {
+    height: 40vh;
+    width: 50vw;
+}
+#csaGraphAnalyse     {
     height: 40vh;
     width: 50vw;
 }
@@ -152,6 +156,8 @@ body {font-family: 'Montserrat', sans-serif;}
     z-index: 5;
     position: absolute;
     right: 50vw;
+    top:0;
+    margin:3px;
     display: none;
     grid-template-columns: calc(45% - 5) calc(45% - 5);
     grid-template-rows: 70px calc(100% - 80px);
