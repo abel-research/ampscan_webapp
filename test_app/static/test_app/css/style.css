@@ -381,6 +381,11 @@ button:hover {
     background-color: #a9a9a9;
     color: white;
 }
+button:disabled,
+button[disabled]{
+    background-color: darkgrey;
+    color: lightgray;
+}
 
 
 /* Control panel styling*/

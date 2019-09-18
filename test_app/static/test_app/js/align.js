@@ -266,17 +266,21 @@ function updateAlignButtons () {
         if (getAlignMoving() === "") {
             buttons[i].disabled = true;
             document.getElementById("runCentreButton").disabled = true;
+            document.getElementById("runCentreRelativeButton").disabled = true;
         } else {
             buttons[i].disabled = false;
             document.getElementById("runCentreButton").disabled = false;
+            document.getElementById("runCentreRelativeButton").disabled = false;
         }
     }
 
     // Disable icp button if both static and moving targets aren't selected or the same is selected
     if (getAlignMoving() !== "" && getAlignStatic() !== "" && getAlignStatic() !== getAlignMoving()) {
         document.getElementById("runICPButton").disabled = false;
+        document.getElementById("goToRegistrationButton").disabled = false;
     } else {
         document.getElementById("runICPButton").disabled = true;
+        document.getElementById("goToRegistrationButton").disabled = true;
     }
 
     // Disable center button if no moving is selected
