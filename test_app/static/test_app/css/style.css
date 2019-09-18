@@ -234,8 +234,9 @@ body {font-family: 'Montserrat', sans-serif;}
     right: 0;
     bottom: 0;
     background-color: #ddd;
-    -webkit-transition: .2s;
-    transition: .2s;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+    border-radius: 4px;
 }
 
 .slider:before {
@@ -246,12 +247,15 @@ body {font-family: 'Montserrat', sans-serif;}
     left: 4px;
     bottom: 4px;
     background-color: white;
-    -webkit-transition: .2s;
-    transition: .2s;
+    -webkit-transition: 0.2s;
+    transition-timing-function: ease-out;
+    transition: 0.2s;
+    border-radius: 3px;
+
 }
 
 input:checked + .slider {
-    background-color: #656565;
+    background-color: mediumseagreen;
 }
 
 input:focus + .slider {
@@ -371,7 +375,7 @@ button {
     color: black;
     background: transparent;
     border-width: thin;
-    border-radius: 6px;
+    border-radius: 4px;
     -webkit-transition-duration: 0.2s; /* Safari */
     transition-duration: 0.2s;
     box-shadow: 0 2px 4px 0 rgba(100,100,100,0.1);
@@ -380,11 +384,13 @@ button {
 button:hover {
     background-color: #a9a9a9;
     color: white;
+    cursor: pointer;
 }
 button:disabled,
 button[disabled]{
     background-color: darkgrey;
     color: lightgray;
+    cursor: default;
 }
 
 
