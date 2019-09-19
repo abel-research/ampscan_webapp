@@ -53,6 +53,9 @@ class AmpEnv:
     def get_object_view(self, name):
         return self.obj_views[name]
 
+    def add_object_view(self, name, view):
+        self.obj_views[name] = view
+
 
 def generate_next_session():
     """
@@ -130,6 +133,16 @@ def register_view(request):
     get_session(request).add_obj(reg, name, obj_type="reg")
 
     return JsonResponse({"newObjID": name})
+
+
+def register_export_view(request):
+    """
+    Export reg object to new object with
+    """
+    obj = get_session(request).get_object_view("_regObject")
+    get_session(request).add_object_view(request.POST.get("objID"), obj)
+    get_session(request).remove_obj("_regObject")
+    return JsonResponse({})
 
 
 def rotate_view(request):

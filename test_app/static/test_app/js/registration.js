@@ -157,11 +157,23 @@ function exportRegObject() {
     objects["_regObject"].setActorVisibility(true);
     objects[name] = objects["_regObject"];
     objects[name].name = name;
-    objects["regObject"] = undefined;
-    delete objects["regObject"];
+    delete objects["_regObject"];
     updateObjectTable();
     resetRegistrationDropDowns();
     updateScalarVisiblity();
+
+    // Submit request to inform server of new name
+    const formData = new FormData();
+
+    formData.append("session", session_id);
+    formData.append("objID", name);
+    fetch("process/register/export", {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': csrftoken
+        }
+    })
 }
 
 function numberOfColoursChanged() {

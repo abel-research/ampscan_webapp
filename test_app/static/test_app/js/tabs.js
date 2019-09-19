@@ -69,4 +69,5 @@ function openTab(evt, tabName) {
         document.getElementById("analyseGraphPanel").style.display = "block";
     }
     updateScalarVisiblity();
+    updateDropdown();
 }

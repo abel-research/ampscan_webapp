@@ -12,12 +12,16 @@ function revealAllObjectsDisplayed() {
 
 function updateDropdown() {
     let dropdowns = document.getElementsByClassName('targetDropdown');
+    console.log(objects);
     for (dd=0; dd<dropdowns.length; dd++) {
         let dropdown = dropdowns[dd];
         let si = dropdown.selectedIndex;
+        for (const i in objects) {
+            dropdown.options[dropdown.options.length] = undefined;
+        }
         dropdown.options.length = 0;
-        dropdown.options[dropdown.options.length] = new Option("", "");
-        for (i in objects) {
+        dropdown.options[0] = new Option("", "");
+        for (const i in objects) {
             dropdown.options[dropdown.options.length] = new Option(objects[i].name, i);
         }
         dropdown.selectedIndex = si;

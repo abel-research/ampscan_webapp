@@ -94,7 +94,6 @@ function fetchCSAData(session_id1, objID, callback) {
 }
 
 function fetchCSAGraph() {
-    console.log("adding graph");
 
     fetchCSAData(session_id, getRegistrationTarget(), function (xData, yData) {
         let xData1 = xData;
@@ -102,7 +101,6 @@ function fetchCSAGraph() {
         fetchCSAData(session_id, getRegistrationBaseline(), function (xData, yData) {
             let xData2 = xData;
             let yData2 = yData;
-            console.log([xData1, xData2], [yData1, yData2]);
             addLineGraph("csaGraphReg", "Cross Section Area", "Length /%", "Area /cm^2",
                 [xData1, xData2], [yData1, yData2], [getRegistrationTarget(), getRegistrationBaseline()]);
         });

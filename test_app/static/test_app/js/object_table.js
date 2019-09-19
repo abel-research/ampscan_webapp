@@ -129,7 +129,6 @@ function updateObjectTable() {
 function anyObjectsVisibleRegType() {
     for (const objID in objects) {
         if (objID !== "_regObject" && objects[objID].type === "reg" && objects[objID].getActorVisibility()) {
-            console.log(objID);
             return true;
         }
     }

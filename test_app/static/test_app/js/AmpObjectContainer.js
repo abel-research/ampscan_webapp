@@ -61,7 +61,6 @@ class AmpObjectContainer {
     }
 
     changeColourTemp(colour) {
-        console.log(this.actor.getProperty().getColor());
         // colour come in as hex e.g. #ff92aa
         const r = parseInt(colour.substr(1, 2), 16) / 255;
         const g = parseInt(colour.substr(3, 2), 16) / 255;
