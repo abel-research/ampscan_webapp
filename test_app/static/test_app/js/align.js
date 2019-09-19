@@ -68,6 +68,7 @@ function resetAlignDropDowns() {
 
 function runICP() {
     const formData = new FormData();
+    showProcessingScreen();
 
     formData.append("session", session_id);
     formData.append("movingID", getAlignMoving());
@@ -91,6 +92,7 @@ function runICP() {
             // Change the moving object to the new object
             setAlignMoving(jsonResponse["newObjID"]);
             updateAlign();
+            hideProcessingScreen();
         });
     })
 }
@@ -99,6 +101,7 @@ function runICP() {
 
 function runCentre(global) {
     const formData = new FormData();
+    showProcessingScreen();
 
     formData.append("session", session_id);
     formData.append("movingID", getAlignMoving());
@@ -125,6 +128,7 @@ function runCentre(global) {
     .then(function (jsonResponse) {
         downloadPolyDataAndUpdate(getAlignMoving(), function() {
             updateAlign();
+            hideProcessingScreen();
         });
     })
 }

@@ -170,6 +170,7 @@ function saveObject(objID) {
 
 function uploadScan(uploadInput) {
     // Get the file from the upload button
+    showProcessingScreen();
     const files = uploadInput.files;
     if (!files.length) {
         // Check file is selected
@@ -197,7 +198,9 @@ function uploadScan(uploadInput) {
             objects[jsonResponse["objID"]] =
                 new AmpObjectContainer(jsonResponse["objID"], jsonResponse["properties"]["display"], jsonResponse["properties"]["type"]);
         }
-        downloadPolyDataAndUpdate(jsonResponse["objID"]);
+        downloadPolyDataAndUpdate(jsonResponse["objID"], function() {
+            hideProcessingScreen();
+        });
         uploadInput.value = null;
     });
 }
