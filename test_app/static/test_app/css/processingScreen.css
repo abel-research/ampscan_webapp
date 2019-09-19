@@ -1,0 +1,17 @@
+
+
+#processingScreen {
+    position: absolute;
+    top:0;
+    left:0;
+    z-index:50;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    vertical-align: center;
+    font-size: 30px;
+    line-height: 100vh;
+    color: darkgrey;
+}

@@ -263,3 +263,11 @@ function selectNorms(val) {
 
 setupTabs();
 updateDropdown();
+
+
+function showProcessingScreen() {
+    document.getElementById("processingScreen").style.display = "block"
+}
+function hideProcessingScreen() {
+    document.getElementById("processingScreen").style.display = "none"
+}

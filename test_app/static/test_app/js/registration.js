@@ -114,11 +114,14 @@ function resetRegistrationDropDowns() {
 
 
 function runRegistration() {
+    showProcessingScreen();
+
     const formData = new FormData();
 
     formData.append("session", session_id);
     formData.append("baselineID", getRegistrationBaseline());
     formData.append("targetID", getRegistrationTarget());
+
 
     // Submit the request to rotate
     fetch("process/register", {
@@ -143,6 +146,7 @@ function runRegistration() {
             updateScalarsMaxMin();
             document.getElementById("scalarBarContainer").style.display = "grid";
             fetchCSAGraph();
+            hideProcessingScreen();
         });
     })
 }
