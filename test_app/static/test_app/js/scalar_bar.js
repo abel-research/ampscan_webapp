@@ -35,6 +35,14 @@ function updateScalarHeight() {
     }
 }
 
+function updateScalarVisiblity() {
+    if (anyObjectsVisibleRegType()) {
+        document.getElementById("scalarBarContainer").style.display = "grid";
+    } else {
+        document.getElementById("scalarBarContainer").style.display = "none";
+    }
+}
+
 // Update the scalar ranges
 function updateScalars(objID) {
     let scalarMin = document.getElementById("scalarMin");

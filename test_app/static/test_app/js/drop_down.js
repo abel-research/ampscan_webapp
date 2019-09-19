@@ -31,6 +31,7 @@ function updateDropdown() {
         updateRegistration();
         fetchCSAGraph();
     }
+    updateScalarVisiblity();
 }
 
 function setupAlignViewProperties () {

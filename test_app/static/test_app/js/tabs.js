@@ -22,7 +22,6 @@ function openTab(evt, tabName) {
         document.getElementById("obj-manager").style.display = "block";
         document.getElementById("registrationGraphPanel").style.display = "none";
         document.getElementById("analyseGraphPanel").style.display = "none";
-        document.getElementById("scalarBarContainer").style.display = "none";
 
         showMain();
     }
@@ -69,4 +68,5 @@ function openTab(evt, tabName) {
         // Bring in analyse graph panel
         document.getElementById("analyseGraphPanel").style.display = "block";
     }
+    updateScalarVisiblity();
 }

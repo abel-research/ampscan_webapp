@@ -19,6 +19,11 @@ class AmpObjectContainer {
         if (this.checkbox != null)
             this.checkbox.checked = display;
         refreshVTK();
+        updateScalarVisiblity();
+    }
+
+    getActorVisibility() {
+        return this.actor.getVisibility();
     }
 
     resetVisibility() {
@@ -35,7 +40,10 @@ class AmpObjectContainer {
     addDisplayCheckbox(checkbox) {
         var ob = this;
         this.checkbox = checkbox;
-        checkbox.addEventListener("change", function(){ob.toggleDisplay()});
+        checkbox.addEventListener("change", function(){
+            ob.toggleDisplay();
+            updateScalarVisiblity();
+        });
     }
 
     setActor(actor) {

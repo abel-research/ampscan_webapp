@@ -98,6 +98,7 @@ function updateRegistration() {
         }
     }
     checkNameValid();
+    updateScalarVisiblity();
     fetchCSAGraph();
     refreshVTK();
 }
@@ -160,6 +161,7 @@ function exportRegObject() {
     delete objects["regObject"];
     updateObjectTable();
     resetRegistrationDropDowns();
+    updateScalarVisiblity();
 }
 
 function numberOfColoursChanged() {

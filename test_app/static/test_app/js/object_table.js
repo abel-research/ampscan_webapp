@@ -69,6 +69,8 @@ function updateObjectTable() {
             showCheckbox.type = "checkbox"; //Added for checkbox
             showCheckbox.checked = objects[objID].display;
             showCheckbox.id = objID.concat(" dropdown");
+
+            // This is how the event to change visibility is added
             objects[objID].addDisplayCheckbox(showCheckbox);
 
             // Add overflow button to end of row
@@ -118,4 +120,18 @@ function updateObjectTable() {
             cell4.appendChild(overflowContainer);
         }
     }
+}
+
+/**
+ * Returns true iff any reg objects are visible
+ * @returns {boolean}
+ */
+function anyObjectsVisibleRegType() {
+    for (const objID in objects) {
+        if (objID !== "_regObject" && objects[objID].type === "reg" && objects[objID].getActorVisibility()) {
+            console.log(objID);
+            return true;
+        }
+    }
+    return false;
 }
