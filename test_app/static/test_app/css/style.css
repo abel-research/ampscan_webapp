@@ -373,7 +373,7 @@ table {
 
 
 /* Button Styling */
-button, input[type="button"], input[type="submit"] {
+button, input, select {
     font-family: 'Montserrat', sans-serif;
 }
 
