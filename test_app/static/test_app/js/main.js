@@ -266,8 +266,12 @@ updateDropdown();
 
 
 function showProcessingScreen() {
-    document.getElementById("processingScreen").style.display = "block"
+    // document.getElementById("processingScreen").style.display = "block"
+    document.getElementById("processingScreen").style["animation-name"] = "fadeInEffect";
+    document.getElementById("processingScreen").style["pointer-events"] = "all";
 }
 function hideProcessingScreen() {
-    document.getElementById("processingScreen").style.display = "none"
+    // document.getElementById("processingScreen").style.display = "none"
+    document.getElementById("processingScreen").style["animation-name"] = "fadeOutEffect";
+    document.getElementById("processingScreen").style["pointer-events"] = "none";
 }
