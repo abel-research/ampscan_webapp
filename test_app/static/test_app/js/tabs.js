@@ -14,15 +14,16 @@ function openTab(evt, tabName) {
     // Each time a new tab is opened hide the overflow menus
     hideOverflowMenus();
 
-    // If the old tab was "Align" then reveal all objects again
-    if ((getCurrentTab() === "Align" && tabName !== "Align") ||
-        (getCurrentTab() === "Register" && tabName !== "Register") ||
-        (getCurrentTab() === "Analyse" && tabName !== "Analyse")) {
+    // If the old tab was "Align" then reveal all objects again and new tab is not the same
+    if ((getCurrentTab() === "Align" || getCurrentTab() === "Register" || getCurrentTab() === "Analyse") &&
+        tabName !== getCurrentTab()) {
         revealAllObjectsDisplayed();
         // Show obj manager
         document.getElementById("obj-manager").style.display = "block";
         document.getElementById("registrationGraphPanel").style.display = "none";
         document.getElementById("analyseGraphPanel").style.display = "none";
+        document.getElementById("scalarBarContainer").style.display = "none";
+
         showMain();
     }
 
