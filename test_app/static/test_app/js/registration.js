@@ -61,6 +61,24 @@ function goToRegistration() {
     updateRegistration();
 }
 
+function checkNameValid() {
+    let newName = document.getElementById("nameInput").value;
+    for (const obj in objects) {
+        if (newName === obj) {
+            document.getElementById("finishRegistrationButton").disabled = true;
+            document.getElementById("finishRegistrationText").innerHTML = "Invalid Name: Already in use";
+            return;
+        }
+    }
+    if (newName === "") {
+        document.getElementById("finishRegistrationButton").disabled = true;
+        document.getElementById("finishRegistrationText").innerHTML = "Invalid Name: Too short";
+        return;
+    }
+    document.getElementById("finishRegistrationButton").disabled = false;
+    document.getElementById("finishRegistrationText").innerHTML = "";
+}
+
 function updateRegistration() {
     for (i in objects) {
         if (objects[i].name === getRegistrationBaseline()) {
@@ -79,6 +97,7 @@ function updateRegistration() {
             objects[i].actor.setVisibility(false);
         }
     }
+    checkNameValid();
     fetchCSAGraph();
     refreshVTK();
 }
@@ -127,12 +146,19 @@ function runRegistration() {
     })
 }
 
+/**
+ * Export reg object with new name
+ */
 function exportRegObject() {
-    // TODO export with new name
-    // objects["_regObject"] = new AmpObjectContainer(objID, true, "reg");
+    let name = document.getElementById("nameInput").value;
     openTab(document.getElementById("defaultTabOpen"), "Home");
     hideAllObjects();
     objects["_regObject"].setActorVisibility(true);
+    objects[name] = objects["_regObject"];
+    objects[name].name = name;
+    objects["regObject"] = undefined;
+    delete objects["regObject"];
+    updateObjectTable();
     resetRegistrationDropDowns();
 }
 

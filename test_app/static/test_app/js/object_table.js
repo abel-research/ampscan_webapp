@@ -54,66 +54,68 @@ function updateObjectTable() {
 
     // Create table from data received
     for (objID in objects){
-        var row = objectTable.insertRow(-1);
+        if (objID !== "_regObject") {
+            var row = objectTable.insertRow(-1);
 
-        row.setAttribute("class", "objectTableRow");
+            row.setAttribute("class", "objectTableRow");
 
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
-        var cell4 = row.insertCell(3);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
 
-        // Add checkbox to display cell
-        var showCheckbox = document.createElement("INPUT"); //Added for checkbox
-        showCheckbox.type = "checkbox"; //Added for checkbox
-        showCheckbox.checked = objects[objID].display;
-        showCheckbox.id = objID.concat(" dropdown");
-        objects[objID].addDisplayCheckbox(showCheckbox);
+            // Add checkbox to display cell
+            var showCheckbox = document.createElement("INPUT"); //Added for checkbox
+            showCheckbox.type = "checkbox"; //Added for checkbox
+            showCheckbox.checked = objects[objID].display;
+            showCheckbox.id = objID.concat(" dropdown");
+            objects[objID].addDisplayCheckbox(showCheckbox);
 
-        // Add overflow button to end of row
-        const overflowButton = document.createElement("BUTTON");
-        const overflowContainer = document.createElement("div");
-        overflowContainer.appendChild(overflowButton);
-        overflowContainer.setAttribute("class", "overflowContainer");
+            // Add overflow button to end of row
+            const overflowButton = document.createElement("BUTTON");
+            const overflowContainer = document.createElement("div");
+            overflowContainer.appendChild(overflowButton);
+            overflowContainer.setAttribute("class", "overflowContainer");
 
-        overflowButton.setAttribute("class", "objectOverflowButton");
-        overflowButton.setAttribute("id", "objectOverflowButton".concat(objID));
-        // overflowButton.innerHTML = "..."
-        overflowButton.addEventListener("click", function(event) {
+            overflowButton.setAttribute("class", "objectOverflowButton");
+            overflowButton.setAttribute("id", "objectOverflowButton".concat(objID));
+            // overflowButton.innerHTML = "..."
+            overflowButton.addEventListener("click", function (event) {
 
-            // Remove objectOverflowButton tag from from
-            selectedObjID = event.target.id.substring(20);
+                // Remove objectOverflowButton tag from from
+                selectedObjID = event.target.id.substring(20);
 
-            // Create overflow menu
-            // const overflowMenu = document.getElementById("overflowMenu");
+                // Create overflow menu
+                // const overflowMenu = document.getElementById("overflowMenu");
 
-            // Logic to set location and visibility of overflow menu
-            if (lastClicked == null) {
-                overflowMenu.style.display = "block";
-                lastClicked = event.target.parentElement.id;
-                event.target.parentElement.parentElement.appendChild(overflowMenu);
-            } else if (lastClicked === event.target.id){
-                if (overflowMenu.style.display === "block")
-                    overflowMenu.style.display = "none";
-                else
+                // Logic to set location and visibility of overflow menu
+                if (lastClicked == null) {
                     overflowMenu.style.display = "block";
-            } else {
-                overflowMenu.style.display = "block";
-                lastClicked = event.target.id;
-                event.target.parentElement.parentElement.appendChild(overflowMenu);
-            }
-            // Stops overflow from being hidden by click elsewhere on screen
-            event.stopPropagation();
-        });
+                    lastClicked = event.target.parentElement.id;
+                    event.target.parentElement.parentElement.appendChild(overflowMenu);
+                } else if (lastClicked === event.target.id) {
+                    if (overflowMenu.style.display === "block")
+                        overflowMenu.style.display = "none";
+                    else
+                        overflowMenu.style.display = "block";
+                } else {
+                    overflowMenu.style.display = "block";
+                    lastClicked = event.target.id;
+                    event.target.parentElement.parentElement.appendChild(overflowMenu);
+                }
+                // Stops overflow from being hidden by click elsewhere on screen
+                event.stopPropagation();
+            });
 
-        cell1.setAttribute("class", "objectTableCell");
-        cell2.setAttribute("class", "objectTableCell");
-        cell3.setAttribute("class", "objectTableCell");
-        cell4.setAttribute("class", "overflowMenuCell");
+            cell1.setAttribute("class", "objectTableCell");
+            cell2.setAttribute("class", "objectTableCell");
+            cell3.setAttribute("class", "objectTableCell");
+            cell4.setAttribute("class", "overflowMenuCell");
 
-        cell1.innerHTML = objects[objID].name;
-        cell2.appendChild(showCheckbox);
-        cell3.innerHTML = objects[objID].type;
-        cell4.appendChild(overflowContainer);
+            cell1.innerHTML = objects[objID].name;
+            cell2.appendChild(showCheckbox);
+            cell3.innerHTML = objects[objID].type;
+            cell4.appendChild(overflowContainer);
+        }
     }
 }
