@@ -58,6 +58,7 @@ function updateObject(polyData, objID) {
         objects[objID].setActor(actor);
         objects[objID].resetVisibility();
         updateEdges();
+        addPicker(actor, renderers["primaryRenderer"]["renderer"]);
     }
     addActor();
 
