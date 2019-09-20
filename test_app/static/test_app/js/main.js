@@ -275,3 +275,5 @@ function hideProcessingScreen() {
     document.getElementById("processingScreen").style["animation-name"] = "fadeOutEffect";
     document.getElementById("processingScreen").style["pointer-events"] = "none";
 }
+
+var currentPickingObject = "";

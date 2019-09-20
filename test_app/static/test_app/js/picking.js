@@ -1,6 +1,16 @@
 
+function resetPickingObject() {
+    setPickingObject("");
+    document.getElementById("pickingText").innerHTML = ""
+}
 
-function addPicker(actor, renderer) {
+function setPickingObject(val) {
+    currentPickingObject = val;
+    document.getElementById("pickingText").innerHTML = "Right click on mid-patella on scan to pick point"
+}
+
+
+function addPicker(actor, renderer, objID) {
     const picker = vtk.Rendering.Core.vtkPointPicker.newInstance();
     picker.setPickFromList(1);
     picker.initializePickList();
@@ -8,6 +18,9 @@ function addPicker(actor, renderer) {
 
     // Pick on mouse right click
     renderer.getRenderWindow().getInteractor().onRightButtonPress((callData) => {
+        if (currentPickingObject !== objID) {
+            return
+        }
         if (renderer !== callData.pokedRenderer) {
             return;
         }
@@ -17,7 +30,6 @@ function addPicker(actor, renderer) {
         console.log(`Pick at: ${point}`);
         picker.pick(point, renderer);
 
-// import vtkPointPicker from 'vtk.js/Sources/Rendering/Core/PointPicker';
         if (picker.getActors().length === 0) {
             const pickedPoint = picker.getPickPosition();
             console.log(`No point picked, default: ${pickedPoint}`);
@@ -50,5 +62,6 @@ function addPicker(actor, renderer) {
             }
         }
         renderer.getRenderWindow().render();
+        resetPickingObject();
     });
 }

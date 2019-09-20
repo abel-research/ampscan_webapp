@@ -148,7 +148,11 @@
 
         <div id="Analyse" class="tabcontent">
             <div class="controlOptionLineContainer">
-                Target: <select class="targetDropdown" id="analyseTargetDropdown"></select>
+                Target: <select class="targetDropdown" id="analyseTargetDropdown"  onchange="updateDropdown()"></select>
+            </div>
+            <div class="controlOptionLineContainer">
+                <button onclick="startPickingAnalyse()" id="startPickingAnalyseButton">Pick Mid-Patella</button>
+                <span id="pickingText"></span>
             </div>
         </div>
 

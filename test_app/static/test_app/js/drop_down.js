@@ -35,6 +35,10 @@ function updateDropdown() {
         updateRegistration();
         fetchCSAGraph();
     }
+
+    if (getCurrentTab() === "Analyse") {
+        updateAnalyse();
+    }
     updateScalarVisiblity();
 }
 
