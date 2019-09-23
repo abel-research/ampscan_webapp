@@ -196,7 +196,7 @@ function fetchDeviationHistogram(container) {
             } else {
                 addHistogram(
                     container,
-                    "Shape Deviation", "density", "Shape deviation /mm",
+                    "Shape Deviation", "Shape deviation /mm", "density",
                     xData, yData, getAnalyseRegObjects(), scalarMin, scalarMax, numColours
                 );
             }
@@ -229,11 +229,11 @@ function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames
             x: xData[i],
             y: yData[i],
             hoverinfo:"y",
-            binsx: {
+            xbins: {
                 end: upperRange,
                 size: (upperRange-lowRange)/numBins,
                 start: lowRange
-          }
+            }
         });
     }
 
