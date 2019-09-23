@@ -153,6 +153,58 @@ function addLineGraph(container, title, xlabel, ylabel, xData, yData, traceNames
     });
 }
 
+
+function fetchDeviationHistogram(container) {
+    if (!anyAnalyseRegObjects() && getCurrentTab() === "Analyse") {
+        // If there are no reg objects, put message and grey out box
+        container.style["background-color"] = "lightgrey";
+        container.innerText = "Add reg object to show deviation histogram"
+    } else {
+        container.style["background-color"] = "white";
+        container.innerText = "";
+
+        let visObjects = getAnalyseRegObjects();
+        let xData = [];
+        let yData = [];
+
+        let numColours = getNumberOfBinsAnalyse();
+        let scalarMin = document.getElementById("scalarMin").value/1;
+        let scalarMax = document.getElementById("scalarMax").value/1;
+
+        function fetchData() {
+            if (visObjects.length > 0) {
+
+                const formData = new FormData();
+                formData.append("session", session_id);
+                formData.append("objID", visObjects[0]);
+
+                fetch("analyse/deviations", {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    }
+                })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (jsonresponse) {
+                    xData.push(jsonresponse.values);
+                    visObjects.shift();  // Removes first element
+                    fetchData();
+                });
+            } else {
+                addHistogram(
+                    container,
+                    "Shape Deviation", "density", "Shape deviation /mm",
+                    xData, yData, getAnalyseRegObjects(), scalarMin, scalarMax, numColours
+                );
+            }
+        }
+        fetchData();
+    }
+}
+
 /**
  * Adds a histogram to the container which resizes with it as the screen is resized
  * @param container The container to place the graph into
@@ -162,9 +214,11 @@ function addLineGraph(container, title, xlabel, ylabel, xData, yData, traceNames
  * @param xData
  * @param yData
  * @param traceNames
+ * @param lowRange
+ * @param upperRange
  * @param numBins
  */
-function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames, numBins) {
+function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames, lowRange, upperRange, numBins) {
 
     // Process dataset
     let traces = [];
@@ -175,7 +229,7 @@ function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames
             x: xData[i],
             y: yData[i],
             hoverinfo:"y",
-            nbinsx: {
+            binsx: {
                 end: upperRange,
                 size: (upperRange-lowRange)/numBins,
                 start: lowRange
@@ -194,5 +248,6 @@ function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames
         responsive: true,
         displayModeBar: false,
         scrollZoom: false,
+        height: "50px"
     });
 }

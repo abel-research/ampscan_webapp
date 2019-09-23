@@ -102,6 +102,10 @@ function updateRegistration() {
     refreshVTK();
 }
 
+function updateRegistrationGraph() {
+    fetchDeviationHistogram(document.getElementById("histGraphReg"))
+}
+
 
 function resetRegistrationDropDowns() {
     // Set moving and static to be blank
@@ -144,6 +148,7 @@ function runRegistration() {
             document.getElementById("registrationControls").style.display = "block";
             updateScalarsMaxMin();
             document.getElementById("scalarBarContainer").style.display = "grid";
+            updateRegistrationGraph();
             hideProcessingScreen();
         });
     })
