@@ -158,6 +158,16 @@
                     <input type="number" id="noAnalyseBins" min="2" max="500" value="10" step="1" required
                            onchange="numberOfAnalyseBinChanged();" >
                 </div>
+                <div class="controlOptionLineContainer">
+                    <label for="3dAnalyseSettings">Slice view / 3D view:</label>
+                    <label class="switch">
+                        <input type="checkbox" id="3dAnalyseSettings" onclick="changeAnalyse3DView()">
+                        <span class="toggleSlider"></span>
+                    </label>
+                </div>
+                <div class="controlOptionLineContainer">
+                    Visualisation Target: <select class="targetDropdown" id="visualiationTargetDropdown" style="position: relative;left:0" onchange="changeAnalyseVisualisation()"></select>
+                </div>
         </div>
 
         <div id="Settings" class="tabcontent">

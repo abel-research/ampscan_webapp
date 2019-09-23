@@ -78,3 +78,11 @@ function fetchDataTable() {
     }
     fetchData();
 }
+
+function changeAnalyse3DView() {
+
+}
+
+function changeAnalyseVisualisation() {
+
+}
