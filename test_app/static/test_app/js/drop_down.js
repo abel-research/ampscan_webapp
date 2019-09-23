@@ -33,11 +33,11 @@ function updateDropdown() {
 
     if (getCurrentTab() === "Register") {
         updateRegistration();
-        fetchCSAGraph();
     }
 
     if (getCurrentTab() === "Analyse") {
         updateAnalyse();
+        // fetchCSAGraph();
     }
     updateScalarVisiblity();
 }

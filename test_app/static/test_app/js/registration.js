@@ -99,7 +99,6 @@ function updateRegistration() {
     }
     checkNameValid();
     updateScalarVisiblity();
-    fetchCSAGraph();
     refreshVTK();
 }
 
@@ -145,7 +144,6 @@ function runRegistration() {
             document.getElementById("registrationControls").style.display = "block";
             updateScalarsMaxMin();
             document.getElementById("scalarBarContainer").style.display = "grid";
-            fetchCSAGraph();
             hideProcessingScreen();
         });
     })

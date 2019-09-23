@@ -42,6 +42,9 @@ class AmpObjectContainer {
         this.checkbox = checkbox;
         checkbox.addEventListener("change", function(){
             ob.toggleDisplay();
+            if (getCurrentTab() === "Analyse") {
+                updateAnalyse();
+            }
             updateScalarVisiblity();
         });
     }
