@@ -247,6 +247,49 @@ def summary_view(request):
 
         return JsonResponse({"volume": volume})
 
+
+def deviation_view(request):
+    slWidth = 10
+    axis = 2
+    if request.method == "POST":
+        amp = get_session(request).get_obj(request.POST.get("objID"))
+
+        # Find the brim edges
+        ind = np.where(amp.faceEdges[:, 1] == -99999)[0]
+        # Define max Z from lowest point on brim
+        maxZ = amp.vert[amp.edges[ind, :], 2].min()
+        # Create slices
+        slices = np.arange(amp.vert[:, 2].min() + slWidth,
+                           maxZ, slWidth)
+        polys = analyse.create_slices(amp, slices, axis)
+
+            # let numColours = getNumberOfColours();
+            # let scalarMin = document.getElementById("scalarMin").value/1;
+            # let scalarMax = document.getElementById("scalarMax").value/1;
+        numColours = int(request.POST.get("numColours"))
+        scalarMin = float(request.POST.get("scalarMin"))
+        scalarMax = float(request.POST.get("scalarMax"))
+        binSize = (scalarMax-scalarMin)/numColours
+        bins = []
+        binValues = []
+        for i in range(numColours):
+            binValues.append(scalarMin+binSize*i)
+            bins.append(0)
+        for point in get_session(request).get_obj(request.POST.get("objID")).values:
+            bin = int((point-scalarMin)/binSize)
+            if bin < 0:
+                bins[0] += 1
+            elif bin >= len(bins):
+                bins[-1] += 1
+            else:
+                bins[bin] += 1
+        l = len(get_session(request).get_obj(request.POST.get("objID")).values)
+        for i in range(numColours):
+            bins[i] /= l
+
+        return JsonResponse({"xData": binValues, "yData": bins})
+
+
 def home_view(request):
     """
     View for the home page

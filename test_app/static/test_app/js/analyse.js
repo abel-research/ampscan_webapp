@@ -23,13 +23,18 @@ function getAnalyseObjects() {
     return objs;
 }
 
-function anyAnalyseRegObjects() {
-    for (const objID in getAnalyseObjects()) {
+function getAnalyseRegObjects() {
+    let objs = [];
+    for (const objID of getAnalyseObjects()) {
         if (objects[objID].type === "reg") {
-            return true
+            objs.push(objID);
         }
     }
-    return false;
+    return objs;
+}
+
+function anyAnalyseRegObjects() {
+    return getAnalyseRegObjects().length > 0
 }
 
 function fetchHistogram() {
@@ -38,6 +43,51 @@ function fetchHistogram() {
         document.getElementById("bottomRightAnalyseViewer").innerText = "Add reg object to show deviation histogram"
     } else {
         document.getElementById("bottomRightAnalyseViewer").style["background-color"] = "white";
+
+        let visObjects = getAnalyseRegObjects();
+        let xData = [];
+        let yData = [];
+
+        let numColours = getNumberOfColours();
+        let scalarMin = document.getElementById("scalarMin").value/1;
+        let scalarMax = document.getElementById("scalarMax").value/1;
+
+        function fetchData() {
+            if (visObjects.length > 0) {
+
+                const formData = new FormData();
+                formData.append("session", session_id);
+                formData.append("objID", visObjects[0]);
+                formData.append("numColours", numColours);
+                formData.append("scalarMin", scalarMin);
+                formData.append("scalarMax", scalarMax);
+
+                fetch("analyse/deviations", {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    }
+                })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (jsonresponse) {
+                    xData.push(jsonresponse.xData);
+                    yData.push(jsonresponse.yData);
+                    visObjects.shift();  // Removes first element
+                    fetchData();
+                });
+            } else {
+                console.log(xData, yData);
+                addHistogram(
+                    document.getElementById("bottomRightAnalyseViewer"),
+                    "Shape Deviation", "density", "Shape deviation /mm",
+                    xData, yData, visObjects
+                );
+            }
+        }
+        fetchData();
 
     }
 }

@@ -123,6 +123,7 @@ function fetchCSAGraph(container) {
  * @param ylabel
  * @param xData
  * @param yData
+ * @param traceNames
  */
 function addLineGraph(container, title, xlabel, ylabel, xData, yData, traceNames) {
 
@@ -131,6 +132,44 @@ function addLineGraph(container, title, xlabel, ylabel, xData, yData, traceNames
     for (let i = 0; i < xData.length; i++) {
         traces.push({
             type: 'scatter',
+            name: traceNames[i],
+            x: xData[i],
+            y: yData[i],
+            hoverinfo:"y"
+        });
+    }
+
+    var data = traces;
+
+    let layout = getLayout();
+    layout.title = title;
+    layout.xaxis.title = {text:xlabel};
+    layout.yaxis.title = {text:ylabel};
+
+    Plotly.newPlot(container, data, layout, {
+        responsive: true,
+        displayModeBar: false,
+        scrollZoom: false,
+    });
+}
+
+/**
+ * Adds a histogram to the container which resizes with it as the screen is resized
+ * @param container The container to place the graph into
+ * @param title The title displayed on the chart
+ * @param xlabel
+ * @param ylabel
+ * @param xData
+ * @param yData
+ * @param traceNames
+ */
+function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames) {
+
+    // Process dataset
+    let traces = [];
+    for (let i = 0; i < xData.length; i++) {
+        traces.push({
+            type: 'histogram',
             name: traceNames[i],
             x: xData[i],
             y: yData[i],
