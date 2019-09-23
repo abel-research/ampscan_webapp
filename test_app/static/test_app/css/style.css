@@ -355,6 +355,10 @@ table {
     background-color: #f2f2f2;
 }
 
+.analyseTableCell {
+    text-align: center;
+}
+
 
 /* Overflow button styling*/
 .overflowMenuCell {
