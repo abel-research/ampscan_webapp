@@ -24,7 +24,7 @@ function getAnalyseObjects() {
 }
 
 function anyAnalyseRegObjects() {
-    for (const objID in objects) {
+    for (const objID in getAnalyseObjects()) {
         if (objects[objID].type === "reg") {
             return true
         }

@@ -107,7 +107,7 @@ function fetchCSAGraph(container) {
                 fetchTrace();
             });
         } else {
-            addLineGraph(container, "Cross Section Area", "Length /%", "Area /cm^2",
+            addLineGraph(container, "Cross Section Area", "Length /%", "Area /mm²",
                 xData, yData, getAnalyseObjects());
         }
     }
