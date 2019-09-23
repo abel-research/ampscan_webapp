@@ -177,7 +177,7 @@ body {font-family: 'Montserrat', sans-serif;}
     height: 50vh;
     z-index: 5;
     position: absolute;
-    right: calc(33.33vw + 5px);
+    right: calc(40vw + 5px);
     top:0;
     margin:3px;
     display: none;

@@ -248,6 +248,5 @@ function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames
         responsive: true,
         displayModeBar: false,
         scrollZoom: false,
-        height: "50px"
     });
 }
