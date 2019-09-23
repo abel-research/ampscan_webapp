@@ -112,6 +112,7 @@ body {font-family: 'Montserrat', sans-serif;}
     border-style: solid;
     border-width: thin;
     border-color: rgb(150, 150, 150);
+    background-color: rgb(255, 255, 255);
 }
 #topLeftAnalyseViewer {
     grid-area: f;

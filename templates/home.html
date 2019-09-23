@@ -25,6 +25,7 @@
     <script src="{% static "test_app/js/graphs.js" %}"></script>
     <script src="{% static "test_app/js/analyse.js" %}"></script>
     <script src="{% static "test_app/js/picking.js" %}"></script>
+    <script src="{% static "test_app/js/dynamicTable.js" %}"></script>
     <script type="module">import newLookupTable from "{% static "test_app/js/lut.js" %}"; window.vtkNewLookupTable = newLookupTable;</script>
 </div>
 
@@ -41,7 +42,7 @@
 </div>
 
 <div style="z-index: 2; position: absolute; left:5px; top:5px;">
-    <img src="{% static "test_app/res/AmpScanLogo.svg" %}" alt="Logo" style="width:50px;height:50px;">
+    <img id="ampLogo" src="{% static "test_app/res/AmpScanLogo.svg" %}" alt="Logo" style="width:50px;height:50px;">
 </div>
 
 
@@ -217,7 +218,12 @@
         <div class="alignViewContainer" id="bottomLeftViewer"></div>
         <div class="alignViewContainer" id="bottomRightViewer"></div>
 
-        <div class="analyseViewContainer" id="topLeftAnalyseViewer"></div>
+        <div class="analyseViewContainer" id="topLeftAnalyseViewer">
+            <table id="AnalyseDataTable">
+                <th>Name</th>
+                <th>Volume /mm³</th>
+            </table>
+        </div>
         <div class="analyseViewContainer" id="topRightAnalyseViewer"></div>
         <div class="analyseViewContainer" id="bottomLeftAnalyseViewer"></div>
         <div class="analyseViewContainer" id="bottomRightAnalyseViewer"></div>

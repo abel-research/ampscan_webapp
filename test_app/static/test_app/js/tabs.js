@@ -14,6 +14,9 @@ function openTab(evt, tabName) {
     // Each time a new tab is opened hide the overflow menus
     hideOverflowMenus();
 
+    // Show icon
+    showIcon();
+
     // If the old tab was "Align" then reveal all objects again and new tab is not the same
     if ((getCurrentTab() === "Align" || getCurrentTab() === "Register" || getCurrentTab() === "Analyse") &&
         tabName !== getCurrentTab()) {
@@ -68,7 +71,16 @@ function openTab(evt, tabName) {
     if (getCurrentTab() === "Analyse") {
         showAnalyseViews();
         updateAnalyse();
+        hideIcon();
     }
     updateScalarVisiblity();
     updateDropdown();
+}
+
+function hideIcon() {
+    document.getElementById("ampLogo").style.display = "none";
+}
+
+function showIcon() {
+    document.getElementById("ampLogo").style.display = "block";
 }
