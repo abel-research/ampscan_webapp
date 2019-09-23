@@ -16,7 +16,7 @@ function startPickingAnalyse() {
 function getAnalyseObjects() {
     let objs = [];
     for (const objID in objects) {
-        if (objects[objID].display) {
+        if (objects[objID].display && objID !== "_regObject") {
             objs.push(objID);
         }
     }
