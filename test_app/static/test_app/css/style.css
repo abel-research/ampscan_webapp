@@ -109,6 +109,7 @@ body {font-family: 'Montserrat', sans-serif;}
 
 .analyseViewContainer {
     margin: 1px;
+    padding: 5px;
     border-style: solid;
     border-width: thin;
     border-color: rgb(150, 150, 150);

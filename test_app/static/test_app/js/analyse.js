@@ -5,6 +5,7 @@ function updateAnalyse() {
 
     fetchCSAGraph(document.getElementById("bottomLeftAnalyseViewer"));
     fetchDataTable();
+    fetchHistogram();
     refreshVTK();
 }
 
@@ -20,6 +21,25 @@ function getAnalyseObjects() {
         }
     }
     return objs;
+}
+
+function anyAnalyseRegObjects() {
+    for (const objID in objects) {
+        if (objects[objID].type === "reg") {
+            return true
+        }
+    }
+    return false;
+}
+
+function fetchHistogram() {
+    if (!anyAnalyseRegObjects()) {
+        document.getElementById("bottomRightAnalyseViewer").style["background-color"] = "lightgrey";
+        document.getElementById("bottomRightAnalyseViewer").innerText = "Add reg object to show deviation histogram"
+    } else {
+        document.getElementById("bottomRightAnalyseViewer").style["background-color"] = "white";
+
+    }
 }
 
 function fetchDataTable() {
