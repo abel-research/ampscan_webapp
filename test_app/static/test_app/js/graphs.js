@@ -93,12 +93,8 @@ function fetchCSAData(session_id1, objID, callback) {
     }
 }
 
-function getAnalyseObjects() {
-    return objects;
-}
-
 function fetchCSAGraph(container) {
-    let visObjects = Object.keys(getAnalyseObjects());
+    let visObjects = getAnalyseObjects();
     let xData = [];
     let yData = [];
 
@@ -112,7 +108,7 @@ function fetchCSAGraph(container) {
             });
         } else {
             addLineGraph(container, "Cross Section Area", "Length /%", "Area /cm^2",
-                xData, yData, Object.keys(getAnalyseObjects()));
+                xData, yData, getAnalyseObjects());
         }
     }
     fetchTrace();
