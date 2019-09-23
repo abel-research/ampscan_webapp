@@ -239,6 +239,10 @@ def home_view(request):
     context["session_id"] = sid
             
     if request.method == "GET":
+        from django.middleware.csrf import get_token
+        # don't use direct access to request.META.get('CSRF_COOKIE')
+        # in this case django will NOT send a CSRF cookie. Use get_token function
+        csrf_token = get_token(request)
         return render(request, "home.html", context=context)
 
 
@@ -304,6 +308,18 @@ def object_list_view(request):
         response.append(obj_view.property_response())
 
     return JsonResponse({"list":response})
+
+
+def measurements_view(request):
+
+    if request.method == "POST":
+        obj = get_session(request).get_obj(request.POST.get("objID"))
+        point = [float(request.POST["x"]), float(request.POST["y"]), float(request.POST["z"])]
+        print(point)
+        analyse.MeasurementsOut(obj, point)
+
+        fs = FileSystemStorage()
+        return FileResponse(fs.open("AmpScanReport.pdf"))
 
 
 def download_view(request):

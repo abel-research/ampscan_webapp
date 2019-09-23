@@ -77,18 +77,38 @@ function showAlignViews() {
     for (let view of alignViews) {
         view.style.display = "block";
     }
+    const analyseViews = document.getElementsByClassName("analyseViewContainer");
+    for (let view of analyseViews) {
+        view.style.display = "none";
+    }
     document.getElementById("mainViewer").style.display = "none";
     updateWindowSize();
 }
-function showMain() {
+
+function showMainView() {
     const alignViews = document.getElementsByClassName("alignViewContainer");
     for (let view of alignViews) {
+        view.style.display = "none";
+    }
+    const analyseViews = document.getElementsByClassName("analyseViewContainer");
+    for (let view of analyseViews) {
         view.style.display = "none";
     }
     document.getElementById("mainViewer").style.display = "block";
     updateWindowSize();
 }
 
+function showAnalyseViews() {
+    const alignViews = document.getElementsByClassName("alignViewContainer");
+    for (let view of alignViews) {
+        view.style.display = "none";
+    }
+    const analyseViews = document.getElementsByClassName("analyseViewContainer");
+    for (let view of analyseViews) {
+        view.style.display = "block";
+    }
+    document.getElementById("mainViewer").style.display = "none";
+}
 // Add renderers
 addRenderer("primaryRenderer", document.getElementById('mainViewer'), true);
 addRenderer("rendererTopRight", document.getElementById('topRightViewer'));
@@ -111,7 +131,7 @@ renderers["rendererBottomLeft"]["renderer"].getActiveCamera().setParallelProject
 var maxScalar = 0;
 var minScalar = 0;
 
-showMain();
+showMainView();
 
 function updateWindowSize() {
     // Update window size when window size changes

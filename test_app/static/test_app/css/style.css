@@ -102,8 +102,28 @@ body {font-family: 'Montserrat', sans-serif;}
 #bottomRightViewer {
     grid-area: i;
 }
+
 #mainViewer {
     grid-area: 1 / 1 / span 2 / span 2;
+}
+
+.analyseViewContainer {
+    margin: 1px;
+    border-style: solid;
+    border-width: thin;
+    border-color: rgb(150, 150, 150);
+}
+#topLeftAnalyseViewer {
+    grid-area: f;
+}
+#topRightAnalyseViewer {
+    grid-area: g;
+}
+#bottomLeftAnalyseViewer {
+    grid-area: h;
+}
+#bottomRightAnalyseViewer {
+    grid-area: i;
 }
 
 

@@ -109,17 +109,17 @@
                 Target: <select class="targetDropdown" id="registerTargetDropdown" onchange="updateDropdown()"></select>
             </div>
             <div class="controlOptionLineContainer">
-                <label for="noColours">Number of Colours:</label>
-                <input type="number" id="noColours" min="5" max="500" value="100" step="1" required
-                       onchange="numberOfColoursChanged();" >
-            </div>
-            <div class="controlOptionLineContainer">
                 <button onclick="runRegistration()" id="runRegistrationButton">Run Registration</button>
             </div>
 
             <div class="controlOptionLineContainer">{# Add spacing#}</div>
 
             <div id="registrationControls" style="display:none">
+                <div class="controlOptionLineContainer">
+                    <label for="noColours">Number of Colours:</label>
+                    <input type="number" id="noColours" min="5" max="500" value="100" step="1" required
+                           onchange="numberOfColoursChanged();" >
+                </div>
                 <div class="controlOptionLineContainer">
                     <label for="scalarMin">Min Deviation:</label>
                     <div class="slideContainer">
@@ -147,9 +147,6 @@
         </div>
 
         <div id="Analyse" class="tabcontent">
-            <div class="controlOptionLineContainer">
-                Target: <select class="targetDropdown" id="analyseTargetDropdown"  onchange="updateDropdown()"></select>
-            </div>
             <div class="controlOptionLineContainer">
                 <button onclick="startPickingAnalyse()" id="startPickingAnalyseButton">Pick Mid-Patella</button>
                 <span id="pickingText"></span>
@@ -214,10 +211,16 @@
 
     <div class="viewer" id="viewer">
         <div id="mainViewer"></div>
+
         <div class="alignViewContainer" id="topLeftViewer"></div>
         <div class="alignViewContainer" id="topRightViewer"></div>
         <div class="alignViewContainer" id="bottomLeftViewer"></div>
         <div class="alignViewContainer" id="bottomRightViewer"></div>
+
+        <div class="analyseViewContainer" id="topLeftAnalyseViewer"></div>
+        <div class="analyseViewContainer" id="topRightAnalyseViewer"></div>
+        <div class="analyseViewContainer" id="bottomLeftAnalyseViewer"></div>
+        <div class="analyseViewContainer" id="bottomRightAnalyseViewer"></div>
     </div>
 
     <div id="scalarBarContainer">

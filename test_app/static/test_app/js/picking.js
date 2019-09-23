@@ -6,9 +6,8 @@ function resetPickingObject() {
 
 function setPickingObject(val) {
     currentPickingObject = val;
-    document.getElementById("pickingText").innerHTML = "Right click on mid-patella on scan to pick point"
+    document.getElementById("pickingText").innerHTML = "Right click to select mid-patella on scan"
 }
-
 
 function addPicker(actor, renderer, objID) {
     const picker = vtk.Rendering.Core.vtkPointPicker.newInstance();
@@ -59,6 +58,34 @@ function addPicker(actor, renderer, objID) {
                 sphereActor.setMapper(sphereMapper);
                 sphereActor.getProperty().setColor(0.0, 1.0, 0.0);
                 renderer.addActor(sphereActor);
+
+                // TODO add analyse download
+                // const formData = new FormData();
+                // formData.append("session", session_id);
+                // formData.append("objID", objID);
+                // formData.append("x", pickedPoint[0]);
+                // formData.append("y", pickedPoint[1]);
+                // formData.append("z", pickedPoint[2]);
+                //
+                // fetch("analyse/measurements", {
+                //     method: 'POST',
+                //     body: formData,
+                //     headers: {
+                //         'X-CSRFToken': csrftoken
+                //     }
+                // })
+                // .then(function (response) {
+                //     // Download file at address
+                //     const url = window.URL.createObjectURL(blob);
+                //     const a = document.createElement('a');
+                //     a.style.display = 'none';
+                //     a.href = url;
+                //     // the filename to download to
+                //     a.download = objID+'_report.pdf';
+                //     document.body.appendChild(a);
+                //     a.click();
+                //     window.URL.revokeObjectURL(url);
+                // }).catch(() => alert('File download failed'));
             }
         }
         renderer.getRenderWindow().render();

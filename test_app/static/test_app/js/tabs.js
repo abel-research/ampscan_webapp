@@ -23,7 +23,7 @@ function openTab(evt, tabName) {
         document.getElementById("registrationGraphPanel").style.display = "none";
         document.getElementById("analyseGraphPanel").style.display = "none";
 
-        showMain();
+        showMainView();
     }
 
     currentTab = tabName;
@@ -44,6 +44,9 @@ function openTab(evt, tabName) {
     document.getElementById(tabName).style.display = "block";
     evt.className += " active";
 
+    // Hide the registration controls
+    document.getElementById("registrationControls").style.display = "none";
+
     // If new tab is "Align" then only show aligning objects
     if (getCurrentTab() === "Align") {
         showAlignViews();
@@ -63,10 +66,8 @@ function openTab(evt, tabName) {
 
     // If the new tab is Analyse
     if (getCurrentTab() === "Analyse") {
+        showAnalyseViews();
         updateAnalyse();
-        document.getElementById("obj-manager").style.display = "none";
-        // Bring in analyse graph panel
-        document.getElementById("analyseGraphPanel").style.display = "block";
     }
     updateScalarVisiblity();
     updateDropdown();
