@@ -29,6 +29,11 @@ function removeObject(objID) {
         'X-CSRFToken': csrftoken
         }
     })
+
+    // If a item is removed, update analyse
+    if (getCurrentTab() === "Analyse") {
+        updateAnalyse();
+    }
 }
 
 const objects = {};
