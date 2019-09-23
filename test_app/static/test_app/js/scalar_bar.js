@@ -36,7 +36,7 @@ function updateScalarHeight() {
 }
 
 function updateScalarVisiblity() {
-    if (anyObjectsVisibleRegType()) {
+    if (anyObjectsVisibleRegType() && getCurrentTab() !== "Analyse") {
         document.getElementById("scalarBarContainer").style.display = "grid";
     } else {
         document.getElementById("scalarBarContainer").style.display = "none";

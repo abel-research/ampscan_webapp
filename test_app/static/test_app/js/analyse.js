@@ -37,6 +37,14 @@ function anyAnalyseRegObjects() {
     return getAnalyseRegObjects().length > 0
 }
 
+function getNumberOfBinsAnalyse() {
+    return document.getElementById("noAnalyseBins").value/1;
+}
+
+function numberOfAnalyseBinChanged() {
+    updateAnalyse();
+}
+
 function fetchHistogram() {
     if (!anyAnalyseRegObjects()) {
         document.getElementById("bottomRightAnalyseViewer").style["background-color"] = "lightgrey";
@@ -48,7 +56,7 @@ function fetchHistogram() {
         let xData = [];
         let yData = [];
 
-        let numColours = getNumberOfColours();
+        let numColours = getNumberOfBinsAnalyse();
         let scalarMin = document.getElementById("scalarMin").value/1;
         let scalarMax = document.getElementById("scalarMax").value/1;
 
@@ -58,9 +66,6 @@ function fetchHistogram() {
                 const formData = new FormData();
                 formData.append("session", session_id);
                 formData.append("objID", visObjects[0]);
-                formData.append("numColours", numColours);
-                formData.append("scalarMin", scalarMin);
-                formData.append("scalarMax", scalarMax);
 
                 fetch("analyse/deviations", {
                     method: 'POST',
@@ -73,17 +78,15 @@ function fetchHistogram() {
                     return response.json();
                 })
                 .then(function (jsonresponse) {
-                    xData.push(jsonresponse.xData);
-                    yData.push(jsonresponse.yData);
+                    xData.push(jsonresponse.values);
                     visObjects.shift();  // Removes first element
                     fetchData();
                 });
             } else {
-                console.log(xData, yData);
                 addHistogram(
                     document.getElementById("bottomRightAnalyseViewer"),
                     "Shape Deviation", "density", "Shape deviation /mm",
-                    xData, yData, visObjects
+                    xData, yData, getAnalyseRegObjects(), scalarMin, scalarMax, numColours
                 );
             }
         }

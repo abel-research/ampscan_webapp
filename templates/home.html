@@ -148,10 +148,16 @@
         </div>
 
         <div id="Analyse" class="tabcontent">
-            <div class="controlOptionLineContainer">
-                <button onclick="startPickingAnalyse()" id="startPickingAnalyseButton">Pick Mid-Patella</button>
-                <span id="pickingText"></span>
-            </div>
+{#            <div class="controlOptionLineContainer">#}
+{#                <button onclick="startPickingAnalyse()" id="startPickingAnalyseButton">Pick Mid-Patella</button>#}
+{#                <span id="pickingText"></span>#}
+{#            </div>#}
+
+                <div class="controlOptionLineContainer">
+                    <label for="noColours">Number of bins:</label>
+                    <input type="number" id="noAnalyseBins" min="2" max="500" value="10" step="1" required
+                           onchange="numberOfAnalyseBinChanged();" >
+                </div>
         </div>
 
         <div id="Settings" class="tabcontent">

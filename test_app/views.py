@@ -263,31 +263,7 @@ def deviation_view(request):
                            maxZ, slWidth)
         polys = analyse.create_slices(amp, slices, axis)
 
-            # let numColours = getNumberOfColours();
-            # let scalarMin = document.getElementById("scalarMin").value/1;
-            # let scalarMax = document.getElementById("scalarMax").value/1;
-        numColours = int(request.POST.get("numColours"))
-        scalarMin = float(request.POST.get("scalarMin"))
-        scalarMax = float(request.POST.get("scalarMax"))
-        binSize = (scalarMax-scalarMin)/numColours
-        bins = []
-        binValues = []
-        for i in range(numColours):
-            binValues.append(scalarMin+binSize*i)
-            bins.append(0)
-        for point in get_session(request).get_obj(request.POST.get("objID")).values:
-            bin = int((point-scalarMin)/binSize)
-            if bin < 0:
-                bins[0] += 1
-            elif bin >= len(bins):
-                bins[-1] += 1
-            else:
-                bins[bin] += 1
-        l = len(get_session(request).get_obj(request.POST.get("objID")).values)
-        for i in range(numColours):
-            bins[i] /= l
-
-        return JsonResponse({"xData": binValues, "yData": bins})
+        return JsonResponse({"values": get_session(request).get_obj(request.POST.get("objID")).values.flatten().tolist()})
 
 
 def home_view(request):

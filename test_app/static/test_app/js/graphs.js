@@ -162,8 +162,9 @@ function addLineGraph(container, title, xlabel, ylabel, xData, yData, traceNames
  * @param xData
  * @param yData
  * @param traceNames
+ * @param numBins
  */
-function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames) {
+function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames, numBins) {
 
     // Process dataset
     let traces = [];
@@ -173,7 +174,12 @@ function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames
             name: traceNames[i],
             x: xData[i],
             y: yData[i],
-            hoverinfo:"y"
+            hoverinfo:"y",
+            nbinsx: {
+                end: upperRange,
+                size: (upperRange-lowRange)/numBins,
+                start: lowRange
+          }
         });
     }
 
