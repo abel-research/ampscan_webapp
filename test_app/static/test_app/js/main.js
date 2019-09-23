@@ -113,6 +113,7 @@ function showAnalyseViews() {
         view.style.display = "block";
     }
     document.getElementById("mainViewer").style.display = "none";
+    updateWindowSize();
 }
 // Add renderers
 addRenderer("primaryRenderer", document.getElementById('mainViewer'), true);
@@ -120,6 +121,7 @@ addRenderer("rendererTopRight", document.getElementById('topRightViewer'));
 addRenderer("rendererTopLeft", document.getElementById('topLeftViewer'), true);
 addRenderer("rendererBottomRight", document.getElementById('bottomRightViewer'));
 addRenderer("rendererBottomLeft", document.getElementById('bottomLeftViewer'));
+addRenderer("analyseRenderer", document.getElementById('topRightAnalyseViewer'), true);
 
 // Set camera directions
 renderers["rendererTopRight"]["renderer"].getActiveCamera().setDirectionOfProjection(0, 0, 1);
