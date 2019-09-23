@@ -51,6 +51,7 @@ function fetchHistogram() {
         document.getElementById("bottomRightAnalyseViewer").innerText = "Add reg object to show deviation histogram"
     } else {
         document.getElementById("bottomRightAnalyseViewer").style["background-color"] = "white";
+        document.getElementById("bottomRightAnalyseViewer").innerText = "";
 
         let visObjects = getAnalyseRegObjects();
         let xData = [];
