@@ -2,6 +2,8 @@
 
 
 function updateAnalyse() {
+
+
     refreshVTK();
 }
 

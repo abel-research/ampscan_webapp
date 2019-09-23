@@ -93,18 +93,29 @@ function fetchCSAData(session_id1, objID, callback) {
     }
 }
 
-function fetchCSAGraph() {
+function getAnalyseObjects() {
+    return objects;
+}
 
-    fetchCSAData(session_id, getRegistrationTarget(), function (xData, yData) {
-        let xData1 = xData;
-        let yData1 = yData;
-        fetchCSAData(session_id, getRegistrationBaseline(), function (xData, yData) {
-            let xData2 = xData;
-            let yData2 = yData;
+function fetchCSAGraph() {
+    let visObjects = Object.keys(getAnalyseObjects());
+    let xData = [];
+    let yData = [];
+
+    function fetchTrace() {
+        if (visObjects.length > 0) {
+            fetchCSAData(session_id, visObjects[0], function (x, y) {
+                xData.push(x);
+                yData.push(y);
+                visObjects.shift();  // Removes first element
+                fetchTrace();
+            });
+        } else {
             addLineGraph("csaGraphReg", "Cross Section Area", "Length /%", "Area /cm^2",
-                [xData1, xData2], [yData1, yData2], [getRegistrationTarget(), getRegistrationBaseline()]);
-        });
-    });
+                xData, yData, Object.keys(getAnalyseObjects()));
+        }
+    }
+    fetchTrace();
 }
 
 
