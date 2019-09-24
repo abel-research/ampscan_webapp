@@ -263,8 +263,9 @@ def widths_view(request):
         slices = np.arange(amp.vert[:, 2].min() + slWidth,
                            maxZ, slWidth)
         polys = analyse.create_slices(amp, slices, axis)
-        poly_lengths = analyse.calc_csa(polys)
+        cor, sag = analyse.calc_widths(polys)
 
+        poly_lengths = cor if (request.POST.get("type")=="cor") else sag
         return JsonResponse({"xData": [i/len(poly_lengths)*100 for i in range(len(poly_lengths))], "yData": poly_lengths.tolist()})
 
 
@@ -282,7 +283,7 @@ def summary_view(request):
         slices = np.arange(amp.vert[:, 2].min() + slWidth,
                            maxZ, slWidth)
         polys = analyse.create_slices(amp, slices, axis)
-        cor, sag = analyse.calc_widths(polys)
+        volume = analyse.est_volume(polys)
 
         return JsonResponse({"volume": volume})
 
