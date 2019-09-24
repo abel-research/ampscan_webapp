@@ -249,7 +249,7 @@ def perimeter_view(request):
         return JsonResponse({"xData": [i/len(poly_perimeter)*100 for i in range(len(poly_perimeter))], "yData": poly_perimeter.tolist()})
 
 
-def widths_view(request):
+def widths_cor_view(request):
     slWidth = 10
     axis = 2
     if request.method == "POST":
@@ -264,9 +264,25 @@ def widths_view(request):
                            maxZ, slWidth)
         polys = analyse.create_slices(amp, slices, axis)
         cor, sag = analyse.calc_widths(polys)
+        return JsonResponse({"xData": [i/len(cor)*100 for i in range(len(cor))], "yData": cor.tolist()})
 
-        poly_lengths = cor if (request.POST.get("type")=="cor") else sag
-        return JsonResponse({"xData": [i/len(poly_lengths)*100 for i in range(len(poly_lengths))], "yData": poly_lengths.tolist()})
+
+def widths_sag_view(request):
+    slWidth = 10
+    axis = 2
+    if request.method == "POST":
+        amp = get_session(request).get_obj(request.POST.get("objID"))
+
+        # Find the brim edges
+        ind = np.where(amp.faceEdges[:, 1] == -99999)[0]
+        # Define max Z from lowest point on brim
+        maxZ = amp.vert[amp.edges[ind, :], 2].min()
+        # Create slices
+        slices = np.arange(amp.vert[:, 2].min() + slWidth,
+                           maxZ, slWidth)
+        polys = analyse.create_slices(amp, slices, axis)
+        cor, sag = analyse.calc_widths(polys)
+        return JsonResponse({"xData": [i/len(sag)*100 for i in range(len(sag))], "yData": sag.tolist()})
 
 
 def summary_view(request):

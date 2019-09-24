@@ -112,9 +112,14 @@ function fetchAnalysisGraph(container) {
             title = "Perimeter Graph";
             yAxisTitle = "Perimeter /m";
             break;
-        case "Width Graph":
-            url = "analyse/widths";
-            title = "Width Graph";
+        case "Coronal Width Graph":
+            url = "analyse/widths/cor";
+            title = "Coronal Width Graph";
+            yAxisTitle = "Width /m";
+            break;
+        case "Sagittal Width Graph":
+            url = "analyse/widths/sag";
+            title = "Sagittal Width Graph";
             yAxisTitle = "Width /m";
             break;
     }
