@@ -12,7 +12,6 @@ function revealAllObjectsDisplayed() {
 
 function updateDropdown() {
     let dropdowns = document.getElementsByClassName('targetDropdown');
-    console.log(objects);
     for (dd=0; dd<dropdowns.length; dd++) {
         let dropdown = dropdowns[dd];
         let si = dropdown.selectedIndex;

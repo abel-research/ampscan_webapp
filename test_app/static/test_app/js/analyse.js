@@ -3,10 +3,38 @@
 
 function updateAnalyse() {
 
+    // Update the analyse dropdown
+
+
+    let dropdown = document.getElementById("visualiationTargetDropdown");
+    let si = dropdown.selectedIndex;
+    for (const i in objects) {
+        dropdown.options[dropdown.options.length] = undefined;
+    }
+    dropdown.options.length = 0;
+    dropdown.options[0] = new Option("", "");
+    let anObjs = getAnalyseObjects();
+    for (let i = 0; i < anObjs.length; i ++) {
+        dropdown.options[dropdown.options.length] = new Option(anObjs[i], anObjs[i]);
+    }
+    dropdown.selectedIndex = si;
+
+    for (const i in objects) {
+        if (objects[i].name === getAnalyseTarget()) {
+            objects[i].actor.setVisibility(true);
+        } else {
+            objects[i].actor.setVisibility(false);
+        }
+    }
+
     fetchCSAGraph(document.getElementById("bottomLeftAnalyseViewer"));
     fetchDataTable();
     fetchDeviationHistogram(document.getElementById("bottomRightAnalyseViewer"));
     refreshVTK();
+}
+
+function getAnalyseTarget() {
+    return document.getElementById("visualiationTargetDropdown").value;
 }
 
 function startPickingAnalyse() {
@@ -84,5 +112,5 @@ function changeAnalyse3DView() {
 }
 
 function changeAnalyseVisualisation() {
-
+    updateAnalyse()
 }
