@@ -4,6 +4,7 @@
 // Setup Align panel
 // ----------------------------------------------------------------------------
 
+
 function swapAlignTargets() {
     let moving = getAlignMoving();
     setAlignMoving(getAlignStatic());
@@ -206,12 +207,25 @@ function createIncrementButton(text, parentNode, callback, tooltipValue, classTy
     parentNode.appendChild(buttonContainer);
 }
 
+function getTranslationSpeed() {
+    if (document.getElementById("adjustPrecision").checked) {
+        return 0.5;
+    } else {
+        return 5;
+    }
+}
+function getRotationSpeed() {
+    if (document.getElementById("adjustPrecision").checked) {
+        return 0.1;
+    } else {
+        return 1;
+    }
+}
+
 function addAlignButtons() {
 
     const containerTransform = document.getElementById('transformationContainer');
     const axis = {"X": [1, 0, 0], "Y": [0, 1, 0], "Z":[0, 0, 1]};
-    const rotationSpeed = 0.1;
-    const translationSpeed = 1;
 
     const rotationAxisContainer = document.createElement("div");
     rotationAxisContainer.setAttribute("class", "axisTransformContainerTranslation");
@@ -239,10 +253,12 @@ function addAlignButtons() {
         rotationAxisContainer.appendChild(axisContainerRotation);
 
         createIncrementButton("+", axisContainerRotation, function(){
+            let rotationSpeed = getRotationSpeed();
             rotate(getAlignMoving(), axis[a][0]*rotationSpeed, axis[a][1]*rotationSpeed, axis[a][2]*rotationSpeed);
         }, "Manually adjust rotation up", "axisIncrementButton");
 
         createIncrementButton("-", axisContainerRotation, function(){
+            let rotationSpeed = getRotationSpeed();
             rotate(getAlignMoving(), -axis[a][0]*rotationSpeed, -axis[a][1]*rotationSpeed, -axis[a][2]*rotationSpeed);
         }, "Manually adjust rotation down", "axisIncrementButton");
 
@@ -254,10 +270,12 @@ function addAlignButtons() {
         translationAxisContainer.appendChild(axisContainerTranslation);
 
         createIncrementButton("+", axisContainerTranslation, function(){
+            let translationSpeed = getTranslationSpeed();
             translate(getAlignMoving(), axis[a][0]*translationSpeed, axis[a][1]*translationSpeed, axis[a][2]*translationSpeed);
         }, "Manually adjust translation up", "axisIncrementButton");
 
         createIncrementButton("-", axisContainerTranslation, function(){
+            let translationSpeed = getTranslationSpeed();
             translate(getAlignMoving(), -axis[a][0]*translationSpeed, -axis[a][1]*translationSpeed, -axis[a][2]*translationSpeed);
         }, "Manually adjust translation down", "axisIncrementButton");
     }
