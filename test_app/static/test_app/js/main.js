@@ -52,9 +52,9 @@ function setSessionID(id) {
 const renderers = {};
 
 // Create renderer and add to list of renderers
-function addRenderer(name, parentNode, interactive=false) {
+function addRenderer(name, parentNode, interactive=false, bg=[0.97, 0.97, 0.97]) {
     const renderWindow = vtk.Rendering.Core.vtkRenderWindow.newInstance();
-    const renderer = vtk.Rendering.Core.vtkRenderer.newInstance({ background: [0.97, 0.97, 0.97] });
+    const renderer = vtk.Rendering.Core.vtkRenderer.newInstance({ background: bg });
     renderWindow.addRenderer(renderer);
 
     const openglRenderWindow = vtk.Rendering.OpenGL.vtkRenderWindow.newInstance();
@@ -121,7 +121,7 @@ addRenderer("rendererTopRight", document.getElementById('topRightViewer'));
 addRenderer("rendererTopLeft", document.getElementById('topLeftViewer'), true);
 addRenderer("rendererBottomRight", document.getElementById('bottomRightViewer'));
 addRenderer("rendererBottomLeft", document.getElementById('bottomLeftViewer'));
-addRenderer("analyseRenderer", document.getElementById('topRightAnalyseViewer'), true);
+addRenderer("analyseRenderer", document.getElementById('topRightAnalyseViewer'), true, [1, 1, 1]);
 
 // Set camera directions
 renderers["rendererTopRight"]["renderer"].getActiveCamera().setDirectionOfProjection(0, 0, 1);

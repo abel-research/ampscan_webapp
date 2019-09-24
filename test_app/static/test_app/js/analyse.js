@@ -30,6 +30,7 @@ function updateAnalyse() {
     fetchCSAGraph(document.getElementById("bottomLeftAnalyseViewer"));
     fetchDataTable();
     fetchDeviationHistogram(document.getElementById("bottomRightAnalyseViewer"));
+    resetCamera();
     refreshVTK();
 }
 
