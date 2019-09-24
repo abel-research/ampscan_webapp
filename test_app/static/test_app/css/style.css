@@ -25,7 +25,7 @@ body {font-family: 'Montserrat', sans-serif;}
 .wrapper {
     display: grid;
     grid-template-columns: 3fr 2fr;
-    grid-template-rows: auto 1fr 1fr;
+    grid-template-rows: auto 3fr 2fr;
     width: 100vw;
     height: 100vh;
     grid-template-areas:
@@ -127,6 +127,8 @@ body {font-family: 'Montserrat', sans-serif;}
 }
 #bottomRightAnalyseViewer {
     grid-area: i;
+    text-align: center;
+    line-height: 50vh;
 }
 
 
