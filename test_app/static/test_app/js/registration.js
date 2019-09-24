@@ -103,9 +103,13 @@ function updateRegistration() {
 }
 
 function updateRegistrationGraph() {
-    fetchDeviationHistogram(document.getElementById("registrationGraphPanel"),
-        [getRegistrationBaseline(), getRegistrationTarget()],
-        getNumberOfColours())
+    if (objects["_regObject"] !== undefined) {
+        fetchDeviationHistogram(document.getElementById("registrationGraphPanel"),
+            ["_regObject"],
+            getNumberOfColours())
+    } else {
+        document.getElementById("registrationGraphPanel").innerHTML = "";
+    }
 }
 
 

@@ -227,10 +227,10 @@ function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames
             name: traceNames[i],
             x: xData[i],
             y: yData[i],
-            hoverinfo:"y",
+            hoverinfo: "y",
             xbins: {
                 end: upperRange,
-                size: (upperRange-lowRange)/numBins,
+                size: (upperRange - lowRange) / numBins,
                 start: lowRange
             }
         });
@@ -240,20 +240,12 @@ function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames
 
     let layout = getLayout();
     layout.title = title;
-    layout.xaxis.title = {text:xlabel};
-    layout.yaxis.title = {text:ylabel};
+    layout.xaxis.title = {text: xlabel};
+    layout.yaxis.title = {text: ylabel};
 
     Plotly.newPlot(container, data, layout, {
         responsive: true,
         displayModeBar: false,
         scrollZoom: false,
-    });
-    // make the histogram resize
-    console.log(container.clientHeight);
-    window.addEventListener("resize", function () {
-        Plotly.relayout(container, {
-            width: "100%",
-            height: container.clientHeight
-        });
     });
 }
