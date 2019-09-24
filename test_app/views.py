@@ -210,12 +210,11 @@ def centre_relative_view(request):
     return JsonResponse({"success": True})
 
 
-
 def csa_view(request):
-    slWidth = 10
     axis = 2
     if request.method == "POST":
         amp = get_session(request).get_obj(request.POST.get("objID"))
+        slWidth = float(request.POST["sliceWidth"])
 
         # Find the brim edges
         ind = np.where(amp.faceEdges[:, 1] == -99999)[0]
@@ -231,10 +230,10 @@ def csa_view(request):
 
 
 def perimeter_view(request):
-    slWidth = 10
     axis = 2
     if request.method == "POST":
         amp = get_session(request).get_obj(request.POST.get("objID"))
+        slWidth = float(request.POST["sliceWidth"])
 
         # Find the brim edges
         ind = np.where(amp.faceEdges[:, 1] == -99999)[0]
@@ -250,10 +249,10 @@ def perimeter_view(request):
 
 
 def widths_cor_view(request):
-    slWidth = 10
     axis = 2
     if request.method == "POST":
         amp = get_session(request).get_obj(request.POST.get("objID"))
+        slWidth = float(request.POST["sliceWidth"])
 
         # Find the brim edges
         ind = np.where(amp.faceEdges[:, 1] == -99999)[0]
@@ -268,10 +267,10 @@ def widths_cor_view(request):
 
 
 def widths_sag_view(request):
-    slWidth = 10
     axis = 2
     if request.method == "POST":
         amp = get_session(request).get_obj(request.POST.get("objID"))
+        slWidth = float(request.POST["sliceWidth"])
 
         # Find the brim edges
         ind = np.where(amp.faceEdges[:, 1] == -99999)[0]
@@ -286,10 +285,10 @@ def widths_sag_view(request):
 
 
 def summary_view(request):
-    slWidth = 10
     axis = 2
     if request.method == "POST":
         amp = get_session(request).get_obj(request.POST.get("objID"))
+        slWidth = float(request.POST["sliceWidth"])
 
         # Find the brim edges
         ind = np.where(amp.faceEdges[:, 1] == -99999)[0]
@@ -305,10 +304,10 @@ def summary_view(request):
 
 
 def deviation_view(request):
-    slWidth = 10
     axis = 2
     if request.method == "POST":
         amp = get_session(request).get_obj(request.POST.get("objID"))
+        slWidth = float(request.POST["sliceWidth"])
 
         # Find the brim edges
         ind = np.where(amp.faceEdges[:, 1] == -99999)[0]

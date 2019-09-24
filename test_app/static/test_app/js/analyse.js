@@ -74,6 +74,10 @@ function getNumberOfBinsAnalyse() {
     return document.getElementById("noAnalyseBins").value/1;
 }
 
+function getSliceWidth() {
+    return document.getElementById("sliceWidth").value/1;
+}
+
 function numberOfAnalyseBinChanged() {
     updateAnalyse();
 }
@@ -89,6 +93,7 @@ function fetchDataTable() {
             const formData = new FormData();
             formData.append("session", session_id);
             formData.append("objID", visObjects[0]);
+            formData.append("sliceWidth", getSliceWidth());
 
             fetch("analyse/summary", {
                 method: 'POST',
@@ -116,8 +121,12 @@ function changeAnalyse3DView() {
 
 }
 
+function sliceWidthChanged() {
+    updateAnalyse();
+}
+
 function changeAnalyseVisualisation() {
-    updateAnalyse()
+    updateAnalyse();
 }
 
 function changeAnalyseGraphType() {

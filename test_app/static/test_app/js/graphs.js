@@ -72,6 +72,7 @@ function fetchGraphData(session_id1, objID, url, callback) {
         const formData = new FormData();
         formData.append("session", session_id1);
         formData.append("objID", objID);
+        formData.append("sliceWidth", getSliceWidth());
 
         fetch(url, {
             method: 'POST',
