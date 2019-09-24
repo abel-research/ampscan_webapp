@@ -103,7 +103,9 @@ function updateRegistration() {
 }
 
 function updateRegistrationGraph() {
-    fetchDeviationHistogram(document.getElementById("histGraphReg"))
+    fetchDeviationHistogram(document.getElementById("registrationGraphPanel"),
+        [getRegistrationBaseline(), getRegistrationTarget()],
+        getNumberOfColours())
 }
 
 

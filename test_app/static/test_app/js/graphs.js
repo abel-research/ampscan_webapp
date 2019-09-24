@@ -154,7 +154,7 @@ function addLineGraph(container, title, xlabel, ylabel, xData, yData, traceNames
 }
 
 
-function fetchDeviationHistogram(container) {
+function fetchDeviationHistogram(container, objectsToShow, numColours) {
     if (!anyAnalyseRegObjects() && getCurrentTab() === "Analyse") {
         // If there are no reg objects, put message and grey out box
         container.style["background-color"] = "lightgrey";
@@ -163,11 +163,10 @@ function fetchDeviationHistogram(container) {
         container.style["background-color"] = "white";
         container.innerText = "";
 
-        let visObjects = getAnalyseRegObjects();
+        let visObjects = objectsToShow.slice();
         let xData = [];
         let yData = [];
 
-        let numColours = getNumberOfBinsAnalyse();
         let scalarMin = document.getElementById("scalarMin").value/1;
         let scalarMax = document.getElementById("scalarMax").value/1;
 
@@ -197,7 +196,7 @@ function fetchDeviationHistogram(container) {
                 addHistogram(
                     container,
                     "Shape Deviation", "Shape deviation /mm", "density",
-                    xData, yData, getAnalyseRegObjects(), scalarMin, scalarMax, numColours
+                    xData, yData, objectsToShow, scalarMin, scalarMax, numColours
                 );
             }
         }
@@ -248,5 +247,13 @@ function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames
         responsive: true,
         displayModeBar: false,
         scrollZoom: false,
+    });
+    // make the histogram resize
+    console.log(container.clientHeight);
+    window.addEventListener("resize", function () {
+        Plotly.relayout(container, {
+            width: "100%",
+            height: container.clientHeight
+        });
     });
 }

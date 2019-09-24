@@ -29,7 +29,7 @@ function updateAnalyse() {
 
     fetchCSAGraph(document.getElementById("bottomLeftAnalyseViewer"));
     fetchDataTable();
-    fetchDeviationHistogram(document.getElementById("bottomRightAnalyseViewer"));
+    fetchDeviationHistogram(document.getElementById("bottomRightAnalyseViewer"), getAnalyseRegObjects(), getNumberOfBinsAnalyse());
     resetCamera();
     refreshVTK();
 }
