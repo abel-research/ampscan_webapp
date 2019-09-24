@@ -36,7 +36,7 @@ function updateDropdown() {
 
     if (getCurrentTab() === "Analyse") {
         updateAnalyse();
-        // fetchCSAGraph();
+        // fetchAnalysisGraph();
     }
     updateScalarVisiblity();
 }

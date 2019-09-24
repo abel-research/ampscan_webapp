@@ -210,6 +210,7 @@ def centre_relative_view(request):
     return JsonResponse({"success": True})
 
 
+
 def csa_view(request):
     slWidth = 10
     axis = 2
@@ -229,6 +230,44 @@ def csa_view(request):
         return JsonResponse({"xData": [i/len(PolyArea)*100 for i in range(len(PolyArea))], "yData": PolyArea.tolist()})
 
 
+def perimeter_view(request):
+    slWidth = 10
+    axis = 2
+    if request.method == "POST":
+        amp = get_session(request).get_obj(request.POST.get("objID"))
+
+        # Find the brim edges
+        ind = np.where(amp.faceEdges[:, 1] == -99999)[0]
+        # Define max Z from lowest point on brim
+        maxZ = amp.vert[amp.edges[ind, :], 2].min()
+        # Create slices
+        slices = np.arange(amp.vert[:, 2].min() + slWidth,
+                           maxZ, slWidth)
+        polys = analyse.create_slices(amp, slices, axis)
+        poly_perimeter = analyse.calc_perimeter(polys)
+
+        return JsonResponse({"xData": [i/len(poly_perimeter)*100 for i in range(len(poly_perimeter))], "yData": poly_perimeter.tolist()})
+
+
+def widths_view(request):
+    slWidth = 10
+    axis = 2
+    if request.method == "POST":
+        amp = get_session(request).get_obj(request.POST.get("objID"))
+
+        # Find the brim edges
+        ind = np.where(amp.faceEdges[:, 1] == -99999)[0]
+        # Define max Z from lowest point on brim
+        maxZ = amp.vert[amp.edges[ind, :], 2].min()
+        # Create slices
+        slices = np.arange(amp.vert[:, 2].min() + slWidth,
+                           maxZ, slWidth)
+        polys = analyse.create_slices(amp, slices, axis)
+        poly_lengths = analyse.calc_csa(polys)
+
+        return JsonResponse({"xData": [i/len(poly_lengths)*100 for i in range(len(poly_lengths))], "yData": poly_lengths.tolist()})
+
+
 def summary_view(request):
     slWidth = 10
     axis = 2
@@ -243,7 +282,7 @@ def summary_view(request):
         slices = np.arange(amp.vert[:, 2].min() + slWidth,
                            maxZ, slWidth)
         polys = analyse.create_slices(amp, slices, axis)
-        volume = analyse.est_volume(polys)
+        cor, sag = analyse.calc_widths(polys)
 
         return JsonResponse({"volume": volume})
 

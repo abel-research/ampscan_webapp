@@ -27,7 +27,7 @@ function updateAnalyse() {
         }
     }
 
-    fetchCSAGraph(document.getElementById("bottomLeftAnalyseViewer"));
+    fetchAnalysisGraph(document.getElementById("bottomLeftAnalyseViewer"));
     fetchDataTable();
     fetchDeviationHistogram(document.getElementById("bottomRightAnalyseViewer"), getAnalyseRegObjects(), getNumberOfBinsAnalyse());
     resetCamera();
@@ -37,6 +37,10 @@ function updateAnalyse() {
 function getAnalyseTarget() {
     return document.getElementById("visualiationTargetDropdown").value;
 }
+function getCurrentAnalysisGraph() {
+    return document.getElementById("analyseGraphSelector").value;
+}
+
 
 function startPickingAnalyse() {
     // setPickingObject(getAnalyseBaseline());
@@ -114,4 +118,8 @@ function changeAnalyse3DView() {
 
 function changeAnalyseVisualisation() {
     updateAnalyse()
+}
+
+function changeAnalyseGraphType() {
+    fetchAnalysisGraph(document.getElementById("bottomLeftAnalyseViewer"));
 }

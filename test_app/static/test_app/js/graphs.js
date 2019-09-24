@@ -67,13 +67,13 @@ function extractData(dataset) {
 }
 
 
-function fetchCSAData(session_id1, objID, callback) {
+function fetchGraphData(session_id1, objID, url, callback) {
     if (objects[objID] !== undefined) {
         const formData = new FormData();
         formData.append("session", session_id1);
         formData.append("objID", objID);
 
-        fetch("analyse/csa", {
+        fetch(url, {
             method: 'POST',
             body: formData,
             headers: {
@@ -93,21 +93,42 @@ function fetchCSAData(session_id1, objID, callback) {
     }
 }
 
-function fetchCSAGraph(container) {
+function fetchAnalysisGraph(container) {
     let visObjects = getAnalyseObjects();
     let xData = [];
     let yData = [];
 
+    let url;
+    let title;
+    let yAxisTitle;
+    switch (getCurrentAnalysisGraph()) {
+        case "CSA Graph":
+            url = "analyse/csa";
+            title = "Cross Sectional Area Graph";
+            yAxisTitle = "Area /m²";
+            break;
+        case "Perimeter Graph":
+            url = "analyse/perimeter";
+            title = "Perimeter Graph";
+            yAxisTitle = "Perimeter /m";
+            break;
+        case "Width Graph":
+            url = "analyse/widths";
+            title = "Width Graph";
+            yAxisTitle = "Width /m";
+            break;
+    }
+
     function fetchTrace() {
         if (visObjects.length > 0) {
-            fetchCSAData(session_id, visObjects[0], function (x, y) {
+            fetchGraphData(session_id, visObjects[0], url, function (x, y) {
                 xData.push(x);
                 yData.push(y);
                 visObjects.shift();  // Removes first element
                 fetchTrace();
             });
         } else {
-            addLineGraph(container, "Cross Section Area", "Length /%", "Area /mm²",
+            addLineGraph(container, title, "Length /%", yAxisTitle,
                 xData, yData, getAnalyseObjects());
         }
     }
