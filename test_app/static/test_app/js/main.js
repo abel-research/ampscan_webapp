@@ -194,6 +194,20 @@ function updateSlices() {
         let displacement = document.getElementById("sliceDistanceSlider").value/1;
         clippedCamera = renderers["rendererTopRight"]["renderer"].getActiveCamera();
         const sliceThickness = document.getElementById("sliceThicknessSlider").value/1;
+        // const cutter = vtk.Filters.Core.vtkCutter.newInstance();
+        // cutter.setCutFunction(vtk.Common.DataModel.vtkPlane);
+        // cutter.setInputConnection(objects[getAlignMoving()].actor);
+        // const cutMapper = vtk.Rendering.Core.vtkMapper.newInstance();
+        // cutMapper.setInputConnection(cutter.getOutputPort());
+        // const cutActor = vtk.Rendering.Core.vtkActor.newInstance();
+        // const cutProperty = cutActor.getProperty();
+        // cutProperty.setRepresentation(vtk.Rendering.Core.vtkProperty.Representation.WIREFRAME);
+        // cutProperty.setLighting(false);
+        // cutProperty.setColor(0, 1, 0);
+        // renderers["rendererTopRight"]["renderer"].addActor(cutActor);
+        // objects[getAlignMoving()].actor.setVisibility(false);
+
+
         clippedCamera.setClippingRange(
             clippedCamera.getDistance()+displacement,
             clippedCamera.getDistance()+displacement + sliceThickness);
