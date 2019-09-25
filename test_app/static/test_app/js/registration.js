@@ -83,19 +83,24 @@ function updateRegistration() {
     for (i in objects) {
         if (objects[i].name === getRegistrationBaseline()) {
             objects[i].actor.setVisibility(true);
-            // if (alignMovingColour != null) {
-            //     objects[i].changeColourTemp(document.getElementById("alignMovingColour").value);
-            //     objects[i].changeOpacityTemp(document.getElementById("alignMovingOpacity").value);
-            // }
+            if (alignMovingColour != null) {
+                objects[i].changeColourTemp(document.getElementById("alignMovingColour").value);
+                objects[i].changeOpacityTemp(document.getElementById("alignMovingOpacity").value);
+            }
         } else if (objects[i].name === getRegistrationTarget()){
             objects[i].actor.setVisibility(true);
-            // if (alignStaticColour != null) {
-            //     objects[i].changeColourTemp(document.getElementById("alignStaticColour").value);
-            //     objects[i].changeOpacityTemp(document.getElementById("alignStaticOpacity").value);
-            // }
+            if (alignStaticColour != null) {
+                objects[i].changeColourTemp(document.getElementById("alignStaticColour").value);
+                objects[i].changeOpacityTemp(document.getElementById("alignStaticOpacity").value);
+            }
         } else {
             objects[i].actor.setVisibility(false);
         }
+    }
+    if (getRegistrationTarget() === "" || getRegistrationBaseline() === "" || getRegistrationTarget() === getRegistrationBaseline()) {
+        document.getElementById("runRegistrationButton").disabled = true;
+    } else {
+        document.getElementById("runRegistrationButton").disabled = false;
     }
     checkNameValid();
     updateScalarVisiblity();
@@ -105,8 +110,7 @@ function updateRegistration() {
 function updateRegistrationGraph() {
     if (objects["_regObject"] !== undefined) {
         fetchDeviationHistogram(document.getElementById("registrationGraphPanel"),
-            ["_regObject"],
-            getNumberOfColours())
+            ["_regObject"], getNumberOfColours())
     } else {
         document.getElementById("registrationGraphPanel").innerHTML = "";
     }
@@ -123,41 +127,44 @@ function resetRegistrationDropDowns() {
 
 
 function runRegistration() {
-    showProcessingScreen();
+    // Check that registration targets are selected and different
+    if (getRegistrationTarget() !== "" && getRegistrationBaseline() !== "" && getRegistrationTarget() !== getRegistrationBaseline()) {
+        showProcessingScreen();
 
-    const formData = new FormData();
+        const formData = new FormData();
 
-    formData.append("session", session_id);
-    formData.append("baselineID", getRegistrationBaseline());
-    formData.append("targetID", getRegistrationTarget());
+        formData.append("session", session_id);
+        formData.append("baselineID", getRegistrationBaseline());
+        formData.append("targetID", getRegistrationTarget());
 
 
-    // Submit the request to rotate
-    fetch("process/register", {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRFToken': csrftoken
-        }
-    })
-    .then(function(response) {
-        // Convert response to json
-        return response.json();
-    })
-    .then(function (jsonResponse) {
-        if (!objects.hasOwnProperty("_regObject")) {
-            objects["_regObject"] = new AmpObjectContainer("_regObject", true, "reg");
-        }
-        downloadPolyDataAndUpdate("_regObject", function() {
-            hideAllObjects();
-            objects["_regObject"].setActorVisibility(true);
-            document.getElementById("registrationControls").style.display = "block";
-            updateScalarsMaxMin();
-            document.getElementById("scalarBarContainer").style.display = "grid";
-            updateRegistrationGraph();
-            hideProcessingScreen();
-        });
-    })
+        // Submit the request to rotate
+        fetch("process/register", {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': csrftoken
+            }
+        })
+            .then(function (response) {
+                // Convert response to json
+                return response.json();
+            })
+            .then(function (jsonResponse) {
+                if (!objects.hasOwnProperty("_regObject")) {
+                    objects["_regObject"] = new AmpObjectContainer("_regObject", true, "reg");
+                }
+                downloadPolyDataAndUpdate("_regObject", function () {
+                    hideAllObjects();
+                    objects["_regObject"].setActorVisibility(true);
+                    document.getElementById("registrationControls").style.display = "block";
+                    updateScalarsMaxMin();
+                    document.getElementById("scalarBarContainer").style.display = "grid";
+                    updateRegistrationGraph();
+                    hideProcessingScreen();
+                });
+            })
+    }
 }
 
 /**
