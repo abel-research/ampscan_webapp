@@ -6,7 +6,7 @@ function updateAnalyse() {
     // Update the analyse dropdown
 
 
-    let dropdown = document.getElementById("visualiationTargetDropdown");
+    let dropdown = document.getElementById("visualisationTargetDropdown");
     let si = dropdown.selectedIndex;
     for (const i in objects) {
         dropdown.options[dropdown.options.length] = undefined;
@@ -35,7 +35,7 @@ function updateAnalyse() {
 }
 
 function getAnalyseTarget() {
-    return document.getElementById("visualiationTargetDropdown").value;
+    return document.getElementById("visualisationTargetDropdown").value;
 }
 function getCurrentAnalysisGraph() {
     return document.getElementById("analyseGraphSelector").value;
@@ -134,6 +134,20 @@ function sliceWidthChanged() {
 }
 
 function changeAnalyseVisualisation() {
+    updateAnalyse();
+}
+
+function setVisualisationTarget(objID) {
+    const dropdown = document.getElementById("visualisationTargetDropdown");
+    updateDropdown();
+    options = dropdown.options;
+    for (i = 0; i < options.length; i ++) {
+        if (options[i].value === objID) {
+            dropdown.selectedIndex = i;
+            return;
+        }
+    }
+    console.error("Obj not found: ".concat(objID));
     updateAnalyse();
 }
 

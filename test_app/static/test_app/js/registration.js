@@ -171,28 +171,30 @@ function runRegistration() {
  * Export reg object with new name
  */
 function exportRegObject() {
-    let name = document.getElementById("nameInput").value;
-    openTab(document.getElementById("defaultTabOpen"), "Analyse");
-    hideAllObjects();
-    objects["_regObject"].setActorVisibility(true);
-    objects[name] = objects["_regObject"];
-    objects[name].name = name;
-    delete objects["_regObject"];
-    updateObjectTable();
-    resetRegistrationDropDowns();
-    updateScalarVisiblity();
-
-    // Submit request to inform server of new name
     const formData = new FormData();
 
     formData.append("session", session_id);
     formData.append("objID", name);
+    // Submit request to inform server of new name
     fetch("process/register/export", {
         method: 'POST',
         body: formData,
         headers: {
             'X-CSRFToken': csrftoken
         }
+    }).then(function() {
+        let name = document.getElementById("nameInput").value;
+        openTab(document.getElementById("analyseTabButton"), "Analyse");
+        hideAllObjects();
+        objects["_regObject"].setActorVisibility(true);
+        objects[name] = objects["_regObject"];
+        objects[name].name = name;
+        delete objects["_regObject"];
+        updateObjectTable();
+        resetRegistrationDropDowns();
+        updateScalarVisiblity();
+        updateAnalyse();
+        setVisualisationTarget(name);
     })
 }
 

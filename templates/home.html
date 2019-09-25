@@ -51,7 +51,7 @@
         <button class="tablinks" onclick="openTab(event.currentTarget, 'Home')" id="defaultTabOpen">Home</button>
         <button class="tablinks" onclick="openTab(event.currentTarget, 'Align')">Align</button>
         <button class="tablinks" onclick="openTab(event.currentTarget, 'Register')" id="registerTabButton">Register</button>
-        <button class="tablinks" onclick="openTab(event.currentTarget, 'Analyse')">Analyse</button>
+        <button class="tablinks" onclick="openTab(event.currentTarget, 'Analyse')" id="analyseTabButton">Analyse</button>
         <button class="tablinks" onclick="openTab(event.currentTarget, 'Settings')">Settings</button>
     </div>
 
@@ -151,7 +151,7 @@
                     <span id="finishRegistrationText" style="color:red"></span>
                 </div>
                 <div class="controlOptionLineContainer">
-                    <button onclick="exportRegObject()" id="finishRegistrationButton">Export Registration</button>
+                    <button onclick="exportRegObject()" id="finishRegistrationButton">Export Registration Object</button>
                     <span id="finishRegistrationText" style="color:red"></span>
                 </div>
             </div>
@@ -181,7 +181,7 @@
                 </label>
             </div>
             <div class="controlOptionLineContainer">
-                Visualisation Target: <select id="visualiationTargetDropdown" onchange="changeAnalyseVisualisation()"></select>
+                Visualisation Target: <select id="visualisationTargetDropdown" onchange="changeAnalyseVisualisation()"></select>
             </div>
             <div class="controlOptionLineContainer">
                 Graph:
