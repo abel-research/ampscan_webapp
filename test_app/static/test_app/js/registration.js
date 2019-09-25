@@ -224,7 +224,7 @@ function exportRegCSV(name) {
         a.style.display = 'none';
         a.href = url;
         // the filename to download to
-        a.download = objID+'_regbins.csv';
+        a.download = name+'_regbins.csv';
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
