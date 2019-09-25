@@ -354,8 +354,9 @@ def upload_view(request):
         fs = FileSystemStorage()
 
         # Save uploaded file
-        filename = fs.save(user_file.name, user_file)
+        filename = fs.save(user_file.name.strip(), user_file)
         uploaded_file_url = fs.url(filename)
+        uploaded_file_url = uploaded_file_url.replace("%20", " ")
 
         # Read in AmpObject from uploaded file
         obj = AmpObject(settings.BASE_DIR + uploaded_file_url)
