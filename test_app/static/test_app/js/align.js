@@ -215,10 +215,11 @@ function getTranslationSpeed() {
     }
 }
 function getRotationSpeed() {
+    // Convert to radians
     if (document.getElementById("adjustPrecision").checked) {
-        return 0.1;
+        return 0.5 *  0.0174533;
     } else {
-        return 1;
+        return 5 *  0.0174533;
     }
 }
 
