@@ -124,6 +124,7 @@ function downloadPolyDataAndUpdate(objID, callback) {
         }
 
         objects[objID].polydata = polyData;
+        objects[objID].values = jsonResponse["scalars"];
 
         // Execute callback once finished loading object
         if (typeof callback !== 'undefined')

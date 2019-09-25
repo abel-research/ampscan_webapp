@@ -8,6 +8,7 @@ class AmpObjectContainer {
         this.opacity = opacity;
 
         this.polydata = null;
+        this.values = null
         this.checkbox = null;
         this.actor = null;
         // Note actor is set during polyUpdate

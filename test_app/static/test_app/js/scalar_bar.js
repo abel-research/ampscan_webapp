@@ -33,7 +33,6 @@ function getColourValues(lut, upper, lower) {
     for (let i = table.length/4-4; i >= 0; i--) {
         colours.push([i*(upper-lower)/(table.length/4-4), "rgb("+table[i * 4]*256*256 + "," + table[i * 4 + 1]*256 + "," + table[i * 4 + 2] + ")"]);
     }
-    console.log(colours);
     return colours
 }
 

@@ -199,27 +199,9 @@ function fetchDeviationHistogram(container, objectsToShow, numColours) {
 
         function fetchData() {
             if (visObjects.length > 0) {
-
-                const formData = new FormData();
-                formData.append("session", session_id);
-                formData.append("objID", visObjects[0]);
-                formData.append("sliceWidth", getSliceWidth());
-
-                fetch("analyse/deviations", {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRFToken': csrftoken
-                    }
-                })
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (jsonresponse) {
-                    xData.push(jsonresponse.values);
-                    visObjects.shift();  // Removes first element
-                    fetchData();
-                });
+                xData.push(objects[visObjects[0]].values);
+                visObjects.shift();  // Removes first element
+                fetchData();
             } else {
                 let colours;
                 if (getCurrentTab() === "Register") {
@@ -235,7 +217,6 @@ function fetchDeviationHistogram(container, objectsToShow, numColours) {
         fetchData();
     }
 }
-
 /**
  * Adds a histogram to the container which resizes with it as the screen is resized
  * @param container The container to place the graph into
@@ -251,16 +232,15 @@ function fetchDeviationHistogram(container, objectsToShow, numColours) {
  * @param colours If undefined, then default colours are used
  */
 function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames, lowRange, upperRange, numBins, colours) {
-
+    // Enforce odd number of bins
+    if (numBins % 2 === 0) {
+        numBins += 1;
+    }
     let values = [];
     for (let i = 0; i < numBins; i++) {
         values.push(i * (upperRange - lowRange) / numBins + lowRange);
     }
 
-    // Enforce odd number of bins
-    if (numBins % 2 === 0) {
-        numBins += 1;
-    }
 
     // Process dataset
     let traces = [];
@@ -300,3 +280,4 @@ function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames
         scrollZoom: false,
     });
 }
+
