@@ -198,6 +198,39 @@ function exportRegObject() {
     })
 }
 
+function exportRegCSV() {
+
+    const formData = new FormData();
+
+    formData.append("session", session_id);
+    formData.append("objID", "_regObject");
+    formData.append("numBins", getNumberOfColours());
+    formData.append("scalarMin", document.getElementById("scalarMin").value);
+    formData.append("scalarMax", document.getElementById("scalarMax").value);
+    // Submit request to inform server of new name
+    fetch("download/regbins", {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': csrftoken
+        }
+    })
+    .then(resp => resp.blob())
+    .then(blob => {
+        // Download file at address
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        // the filename to download to
+        a.download = objID+'_regbins.csv';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch(() => alert('File download failed'));
+}
+
 function numberOfColoursChanged() {
     updateLookupTable("_regObject");
     createScalarBar(lookupTable, document.getElementById("legend"));

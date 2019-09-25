@@ -5,7 +5,7 @@ from django.conf import settings
 from django.http import JsonResponse
 
 import os
-from AmpScan import AmpObject, registration, align, analyse
+from AmpScan import AmpObject, registration, align, analyse, output
 from random import randrange
 import vtk
 import numpy as np
@@ -327,11 +327,15 @@ def deviation_view(request):
         return JsonResponse({"values": get_session(request).get_obj(request.POST.get("objID")).values.flatten().tolist()})
 
 
-def bin_csv_view(request):
-    axis = 2
+def reg_bins_csv(request):
     if request.method == "POST":
-        amp = get_session(request).get_obj(request.POST.get("objID"))
-
+        fs = FileSystemStorage()
+        f = fs.open("temp.csv", "w")
+        output.generateRegBinsCsv(f, get_session(request).get_obj(request.POST.get("objID")),
+                                  int(request.POST["numBins"]), float(request.POST["scalarMin"]), float(request.POST["scalarMax"]))
+        f.close()
+        print(fs.open("temp.csv").readlines())
+        return FileResponse(fs.open("temp.csv"))
 
 
 def home_view(request):

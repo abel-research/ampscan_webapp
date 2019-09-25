@@ -21,7 +21,9 @@ from django.conf import settings
 from test_app.views import home_view, obj_viewer_view,\
     rotate_view, polydata_view, upload_view,\
     icp_view, register_view, download_view, translate_view, centre_view, centre_relative_view, remove_view, csa_view,\
-    register_export_view, measurements_view, summary_view, deviation_view, perimeter_view, widths_sag_view, widths_cor_view
+    register_export_view, measurements_view, summary_view, deviation_view, perimeter_view, widths_sag_view, widths_cor_view,\
+    reg_bins_csv
+
 
 
 urlpatterns = [
@@ -30,6 +32,7 @@ urlpatterns = [
     path('main.js', obj_viewer_view),
     path('download/polydata', polydata_view),
     path('download/stl_file', download_view),
+    path('download/regbins', reg_bins_csv),
     path('upload/scan', upload_view),
     path('process/align/rotate', rotate_view),
     path('process/align/translate', translate_view),
