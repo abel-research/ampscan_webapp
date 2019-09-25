@@ -334,7 +334,6 @@ def reg_bins_csv(request):
         output.generateRegBinsCsv(f, get_session(request).get_obj(request.POST.get("objID")),
                                   int(request.POST["numBins"]), float(request.POST["scalarMin"]), float(request.POST["scalarMax"]))
         f.close()
-        print(fs.open("temp.csv").readlines())
         return FileResponse(fs.open("temp.csv"))
 
 

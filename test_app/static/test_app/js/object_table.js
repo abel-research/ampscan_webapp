@@ -38,7 +38,13 @@ function updateObjectTable() {
     removeButton.innerHTML = "Remove";
     removeButton.addEventListener("click", function() {
         removeObject(selectedObjID);
-    })
+    });
+
+    const exportcsvButton = document.createElement("BUTTON");
+    exportcsvButton.innerHTML = "Export CSV";
+    exportcsvButton.addEventListener("click", function() {
+        exportRegCSV(selectedObjID);
+    });
 
     // Make save button call save on object
     var selectedObjID = null;
@@ -48,12 +54,13 @@ function updateObjectTable() {
 
     overflowMenu.appendChild(saveButton);
     overflowMenu.appendChild(removeButton);
+    overflowMenu.appendChild(exportcsvButton);
 
     document.getElementById("obj-manager").appendChild(overflowMenu);
 
 
     // Create table from data received
-    for (objID in objects){
+    for (let objID in objects){
         if (objID !== "_regObject") {
             var row = objectTable.insertRow(-1);
 
@@ -87,6 +94,13 @@ function updateObjectTable() {
                 // Remove objectOverflowButton tag from from
                 selectedObjID = event.target.id.substring(20);
 
+                // Add export option if reg type
+                if (objects[selectedObjID].type === "reg") {
+                    exportcsvButton.disabled = false;
+                } else{
+                    exportcsvButton.disabled = true;
+                }
+
                 // Create overflow menu
                 // const overflowMenu = document.getElementById("overflowMenu");
 
@@ -98,8 +112,9 @@ function updateObjectTable() {
                 } else if (lastClicked === event.target.id) {
                     if (overflowMenu.style.display === "block")
                         overflowMenu.style.display = "none";
-                    else
+                    else {
                         overflowMenu.style.display = "block";
+                    }
                 } else {
                     overflowMenu.style.display = "block";
                     lastClicked = event.target.id;

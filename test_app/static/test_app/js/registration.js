@@ -173,6 +173,8 @@ function runRegistration() {
 function exportRegObject() {
     const formData = new FormData();
 
+    let name = document.getElementById("nameInput").value;
+
     formData.append("session", session_id);
     formData.append("objID", name);
     // Submit request to inform server of new name
@@ -183,8 +185,6 @@ function exportRegObject() {
             'X-CSRFToken': csrftoken
         }
     }).then(function() {
-        let name = document.getElementById("nameInput").value;
-        openTab(document.getElementById("analyseTabButton"), "Analyse");
         hideAllObjects();
         objects["_regObject"].setActorVisibility(true);
         objects[name] = objects["_regObject"];
@@ -193,17 +193,18 @@ function exportRegObject() {
         updateObjectTable();
         resetRegistrationDropDowns();
         updateScalarVisiblity();
+        openTab(document.getElementById("analyseTabButton"), "Analyse");
         updateAnalyse();
         setVisualisationTarget(name);
     })
 }
 
-function exportRegCSV() {
+function exportRegCSV(name) {
 
     const formData = new FormData();
 
     formData.append("session", session_id);
-    formData.append("objID", "_regObject");
+    formData.append("objID", name);
     formData.append("numBins", getNumberOfColours());
     formData.append("scalarMin", document.getElementById("scalarMin").value);
     formData.append("scalarMax", document.getElementById("scalarMax").value);
