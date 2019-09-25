@@ -67,6 +67,7 @@ function updateScalars(objID) {
     createScalarBar(lookupTable, document.getElementById("legend"));
     createTicks(lowerRange, upperRange);
     updateScalarHeight(getNoTicks(lowerRange, upperRange));
+    updateRegistrationGraph();
     refreshVTK();
 }
 
