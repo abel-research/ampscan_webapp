@@ -101,10 +101,12 @@ def polydata_view(request):
     if draw_norms:
         obj.calcVNorm()
         response_dict["norm"] = obj.vNorm.flatten().tolist()
+        response_dict["norm"] = [i if not np.isnan(i) else 0 for i in response_dict["norm"]]
 
     # If the object is type "reg" then include scalars
     if get_session(request).get_object_view(request.POST.get("objID")).obj_type == "reg":
         response_dict["scalars"] = obj.values.flatten().tolist()
+        response_dict["scalars"] = [i if not np.isnan(i) else 0 for i in response_dict["scalars"]]
     return JsonResponse(response_dict)
 
 
