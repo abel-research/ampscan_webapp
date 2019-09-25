@@ -21,7 +21,8 @@ function updateDropdown() {
         dropdown.options.length = 0;
         dropdown.options[0] = new Option("", "");
         for (const i in objects) {
-            dropdown.options[dropdown.options.length] = new Option(objects[i].name, i);
+            if (i !== "_regObject")
+                dropdown.options[dropdown.options.length] = new Option(objects[i].name, i);
         }
         dropdown.selectedIndex = si;
     }

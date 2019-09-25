@@ -27,6 +27,16 @@ function createScalarBar(lut, container) {
     }
 }
 
+function getColourValues(lut, upper, lower) {
+    const table = lut.getTable();
+    const colours = [];
+    for (let i = table.length/4-4; i >= 0; i--) {
+        colours.push([i*(upper-lower)/(table.length/4-4), "rgb("+table[i * 4]*256*256 + "," + table[i * 4 + 1]*256 + "," + table[i * 4 + 2] + ")"]);
+    }
+    console.log(colours);
+    return colours
+}
+
 function updateScalarHeight() {
     let noTicks = getNoTicks();
     let noColours = getNumberOfColours();

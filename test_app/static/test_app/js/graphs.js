@@ -221,10 +221,14 @@ function fetchDeviationHistogram(container, objectsToShow, numColours) {
                     fetchData();
                 });
             } else {
+                let colours;
+                if (getCurrentTab() === "Register") {
+                    colours = getColourValues(lookupTable, scalarMin, scalarMax);
+                }
                 addHistogram(
                     container,
                     "Shape Deviation", "Shape deviation /mm", "density",
-                    xData, yData, objectsToShow, scalarMin, scalarMax, numColours
+                    xData, yData, objectsToShow, scalarMin, scalarMax, numColours, colours
                 );
             }
         }
@@ -244,8 +248,19 @@ function fetchDeviationHistogram(container, objectsToShow, numColours) {
  * @param lowRange
  * @param upperRange
  * @param numBins
+ * @param colours If undefined, then default colours are used
  */
-function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames, lowRange, upperRange, numBins) {
+function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames, lowRange, upperRange, numBins, colours) {
+
+    let values = [];
+    for (let i = 0; i < numBins; i++) {
+        values.push(i * (upperRange - lowRange) / numBins + lowRange);
+    }
+
+    // Enforce odd number of bins
+    if (numBins % 2 === 0) {
+        numBins += 1;
+    }
 
     // Process dataset
     let traces = [];
@@ -260,6 +275,13 @@ function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames
                 end: upperRange,
                 size: (upperRange - lowRange) / numBins,
                 start: lowRange
+            },
+            marker: {
+                cmax: upperRange,
+                cmin: lowRange,
+                colorbar: {},
+                color: values,
+                colorscale: colours
             }
         });
     }
@@ -270,6 +292,7 @@ function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames
     layout.title = title;
     layout.xaxis.title = {text: xlabel};
     layout.yaxis.title = {text: ylabel};
+    layout.margin.b = 80;
 
     Plotly.newPlot(container, data, layout, {
         responsive: true,
