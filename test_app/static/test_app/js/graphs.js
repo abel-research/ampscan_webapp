@@ -203,6 +203,7 @@ function fetchDeviationHistogram(container, objectsToShow, numColours) {
                 const formData = new FormData();
                 formData.append("session", session_id);
                 formData.append("objID", visObjects[0]);
+                formData.append("sliceWidth", getSliceWidth());
 
                 fetch("analyse/deviations", {
                     method: 'POST',

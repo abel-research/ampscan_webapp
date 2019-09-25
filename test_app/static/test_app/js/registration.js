@@ -192,6 +192,8 @@ function exportRegObject() {
 function numberOfColoursChanged() {
     updateLookupTable("_regObject");
     createScalarBar(lookupTable, document.getElementById("legend"));
+    updateScalars("_regObject");
+    updateRegistrationGraph();
 }
 
 function getNumberOfColours() {
