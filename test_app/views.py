@@ -97,6 +97,10 @@ def polydata_view(request):
     response_dict = {"verts":obj.vert.flatten().tolist(),
                     "faces":(np.c_[np.full(obj.faces.shape[0], 3), obj.faces]).flatten().tolist()}
 
+    # Filter out nans
+    response_dict["verts"] = [i if not np.isnan(i) else 0 for i in response_dict["verts"]]
+    response_dict["faces"] = [i if not np.isnan(i) else 0 for i in response_dict["faces"]]
+
     # Include norms if the request has it set to "true"
     if draw_norms:
         obj.calcVNorm()
