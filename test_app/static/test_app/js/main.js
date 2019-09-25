@@ -146,6 +146,9 @@ function updateWindowSize() {
         const {width, height} = renderObject["container"].getBoundingClientRect();
         renderObject["openglRenderWindow"].setSize(width, height);
         renderObject["renderer"].getRenderWindow().render();
+        if (renderObject.interactor === undefined) {
+            renderObject["container"].style.cursor = "default"
+        }
     }
 
     updateScalarHeight();

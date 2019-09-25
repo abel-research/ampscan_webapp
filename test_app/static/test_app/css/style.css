@@ -95,12 +95,15 @@ body {font-family: 'Montserrat', sans-serif;}
 }
 #topRightViewer {
     grid-area: g;
+    cursor: default;
 }
 #bottomLeftViewer {
     grid-area: h;
+    cursor: default;
 }
 #bottomRightViewer {
     grid-area: i;
+    cursor: default;
 }
 
 #mainViewer {
