@@ -494,7 +494,7 @@ button[disabled]{
     /*margin-left:15px;*/
     /*margin-bottom:5px;*/
     /*margin-top:5px;*/
-    display:block;
+    /*display:block;*/
     padding: 5px;
 }
 /*.axisTransformContainerTranslation {*/
@@ -503,17 +503,21 @@ button[disabled]{
 /*    !*margin-top:5px;*!*/
 /*    display:block;*/
 /*}*/
+#transformationContainer {
+    display: inline-flex;
+}
 .axisTransformContainer {
     position: relative;
     font-family: 'Montserrat', sans-serif;
     font-size: 15px;
+    display:inline;
     margin: 5px;
 }
 .axisContainer {
     position: relative;
     overflow: visible;
-    display:inline;
     padding-right: 30px;
+    padding-top: 5px;
 }
 
 
