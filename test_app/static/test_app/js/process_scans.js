@@ -180,7 +180,7 @@ function uploadScan(uploadInput) {
     }
 
     var filesize = ((files[0].size/1024)/1024).toFixed(4); // MB
-    if (filesize > 10) { // Check if file size exceeds 100 MBs
+    if (filesize > 10) { // Check if file size exceeds 10 MBs
         alert("File size too large: " + filesize + "MBs. Max is 10MBs");
         return;
     }

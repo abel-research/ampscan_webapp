@@ -78,6 +78,10 @@ function getSliceWidth() {
     return document.getElementById("sliceWidth").value/1;
 }
 
+function setSliceWidth(v) {
+    return document.getElementById("sliceWidth").value = v;
+}
+
 function numberOfAnalyseBinChanged() {
     updateAnalyse();
 }
@@ -122,6 +126,10 @@ function changeAnalyse3DView() {
 }
 
 function sliceWidthChanged() {
+    // Sets the minimum slice width to 3
+    if (getSliceWidth() < 3) {
+        setSliceWidth(3);
+    }
     updateAnalyse();
 }
 
