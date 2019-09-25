@@ -178,6 +178,13 @@ function uploadScan(uploadInput) {
         // If not don't do anything
         return;
     }
+
+    var filesize = ((files[0].size/1024)/1024).toFixed(4); // MB
+    if (filesize > 10) { // Check if file size exceeds 100 MBs
+        alert("File size too large: " + filesize + "MBs. Max is 10MBs");
+        return;
+    }
+
     const formData = new FormData();
     formData.append('user_file', files[0]);
     formData.append("session", session_id);
