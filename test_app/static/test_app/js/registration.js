@@ -172,7 +172,7 @@ function runRegistration() {
  */
 function exportRegObject() {
     let name = document.getElementById("nameInput").value;
-    openTab(document.getElementById("defaultTabOpen"), "Home");
+    openTab(document.getElementById("defaultTabOpen"), "Analyse");
     hideAllObjects();
     objects["_regObject"].setActorVisibility(true);
     objects[name] = objects["_regObject"];

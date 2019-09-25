@@ -327,6 +327,13 @@ def deviation_view(request):
         return JsonResponse({"values": get_session(request).get_obj(request.POST.get("objID")).values.flatten().tolist()})
 
 
+def bin_csv_view(request):
+    axis = 2
+    if request.method == "POST":
+        amp = get_session(request).get_obj(request.POST.get("objID"))
+
+
+
 def home_view(request):
     """
     View for the home page

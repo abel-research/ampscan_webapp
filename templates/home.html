@@ -147,7 +147,11 @@
                     <input type="text" id="nameInput" oninput="checkNameValid();">
                 </div>
                 <div class="controlOptionLineContainer">
-                    <button onclick="exportRegObject()" id="finishRegistrationButton">Finish Registration</button>
+                    <button onclick="exportRegObject()" id="finishRegistrationButton">Export as CSV</button>
+                    <span id="finishRegistrationText" style="color:red"></span>
+                </div>
+                <div class="controlOptionLineContainer">
+                    <button onclick="exportRegObject()" id="finishRegistrationButton">Export Registration</button>
                     <span id="finishRegistrationText" style="color:red"></span>
                 </div>
             </div>

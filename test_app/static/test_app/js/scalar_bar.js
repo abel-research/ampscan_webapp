@@ -61,7 +61,7 @@ function updateScalars(objID) {
     let lowerRange = scalarMin.value / 1;
     let upperRange = scalarMax.value / 1;
     objects[objID].actor.getMapper().setScalarRange(lowerRange, upperRange);
-    document.getElementById("scalarMin").max = document.getElementById("scalarMax").value;
+    document.getElementById("scalarMin").max = document.getElementById("scalarMax").value-1;
     document.getElementById("scalarMax").min = document.getElementById("scalarMin").value;
     createScalarBar(lookupTable, document.getElementById("legend"));
     createTicks(lowerRange, upperRange);
