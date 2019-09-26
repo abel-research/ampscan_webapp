@@ -11,6 +11,14 @@ function getCurrentTab() {
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
 
+    // If old tab is register and there is unfinished reg
+    if (getCurrentTab() === "Register" && objects["_regObject"] !== undefined) {
+        if (!confirm("Do you want to discard this registration object and change tabs? To save, click 'Export Registration Object'")) {
+            // Don't change tabs
+            return;
+        }
+    }
+
     // Each time a new tab is opened hide the overflow menus
     hideOverflowMenus();
 
