@@ -188,7 +188,7 @@ def icp_view(request):
     moving = get_session(request).get_obj(request.POST.get("movingID"))
     al = align(moving, static, maxiter=10, method='linPoint2Plane').m
 
-    new_name = request.POST.get("movingID")+"_al"
+    new_name = request.POST.get("movingID")
     get_session(request).add_obj(al, new_name)
 
     return JsonResponse({"success": True, "newObjID": new_name})

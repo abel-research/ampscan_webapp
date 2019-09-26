@@ -88,10 +88,10 @@ function runICP() {
         return response.json();
     })
     .then(function (jsonResponse) {
-        objects[jsonResponse["newObjID"]] = new AmpObjectContainer(jsonResponse["newObjID"], true, "align");
-        downloadPolyDataAndUpdate(jsonResponse["newObjID"], function() {
+        // objects[jsonResponse["newObjID"]] = new AmpObjectContainer(jsonResponse["newObjID"], true, "align");
+        downloadPolyDataAndUpdate(getAlignMoving(), function() {
             // Change the moving object to the new object
-            setAlignMoving(jsonResponse["newObjID"]);
+            setAlignMoving(getAlignMoving());
             updateAlign();
             hideProcessingScreen();
         });
