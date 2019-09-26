@@ -33,7 +33,7 @@ function vtkNewLookupTable(publicAPI, model) {
     // rather then traversing through HSV and then converting to RGB for the colour map
   publicAPI.forceBuild = () =>{
 
-        const maxIndex1 = model.numberOfColors + 1;
+        const maxIndex1 = model.numberOfColors;
         const spacing = 1/maxIndex1;
         const u = model.colors.length;
         let rgba1 = [];

@@ -6,9 +6,8 @@ function createLUT() {
     lookupTable.setNumberOfColors(numColors);
     if (isAbsErrorEnabled()) {
         lookupTable.setColors([
-             [37.0, 48.0, 94.0, 1.0],
-             [212.0, 221.0, 225.0, 0.5],
-             [212.0, 221.0, 225.0, 0.0]
+             [212, 221, 225, 0],
+             [37, 48, 94, 1.0]
             ]);
     } else {
         lookupTable.setColors([

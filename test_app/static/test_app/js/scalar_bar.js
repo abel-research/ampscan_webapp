@@ -15,7 +15,7 @@ function createScalarBar(lut, container) {
     }
     let rgba1 = [];
     document.getElementById("keyLabel").innerHTML = "Shape Deviation /mm";
-    for (let i = table.length/4-4; i >= 0; i--) {
+    for (let i = lut.getNumberOfColors()-1; i >= 0; i--) {
         let newli = document.createElement("div");
         rgba1[0] = table[i*4];
         rgba1[1] = table[i*4 + 1];
@@ -30,8 +30,8 @@ function createScalarBar(lut, container) {
 function getColourValues(lut) {
     const table = lut.getTable();
     const colours = [];
-    for (let i = 0; i < table.length/4; i++) {
-        colours.push([""+i/(table.length/4-1),
+    for (let i = 0; i < lut.getNumberOfColors(); i++) {
+        colours.push([""+i/(lut.getNumberOfColors()-1),
             "rgb("+table[i * 4].toFixed(0)
             + "," + table[i * 4 + 1].toFixed(0)
             + "," + table[i * 4 + 2].toFixed(0) + ")"]);

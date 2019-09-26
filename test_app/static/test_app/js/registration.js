@@ -163,6 +163,7 @@ function runRegistration() {
                     updateRegistrationGraph();
                     document.getElementById("scalarBarContainer").style.display = "grid";
                     updateRegistrationGraph();
+                    updateScalars("_regObject");
                     hideProcessingScreen();
                 });
             })

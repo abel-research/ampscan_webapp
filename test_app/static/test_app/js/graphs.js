@@ -241,7 +241,6 @@ function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames
         values.push(i * (upperRange - lowRange) / numBins + lowRange);
     }
 
-    console.log(colours)
     // Process dataset
     let traces = [];
     for (let i = 0; i < xData.length; i++) {
