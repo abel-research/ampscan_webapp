@@ -75,8 +75,14 @@ function updateScalars(objID) {
 
 // Update the scalar max/min ranges for the sliders
 function updateScalarsMaxMin() {
-    document.getElementById("scalarMin").min = minScalar.toFixed(0);
-    document.getElementById("scalarMax").max = maxScalar.toFixed(0);
+    let abs = Math.max(Math.abs(minScalar), Math.abs(maxScalar)).toFixed(0);
+    if (!isAbsErrorEnabled()) {
+        document.getElementById("scalarMin").min = -abs;
+    }
+    else {
+        document.getElementById("scalarMin").min = 0;
+    }
+    document.getElementById("scalarMax").max = abs;
 }
 
 function scalarsRangeChanged() {
