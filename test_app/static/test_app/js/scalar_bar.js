@@ -31,7 +31,11 @@ function getColourValues(lut) {
     const table = lut.getTable();
     const colours = [];
     for (let i = 0; i < lut.getNumberOfColors(); i++) {
-        colours.push([""+i/(lut.getNumberOfColors()-1),
+        colours.push([""+i/(lut.getNumberOfColors()),
+            "rgb("+table[i * 4].toFixed(0)
+            + "," + table[i * 4 + 1].toFixed(0)
+            + "," + table[i * 4 + 2].toFixed(0) + ")"]);
+            colours.push([""+(i+1)/(lut.getNumberOfColors()),
             "rgb("+table[i * 4].toFixed(0)
             + "," + table[i * 4 + 1].toFixed(0)
             + "," + table[i * 4 + 2].toFixed(0) + ")"]);
