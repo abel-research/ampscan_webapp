@@ -4,6 +4,19 @@ function createLUT() {
     const lookupTable = window.vtkNewLookupTable.newInstance();
     const numColors = getNumberOfColours();
     lookupTable.setNumberOfColors(numColors);
+    if (isAbsErrorEnabled()) {
+        lookupTable.setColors([
+             [37.0, 48.0, 94.0, 1.0],
+             [212.0, 221.0, 225.0, 0.5],
+             [212.0, 221.0, 225.0, 0.0]
+            ]);
+    } else {
+        lookupTable.setColors([
+             [37.0, 48.0, 94.0, 0.0],
+             [212.0, 221.0, 225.0, 0.5],
+             [170.0, 75.0, 65.0, 1.0]
+            ]);
+    }
     lookupTable.build();
     createScalarBar(lookupTable, document.getElementById("legend"));
     return lookupTable

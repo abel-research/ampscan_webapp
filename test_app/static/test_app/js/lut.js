@@ -87,11 +87,9 @@ const DEFAULT_VALUES = {
 export function extend(publicAPI, model, initialValues = {}) {
   Object.assign(model, DEFAULT_VALUES, initialValues);
 
-  macro.setArray(publicAPI, model, ['lowerCol', 'midCol', 'upperCol'],3);
+  macro.set(publicAPI, model, ["colors"]);
 
-  macro.getArray(publicAPI, model, ['lowerCol', 'midCol', 'upperCol']);
-
-  macro.get(publicAPI, model, ['rIncLM', 'gIncLM', 'bIncLM','rIncMU', 'gIncMU', 'bIncMU']);
+  macro.get(publicAPI, model, ["colors"]);
 
   // Inheritance
   vtkParentClass.extend(publicAPI, model, initialValues);

@@ -160,6 +160,7 @@ function runRegistration() {
                     objects["_regObject"].setActorVisibility(true);
                     document.getElementById("registrationControls").style.display = "block";
                     updateScalarsMaxMin();
+                    updateRegistrationGraph();
                     document.getElementById("scalarBarContainer").style.display = "grid";
                     updateRegistrationGraph();
                     hideProcessingScreen();
@@ -169,8 +170,8 @@ function runRegistration() {
 }
 
 function changeAbsError() {
-    // Do nothing really
-    let absError = document.getElementById("absErrorCheckbox").checked;
+    // lookupTable = createLUT(isAbsErrorEnabled())
+
 }
 
 function isAbsErrorEnabled() {
