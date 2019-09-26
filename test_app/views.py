@@ -295,6 +295,7 @@ def widths_sag_view(request):
 
 
 def summary_view(request):
+    """Data table view"""
     axis = 2
     if request.method == "POST":
         amp = get_session(request).get_obj(request.POST.get("objID"))
@@ -308,7 +309,7 @@ def summary_view(request):
         slices = np.arange(amp.vert[:, 2].min() + slWidth,
                            maxZ, slWidth)
         polys = analyse.create_slices(amp, slices, axis)
-        volume = analyse.est_volume(polys)
+        volume = analyse.est_volume(polys) * 0.001  # Convert to mm^3 -> ml
 
         return JsonResponse({"volume": volume})
 

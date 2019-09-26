@@ -110,7 +110,7 @@ function fetchDataTable() {
                 return response.json();
             })
             .then(function (jsonresponse) {
-                data.push([visObjects[0], jsonresponse.volume.toPrecision(4)]);
+                data.push([visObjects[0], jsonresponse.volume.toPrecision(5)]);
                 visObjects.shift();  // Removes first element
                 fetchData();
             });
