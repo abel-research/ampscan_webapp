@@ -188,7 +188,7 @@ def icp_view(request):
     moving = get_session(request).get_obj(request.POST.get("movingID"))
     al = align(moving, static, maxiter=10, method='linPoint2Plane').m
 
-    new_name = request.POST.get("movingID")+"_al"
+    new_name = request.POST.get("movingID")
     get_session(request).add_obj(al, new_name)
 
     return JsonResponse({"success": True, "newObjID": new_name})
@@ -363,7 +363,10 @@ def upload_view(request):
         uploaded_file_url = uploaded_file_url.replace("%20", " ")
 
         # Read in AmpObject from uploaded file
-        obj = AmpObject(settings.BASE_DIR + uploaded_file_url)
+        try:
+            obj = AmpObject(settings.BASE_DIR + uploaded_file_url)
+        except ValueError:
+            return JsonResponse({"corrupted": "true"})
 
         # Delete uploaded file
         fs.delete(settings.BASE_DIR + uploaded_file_url)
@@ -380,8 +383,8 @@ def upload_view(request):
         # Check file extension
         if os.path.splitext(uploaded_file_url)[1] == ".stl":
             # valid file
-            json_response = JsonResponse({"success": "true", "objID": basename, "properties": get_session(request).get_object_view(basename).property_response()})
-        else:   
+            json_response = JsonResponse({"objID": basename, "properties": get_session(request).get_object_view(basename).property_response()})
+        else:
             json_response = JsonResponse({"success": "false"})
         return json_response
     return JsonResponse({"success": "false"})

@@ -147,8 +147,8 @@ function downloadPolyDataAndUpdate(objID, callback) {
         if (typeof callback !== 'undefined')
             callback();
     }).catch(function(e) {
-        alert("Scan download failed - probably due to improper registration attempted or presence of NaNs in object.");
-        console.error(e)
+        alert("Scan download failed. Refresh page to continue");
+        console.error(e);
         // Execute callback once finished loading object
         if (typeof callback !== 'undefined')
             callback();
@@ -224,6 +224,10 @@ function uploadScan(uploadInput) {
         return response.json();
     })
     .then(function (jsonResponse) {
+        if ("corrupted" in jsonResponse) {
+            alert("Scan download failed. File is corrupt.");
+            hideProcessingScreen();
+        }
         if (objects[jsonResponse["objID"]] === undefined) {
             objects[jsonResponse["objID"]] =
                 new AmpObjectContainer(jsonResponse["objID"], jsonResponse["properties"]["display"], jsonResponse["properties"]["type"]);
