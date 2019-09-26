@@ -245,6 +245,9 @@ function exportRegCSV(name, url) {
 }
 
 function numberOfColoursChanged() {
+    if (document.getElementById("noColours").value < 6) {
+        document.getElementById("noColours").value = 5;
+    }
     updateLookupTable("_regObject");
     createScalarBar(lookupTable, document.getElementById("legend"));
     updateScalars("_regObject");
