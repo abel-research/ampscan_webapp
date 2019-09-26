@@ -330,7 +330,7 @@ def deviation_view(request):
 def reg_bins_csv(request):
     if request.method == "POST":
         fs = FileSystemStorage()
-        f = open(settings.MEDIA_ROOT + request.POST["session"]+".csv", "w")
+        f = open(os.path.join(settings.MEDIA_ROOT, request.POST["session"]+".csv"), "w", newline="")
         output.generateRegBinsCsv(f, get_session(request).get_obj(request.POST.get("objID")),
                                   int(request.POST["numBins"]), float(request.POST["scalarMin"]), float(request.POST["scalarMax"]))
         f.close()
