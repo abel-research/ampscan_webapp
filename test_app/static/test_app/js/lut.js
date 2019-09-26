@@ -38,7 +38,7 @@ function vtkNewLookupTable(publicAPI, model) {
         const u = model.colors.length;
         let rgba1 = [];
         for (let i = 0; i < maxIndex1; i++){
-            let x = i * spacing;
+            let x = i / maxIndex1;
             
             for (var j = 0; j < u; j++){
               if (model.colors[j][3] <= x && model.colors[j+1][3] > x){
@@ -47,6 +47,7 @@ function vtkNewLookupTable(publicAPI, model) {
             }
             const x0 = model.colors[j][3];
             const x1 = model.colors[j+1][3];
+            x = i / (maxIndex1-1);
             for (let k = 0; k < 3; k++){
               const y0 = model.colors[j][k];
               const y1 = model.colors[j+1][k];
