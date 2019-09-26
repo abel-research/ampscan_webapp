@@ -138,6 +138,10 @@ def register_view(request):
     name = "_regObject"
     get_session(request).add_obj(reg, name, obj_type="reg")
 
+    if request.POST.get("absolute") == "true":
+        for i in range(len(reg.values)):
+            reg.values[i] = abs(reg.values[i])
+
     return JsonResponse({"newObjID": name})
 
 
@@ -309,24 +313,6 @@ def summary_view(request):
         return JsonResponse({"volume": volume})
 
 
-def deviation_view(request):
-    axis = 2
-    if request.method == "POST":
-        amp = get_session(request).get_obj(request.POST.get("objID"))
-        slWidth = float(request.POST["sliceWidth"])
-
-        # Find the brim edges
-        ind = np.where(amp.faceEdges[:, 1] == -99999)[0]
-        # Define max Z from lowest point on brim
-        maxZ = amp.vert[amp.edges[ind, :], 2].min()
-        # Create slices
-        slices = np.arange(amp.vert[:, 2].min() + slWidth,
-                           maxZ, slWidth)
-        polys = analyse.create_slices(amp, slices, axis)
-
-        return JsonResponse({"values": get_session(request).get_obj(request.POST.get("objID")).values.flatten().tolist()})
-
-
 def reg_bins_csv(request):
     if request.method == "POST":
         fs = FileSystemStorage()
@@ -371,6 +357,8 @@ def upload_view(request):
         # Save uploaded file
         filename = fs.save(user_file.name.strip(), user_file)
         uploaded_file_url = fs.url(filename)
+
+        # File system adds %20s instead of whitespace which causes problems
         uploaded_file_url = uploaded_file_url.replace("%20", " ")
 
         # Read in AmpObject from uploaded file

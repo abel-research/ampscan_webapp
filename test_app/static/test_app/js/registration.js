@@ -136,6 +136,7 @@ function runRegistration() {
         formData.append("session", session_id);
         formData.append("baselineID", getRegistrationBaseline());
         formData.append("targetID", getRegistrationTarget());
+        formData.append("absolute", isAbsErrorEnabled());
 
 
         // Submit the request to rotate
@@ -165,6 +166,15 @@ function runRegistration() {
                 });
             })
     }
+}
+
+function changeAbsError() {
+    // Do nothing really
+    let absError = document.getElementById("absErrorCheckbox").checked;
+}
+
+function isAbsErrorEnabled() {
+    return document.getElementById("absErrorCheckbox").checked;
 }
 
 /**

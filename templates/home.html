@@ -117,6 +117,13 @@
                 Target: <select class="targetDropdown" id="registerTargetDropdown" onchange="updateDropdown()"></select>
             </div>
             <div class="controlOptionLineContainer">
+                <label for="absErrorCheckbox">Absolute Error:</label>
+                <label class="switch">
+                    <input type="checkbox" id="absErrorCheckbox" onclick="changeAbsError()">
+                    <span class="toggleSlider"></span>
+                </label>
+            </div>
+            <div class="controlOptionLineContainer">
                 <button onclick="runRegistration()" id="runRegistrationButton">Run Registration</button>
             </div>
 
