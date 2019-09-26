@@ -30,6 +30,8 @@ function createScalarBar(lut, container) {
 function getColourValues(lut) {
     const table = lut.getTable();
     const colours = [];
+    const offset = 0.01/lut.getNumberOfColors()
+    const spacing = 1.0/lut.getNumberOfColors()
     for (let i = 0; i < lut.getNumberOfColors(); i++) {
         colours.push([""+i/(lut.getNumberOfColors()),
             "rgb("+table[i * 4].toFixed(0)

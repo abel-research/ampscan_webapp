@@ -237,8 +237,9 @@ function addHistogram(container, title, xlabel, ylabel, xData, yData, traceNames
         numBins += 1;
     }
     let values = [];
+    const spacing = (upperRange - lowRange) / numBins
     for (let i = 0; i < numBins; i++) {
-        values.push(i * (upperRange - lowRange) / numBins + lowRange);
+        values.push(i * spacing + lowRange + (0.5*spacing));
     }
 
     // Process dataset
