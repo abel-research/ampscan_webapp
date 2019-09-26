@@ -186,16 +186,16 @@ function exportRegObject() {
         }
     }).then(function() {
         hideAllObjects();
-        objects["_regObject"].setActorVisibility(true);
         objects[name] = objects["_regObject"];
         objects[name].name = name;
+        objects[name].setActorVisibility(true);
         delete objects["_regObject"];
         updateObjectTable();
+        openTab(document.getElementById("analyseTabButton"), "Analyse");
         resetRegistrationDropDowns();
         updateScalarVisiblity();
-        openTab(document.getElementById("analyseTabButton"), "Analyse");
-        updateAnalyse();
         setVisualisationTarget(name);
+        updateAnalyse();
     })
 }
 
