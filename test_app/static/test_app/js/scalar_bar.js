@@ -57,6 +57,7 @@ function updateScalarVisiblity() {
 
 // Update the scalar ranges
 function updateScalars(objID) {
+    lookupTable = createLUT();
     let scalarMin = document.getElementById("scalarMin");
     let scalarMax = document.getElementById("scalarMax");
     document.getElementById("scalarMinLabel").innerHTML = scalarMin.value/1 + "mm";
