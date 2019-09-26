@@ -330,11 +330,11 @@ def deviation_view(request):
 def reg_bins_csv(request):
     if request.method == "POST":
         fs = FileSystemStorage()
-        f = fs.open("temp.csv", "w")
+        f = open(settings.MEDIA_ROOT + request.POST["session"]+".csv", "w")
         output.generateRegBinsCsv(f, get_session(request).get_obj(request.POST.get("objID")),
                                   int(request.POST["numBins"]), float(request.POST["scalarMin"]), float(request.POST["scalarMax"]))
         f.close()
-        return FileResponse(fs.open("temp.csv"))
+        return FileResponse(fs.open(request.POST["session"]+".csv"))
 
 
 def home_view(request):
@@ -364,7 +364,6 @@ def upload_view(request):
     """
     View for posting user uploads
     """
-
     if request.method == "POST" and request.FILES['user_file']:
         user_file = request.FILES['user_file']
         fs = FileSystemStorage()

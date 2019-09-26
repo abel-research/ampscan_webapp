@@ -149,6 +149,7 @@ function saveObject(objID) {
 
     formData.append("session", session_id);
     formData.append("objID", objID);
+    console.log(session_id)
 
     fetch('download/stl_file', {
         method: 'POST',

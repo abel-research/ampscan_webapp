@@ -40,7 +40,7 @@ const objects = {};
 
 
 // Get session id
-var session_id;
+let session_id;
 
 function setSessionID(id) {
     session_id = id;
