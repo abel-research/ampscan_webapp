@@ -4,8 +4,8 @@ function createLUT() {
     const lookupTable = window.vtkNewLookupTable.newInstance();
     const numColors = getNumberOfColours();
     lookupTable.setNumberOfColors(numColors);
-    let smn = document.getElementById("scalarMax").value;
-    let smx = document.getElementById("scalarMin").value;
+    let smn = getMaxScalar();
+    let smx = getMinScalar();
     let zero_proportion = smx / (smx-smn);
 
     if (isAbsErrorEnabled()) {

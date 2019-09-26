@@ -218,8 +218,8 @@ function exportRegCSV(name, url) {
     formData.append("session", session_id);
     formData.append("objID", name);
     formData.append("numBins", getNumberOfColours());
-    formData.append("scalarMin", document.getElementById("scalarMin").value);
-    formData.append("scalarMax", document.getElementById("scalarMax").value);
+    formData.append("scalarMin", getMinScalar());
+    formData.append("scalarMax", getMaxScalar());
     // Submit request to inform server of new name
     fetch(url, {
         method: 'POST',

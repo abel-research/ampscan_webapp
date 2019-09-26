@@ -194,8 +194,8 @@ function fetchDeviationHistogram(container, objectsToShow, numColours) {
         let xData = [];
         let yData = [];
 
-        let scalarMin = document.getElementById("scalarMin").value/1;
-        let scalarMax = document.getElementById("scalarMax").value/1;
+        let scalarMin = getMinScalar()/1;
+        let scalarMax = getMaxScalar()/1;
 
         function fetchData() {
             if (visObjects.length > 0) {

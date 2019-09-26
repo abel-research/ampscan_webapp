@@ -27,6 +27,10 @@ function createScalarBar(lut, container) {
     }
 }
 
+function getScalarMax() {
+    return document.getElementById("")
+}
+
 function getColourValues(lut) {
     const table = lut.getTable();
     const colours = [];
@@ -62,15 +66,15 @@ function updateScalarVisiblity() {
 // Update the scalar ranges
 function updateScalars(objID) {
     lookupTable = createLUT();
-    let scalarMin = document.getElementById("scalarMin");
-    let scalarMax = document.getElementById("scalarMax");
-    document.getElementById("scalarMinLabel").innerHTML = scalarMin.value/1 + "mm";
-    document.getElementById("scalarMaxLabel").innerHTML = scalarMax.value/1 + "mm";
-    let lowerRange = scalarMin.value / 1;
-    let upperRange = scalarMax.value / 1;
+    // let scalarMin = document.getElementById("scalarMin");
+    // let scalarMax = document.getElementById("scalarMax");
+    // document.getElementById("scalarMinLabel").innerHTML = scalarMin.value/1 + "mm";
+    // document.getElementById("scalarMaxLabel").innerHTML = scalarMax.value/1 + "mm";
+    let lowerRange = getMinScalar();
+    let upperRange = getMaxScalar();
     objects[objID].actor.getMapper().setScalarRange(lowerRange, upperRange);
-    document.getElementById("scalarMin").max = document.getElementById("scalarMax").value-1;
-    document.getElementById("scalarMax").min = document.getElementById("scalarMin").value;
+    // document.getElementById("scalarMin").max = getMaxScalar()-1;
+    // document.getElementById("scalarMax").min = getMinScalar();
     createScalarBar(lookupTable, document.getElementById("legend"));
     createTicks(lowerRange, upperRange);
     updateScalarHeight(getNoTicks(lowerRange, upperRange));
@@ -80,14 +84,14 @@ function updateScalars(objID) {
 
 // Update the scalar max/min ranges for the sliders
 function updateScalarsMaxMin() {
-    let abs = Math.max(Math.abs(minScalar), Math.abs(maxScalar)).toFixed(0);
-    if (!isAbsErrorEnabled()) {
-        document.getElementById("scalarMin").min = -abs;
-    }
-    else {
-        document.getElementById("scalarMin").min = 0;
-    }
-    document.getElementById("scalarMax").max = abs;
+    // let abs = Math.max(Math.abs(minScalar), Math.abs(maxScalar)).toFixed(0);
+    // if (!isAbsErrorEnabled()) {
+    //     document.getElementById("scalarMin").min = -abs;
+    // }
+    // else {
+    //     document.getElementById("scalarMin").min = 0;
+    // }
+    // document.getElementById("scalarMax").max = abs;
 }
 
 function scalarsRangeChanged() {
@@ -95,8 +99,8 @@ function scalarsRangeChanged() {
 }
 
 function getNoTicks() {
-    let lowerRange = document.getElementById("scalarMin").value / 1;
-    let upperRange = document.getElementById("scalarMax").value / 1;
+    let lowerRange = getMinScalar() / 1;
+    let upperRange = getMaxScalar() / 1;
 
     let noTicks = upperRange-lowerRange;
     while (noTicks < 6 && noTicks !== 0) {
@@ -136,3 +140,53 @@ function createTicks(min, max) {
     }
 }
 
+
+function getMaxScalar() {
+    return _maxScalar
+}
+
+function getMinScalar() {
+    return _minScalar
+}
+let _maxScalar=5, _minScalar=-5;
+
+// Double slider from https://stackoverflow.com/questions/4753946/html5-slider-with-two-inputs-possible
+function getVals() {
+    // Get double slider values
+    var parent = this.parentNode;
+    var slides = parent.getElementsByTagName("input");
+    var slide1 = parseFloat(slides[0].value);
+    var slide2 = parseFloat(slides[1].value);
+    // Neither slider will clip the other, so make sure we determine which is larger
+    if (slide1 > slide2) {
+        var tmp = slide2;
+        slide2 = slide1;
+        slide1 = tmp;
+    }
+    _minScalar = slide1;
+    _maxScalar = slide2;
+    var displayElement = parent.getElementsByClassName("rangeValues")[0];
+    displayElement.innerHTML = slide1 + " - " + slide2;
+    if ("_regObject" in objects)
+        updateScalars("_regObject");
+}
+
+window.onload = function(){
+  // Initialize Sliders
+  var sliderSections = document.getElementsByClassName("range-slider");
+      for( var x = 0; x < sliderSections.length; x++ ){
+        var sliders = sliderSections[x].getElementsByTagName("input");
+        for( var y = 0; y < sliders.length; y++ ){
+          if( sliders[y].type ==="range" ){
+            sliders[y].oninput = getVals;
+            // Manually trigger event first time to display values
+            sliders[y].oninput();
+            // sliders[y].addEventListener("oninput", function() {
+            //     console.log(123)
+            //     updateScalars("_regObject");
+            //     getVals();
+            // })
+          }
+        }
+      }
+};
