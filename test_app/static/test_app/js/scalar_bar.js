@@ -27,13 +27,15 @@ function createScalarBar(lut, container) {
     }
 }
 
-function getColourValues(lut, upper, lower) {
+function getColourValues(lut) {
     const table = lut.getTable();
     const colours = [];
-    for (let i = table.length/4; i >= 0; i--) {
-        colours.push([""+i/(table.length/4), "rgb("+table[i * 4] + "," + table[i * 4 + 1] + "," + table[i * 4 + 2] + ")"]);
+    for (let i = 0; i < table.length/4; i++) {
+        colours.push([""+i/(table.length/4-1),
+            "rgb("+table[i * 4].toFixed(0)
+            + "," + table[i * 4 + 1].toFixed(0)
+            + "," + table[i * 4 + 2].toFixed(0) + ")"]);
     }
-    console.log(colours);
     return colours
 }
 
