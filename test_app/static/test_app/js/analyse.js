@@ -83,6 +83,9 @@ function setSliceWidth(v) {
 }
 
 function numberOfAnalyseBinChanged() {
+    if (document.getElementById("noAnalyseBins").value < 6) {
+        document.getElementById("noAnalyseBins").value = 5;
+    }
     updateAnalyse();
 }
 

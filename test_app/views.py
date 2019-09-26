@@ -324,6 +324,15 @@ def reg_bins_csv(request):
         return FileResponse(fs.open(request.POST["session"]+".csv"))
 
 
+def reg_csv(request):
+    if request.method == "POST":
+        fs = FileSystemStorage()
+        f = open(os.path.join(settings.MEDIA_ROOT, request.POST["session"]+".csv"), "w", newline="")
+        output.generateRegCsv(f, get_session(request).get_obj(request.POST.get("objID")))
+        f.close()
+        return FileResponse(fs.open(request.POST["session"]+".csv"))
+
+
 def home_view(request):
     """
     View for the home page

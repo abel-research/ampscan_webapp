@@ -211,7 +211,7 @@ function exportRegObject() {
     })
 }
 
-function exportRegCSV(name) {
+function exportRegCSV(name, url) {
 
     const formData = new FormData();
 
@@ -221,7 +221,7 @@ function exportRegCSV(name) {
     formData.append("scalarMin", document.getElementById("scalarMin").value);
     formData.append("scalarMax", document.getElementById("scalarMax").value);
     // Submit request to inform server of new name
-    fetch("download/regbins", {
+    fetch(url, {
         method: 'POST',
         body: formData,
         headers: {
@@ -245,6 +245,9 @@ function exportRegCSV(name) {
 }
 
 function numberOfColoursChanged() {
+    if (document.getElementById("noColours").value < 6) {
+        document.getElementById("noColours").value = 5;
+    }
     updateLookupTable("_regObject");
     createScalarBar(lookupTable, document.getElementById("legend"));
     updateScalars("_regObject");

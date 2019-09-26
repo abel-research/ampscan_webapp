@@ -43,7 +43,7 @@ function updateObjectTable() {
     const exportcsvButton = document.createElement("BUTTON");
     exportcsvButton.innerHTML = "Export CSV";
     exportcsvButton.addEventListener("click", function() {
-        exportRegCSV(selectedObjID);
+        exportRegCSV(selectedObjID, 'download/regcsv');
     });
 
     // Make save button call save on object

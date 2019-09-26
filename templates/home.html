@@ -154,7 +154,10 @@
                     <input type="text" id="nameInput" oninput="checkNameValid();">
                 </div>
                 <div class="controlOptionLineContainer">
-                    <button onclick="exportRegCSV('_regObject')" id="exportCSVButton">Export as CSV</button>
+                    <button onclick="exportRegCSV('_regObject', 'download/regbins')" id="exportCSVButton">Export bins CSV</button>
+                    <button onclick="exportRegCSV('_regObject', 'download/regcsv')" id="exportRegBinsCSVButton">Export values CSV</button>
+                </div>
+                <div class="controlOptionLineContainer">
                 </div>
                 <div class="controlOptionLineContainer">
                     <button onclick="exportRegObject()" id="finishRegistrationButton">Confirm Registration Object</button>
@@ -170,8 +173,8 @@
 {#            </div>#}
 
             <div class="controlOptionLineContainer">
-                <label for="noColours">Number of bins:</label>
-                <input type="number" id="noAnalyseBins" min="2" max="500" value="10" step="1" required
+                <label for="noAnalyseBins">Number of bins:</label>
+                <input type="number" id="noAnalyseBins" min="5" max="500" value="10" step="1" required
                        onchange="numberOfAnalyseBinChanged();" >
             </div>
             <div class="controlOptionLineContainer">
