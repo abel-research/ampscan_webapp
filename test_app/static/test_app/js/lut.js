@@ -34,14 +34,14 @@ function vtkNewLookupTable(publicAPI, model) {
   publicAPI.forceBuild = () =>{
 
         const maxIndex1 = model.numberOfColors;
-        const spacing = 1/maxIndex1;
+        const spacing = 1/(maxIndex1-1);
         const u = model.colors.length;
         let rgba1 = [];
         for (let i = 0; i < maxIndex1; i++){
             let x = i * spacing;
             
             for (var j = 0; j < u; j++){
-              if (model.colors[j][3] <= x && model.colors[j+1][3] > x){
+              if (model.colors[j][3] <= x && model.colors[j+1][3] >= x){
                 break
               }
             }
@@ -53,10 +53,10 @@ function vtkNewLookupTable(publicAPI, model) {
               rgba1[k] = y0 + (x - x0) * ((y1 - y0)/(x1 - x0));
             rgba1[3] = 255;
             
-            model.table[i * 4] = rgba1[0] + 0.5;
-            model.table[i * 4 + 1] = rgba1[1]+ 0.5;
-            model.table[i * 4 + 2] = rgba1[2]+ 0.5;
-            model.table[i * 4 + 3] = rgba1[3] + 0.5;
+            model.table[i * 4] = rgba1[0];
+            model.table[i * 4 + 1] = rgba1[1];
+            model.table[i * 4 + 2] = rgba1[2];
+            model.table[i * 4 + 3] = rgba1[3];
 
         }
       }
