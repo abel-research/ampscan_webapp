@@ -186,8 +186,8 @@
                        onchange="numberOfAnalyseBinChanged();" >
             </div>
             <div class="controlOptionLineContainer" style="display:inline">
-                <input type="number" class="minScalarInputBox">
-                <input type="number" class="maxScalarInputBox">
+                <input type="number" class="minScalarInputBox" onchange="setMinScalar(this.value)">
+                <input type="number" class="maxScalarInputBox" onchange="setMaxScalar(this.value)">
                 <section class="range-slider">
                     <span class="rangeValues" id="doubleSliderContainerAnalyse"></span>
                     <input id="analyseMinSlider" oninput="analyseScalarsRangeChanged()" class="doubleSliderPart" value="-5" min="-10" max="10" step="1" type="range">
