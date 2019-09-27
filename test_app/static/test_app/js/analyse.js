@@ -29,7 +29,8 @@ function updateAnalyse() {
 
     fetchAnalysisGraph(document.getElementById("bottomLeftAnalyseViewer"));
     fetchDataTable();
-    fetchDeviationHistogram(document.getElementById("bottomRightAnalyseViewer"), getAnalyseRegObjects(), getNumberOfBinsAnalyse());
+    fetchDeviationHistogram(document.getElementById("bottomRightAnalyseViewer"),
+        getAnalyseRegObjects(), getNumberOfBinsAnalyse());
     resetCamera();
     refreshVTK();
 }

@@ -209,6 +209,13 @@
                     <option>Sagittal Width Graph</option>
                 </select>
             </div>
+            <div class="controlOptionLineContainer">
+                <section class="range-slider">
+                    <span class="rangeValues" id="doubleSliderContainerAnalyse"></span>
+                    <input oninput="analyseScalarsRangeChanged()" class="doubleSliderPart" value="-5" min="-10" max="10" step="1" type="range">
+                    <input oninput="analyseScalarsRangeChanged()" class="doubleSliderPart" value="5" min="-10" max="10" step="1" type="range">
+                </section>
+            </div>
         </div>
 
         <div id="Settings" class="tabcontent">

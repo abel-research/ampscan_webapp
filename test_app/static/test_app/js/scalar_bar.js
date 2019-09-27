@@ -34,14 +34,12 @@ function getScalarMax() {
 function getColourValues(lut) {
     const table = lut.getTable();
     const colours = [];
-    const offset = 0.01/lut.getNumberOfColors()
-    const spacing = 1.0/lut.getNumberOfColors()
     for (let i = 0; i < lut.getNumberOfColors(); i++) {
         colours.push([""+i/(lut.getNumberOfColors()),
             "rgb("+table[i * 4].toFixed(0)
             + "," + table[i * 4 + 1].toFixed(0)
             + "," + table[i * 4 + 2].toFixed(0) + ")"]);
-            colours.push([""+(i+1)/(lut.getNumberOfColors()),
+        colours.push([""+(i+1)/(lut.getNumberOfColors()),
             "rgb("+table[i * 4].toFixed(0)
             + "," + table[i * 4 + 1].toFixed(0)
             + "," + table[i * 4 + 2].toFixed(0) + ")"]);
@@ -101,6 +99,12 @@ function updateScalarsMaxMin() {
             }
         }
     }
+}
+
+function analyseScalarsRangeChanged() {
+    updateScalars(getAnalyseTarget());
+    updateAnalyse();
+    console.log(12);
 }
 
 function scalarsRangeChanged() {
@@ -176,8 +180,14 @@ function getVals() {
     _maxScalar = slide2;
     var displayElement = parent.getElementsByClassName("rangeValues")[0];
     displayElement.innerHTML = slide1 + "mm - " + slide2 + "mm";
-    if ("_regObject" in objects)
-        updateScalars("_regObject");
+
+    if (getCurrentTab() === "Register") {
+        if ("_regObject" in objects) {
+            updateScalars("_regObject");
+        }
+    } else if (getCurrentTab() === "Analyse") {
+        updateAnalyse();
+    }
 }
 
 window.onload = function(){

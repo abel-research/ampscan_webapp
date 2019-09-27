@@ -204,9 +204,9 @@ function fetchDeviationHistogram(container, objectsToShow, numColours) {
                 fetchData();
             } else {
                 let colours;
-                if (getCurrentTab() === "Register") {
-                    colours = getColourValues(lookupTable, scalarMin, scalarMax);
-                }
+                // if (getCurrentTab() === "Register") {
+                colours = getColourValues(lookupTable, scalarMin, scalarMax);
+                // }
                 addHistogram(
                     container,
                     "Shape Deviation", "Shape deviation /mm", "density",
