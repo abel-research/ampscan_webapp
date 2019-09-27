@@ -152,7 +152,7 @@
                 <div>
                     Scalar range:
                 </div>
-                <div class="controlOptionLineContainer">
+                <div class="controlOptionLineContainer" style="display:inline;top:-20px">
                     <input type="number" class="minScalarInputBox" onchange="setMinScalar(this.value)">
                     <input type="number" class="maxScalarInputBox" onchange="setMaxScalar(this.value)">
                     <section class="range-slider">
@@ -189,7 +189,8 @@
                 <input type="number" id="noAnalyseBins" min="5" max="500" value="10" step="1" required
                        onchange="numberOfAnalyseBinChanged();" >
             </div>
-            <div class="controlOptionLineContainer" style="display:inline">
+            <div>Scalar range:</div>
+            <div class="controlOptionLineContainer" style="display:inline;top:-20px">
                 <input type="number" class="minScalarInputBox" onchange="setMinScalar(this.value)">
                 <input type="number" class="maxScalarInputBox" onchange="setMaxScalar(this.value)">
                 <section class="range-slider">

@@ -5,6 +5,7 @@ section.range-slider {
     height: 35px;
     left: 50px;
     text-align: center;
+    top:0;
 }
 
 section.range-slider input {
@@ -55,18 +56,18 @@ section.range-slider input:last-of-type::-moz-range-track {
 .minScalarInputBox {
     z-index: 11;
     pointer-events: all;
-    position: absolute;
+    position: relative;
     left:0;
-    top:8px;
+    top:20px;
     width:50px;
     height:auto;
 }
 .maxScalarInputBox {
     z-index: 11;
     pointer-events: all;
-    position: absolute;
-    left:250px;
-    top:8px;
+    position: relative;
+    left:200px;
+    top:20px;
     width:50px;
     height:auto;
 }
