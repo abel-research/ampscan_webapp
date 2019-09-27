@@ -161,6 +161,18 @@ function getMaxScalar() {
 function getMinScalar() {
     return _minScalar
 }
+function setMinScalar(val) {
+    _minScalar = val;
+    setAnalyseMinSlider(val);
+    setRegisterMinSlider(val);
+    updateDoubleSliders();
+}
+function setMaxScalar(val) {
+    _maxScalar = val;
+    setAnalyseMaxSlider(val);
+    setRegisterMaxSlider(val);
+    updateDoubleSliders();
+}
 let _maxScalar=5, _minScalar=-5;
 
 // Double slider from https://stackoverflow.com/questions/4753946/html5-slider-with-two-inputs-possible
@@ -196,6 +208,7 @@ function getVals() {
         updateAnalyse();
     }
 }
+
 
 function updateDoubleSliders() {
     var sliderSections = document.getElementsByClassName("range-slider");

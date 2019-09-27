@@ -260,3 +260,11 @@ function numberOfColoursChanged() {
 function getNumberOfColours() {
     return document.getElementById("noColours").value/1;
 }
+
+function setRegisterMinSlider(val) {
+    document.getElementById("registerMinSlider").value = val
+}
+
+function setRegisterMaxSlider(val) {
+    document.getElementById("registerMaxSlider").value = val
+}
