@@ -35,6 +35,14 @@ function updateAnalyse() {
     refreshVTK();
 }
 
+function setAnalyseMinSlider(val) {
+    document.getElementById("analyseMinSlider").value = val
+}
+
+function setAnalyseMaxSlider(val) {
+    document.getElementById("analyseMaxSlider").value = val
+}
+
 function getAnalyseTarget() {
     return document.getElementById("visualisationTargetDropdown").value;
 }

@@ -208,6 +208,9 @@ function exportRegObject() {
         updateScalarVisiblity();
         setVisualisationTarget(name);
         updateAnalyse();
+        setAnalyseMinSlider(getMinScalar());
+        setAnalyseMaxSlider(getMaxScalar());
+        updateDoubleSliders();
     })
 }
 
