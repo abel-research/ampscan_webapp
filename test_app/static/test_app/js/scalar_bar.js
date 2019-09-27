@@ -101,8 +101,8 @@ function scalarsRangeChanged() {
 }
 
 function getNoTicks() {
-    let lowerRange = getMinScalar() / 1;
-    let upperRange = getMaxScalar() / 1;
+    let lowerRange = getMinScalar();
+    let upperRange = getMaxScalar();
 
     let noTicks = upperRange-lowerRange;
     while (noTicks < 6 && noTicks !== 0) {
