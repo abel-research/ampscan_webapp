@@ -86,14 +86,21 @@ function updateScalars(objID) {
 
 // Update the scalar max/min ranges for the sliders
 function updateScalarsMaxMin() {
-    // let abs = Math.max(Math.abs(minScalar), Math.abs(maxScalar)).toFixed(0);
-    // if (!isAbsErrorEnabled()) {
-    //     document.getElementById("scalarMin").min = -abs;
-    // }
-    // else {
-    //     document.getElementById("scalarMin").min = 0;
-    // }
-    // document.getElementById("scalarMax").max = abs;
+    var sliderSections = document.getElementsByClassName("range-slider");
+    for (var x = 0; x < sliderSections.length; x++) {
+        var sliders = sliderSections[x].getElementsByTagName("input");
+        for (var y = 0; y < sliders.length; y++) {
+            if (sliders[y].type === "range") {
+                let abs = Math.max(Math.abs(minScalar), Math.abs(maxScalar)).toFixed(0);
+                if (!isAbsErrorEnabled()) {
+                    sliders[y].min = -abs;
+                } else {
+                    sliders[y].min = 0;
+                }
+                sliders[y].max = abs;
+            }
+        }
+    }
 }
 
 function scalarsRangeChanged() {
@@ -168,7 +175,7 @@ function getVals() {
     _minScalar = slide1;
     _maxScalar = slide2;
     var displayElement = parent.getElementsByClassName("rangeValues")[0];
-    displayElement.innerHTML = slide1 + " - " + slide2;
+    displayElement.innerHTML = slide1 + "mm - " + slide2 + "mm";
     if ("_regObject" in objects)
         updateScalars("_regObject");
 }
