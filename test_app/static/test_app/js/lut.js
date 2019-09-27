@@ -1,6 +1,3 @@
-
-
-
 const vtk = parent.window.vtk;
 const macro = vtk.macro;
 const vtkParentClass = vtk.Common.Core.vtkLookupTable;
@@ -9,63 +6,61 @@ const vtkParentClass = vtk.Common.Core.vtkLookupTable;
 // Static API
 // ----------------------------------------------------------------------------
 
-export const STATIC = {
-
-};
+export const STATIC = {};
 
 // ----------------------------------------------------------------------------
 // vtkMyClass methods
 // ----------------------------------------------------------------------------
 
 function vtkNewLookupTable(publicAPI, model) {
-  // Set our className
-  model.classHierarchy.push('vtkNewLookupTable');
+    // Set our className
+    model.classHierarchy.push('vtkNewLookupTable');
 
-  // Capture "parentClass" api for internal use
-  const superClass = Object.assign({}, publicAPI);
+    // Capture "parentClass" api for internal use
+    const superClass = Object.assign({}, publicAPI);
 
-  // Public API methods
-  publicAPI.getTable = () => {
-      return model.table;
-  };
+    // Public API methods
+    publicAPI.getTable = () => {
+        return model.table;
+    };
 
-  //new force build method that traverses straight through the RGB colour space
+    //new force build method that traverses straight through the RGB colour space
     // rather then traversing through HSV and then converting to RGB for the colour map
-  publicAPI.forceBuild = () =>{
+    publicAPI.forceBuild = () => {
 
         const maxIndex1 = model.numberOfColors;
-        const spacing = 1/(maxIndex1-1);
+        const spacing = 1 / (maxIndex1 - 1);
         const u = model.colors.length;
+
         let rgba1 = [];
-        for (let i = 0; i < maxIndex1; i++){
+        for (let i = 0; i < maxIndex1; i++) {
             let x = i * spacing;
-            
-            for (var j = 0; j < u; j++){
-              if (model.colors[j][3] <= x && model.colors[j+1][3] >= x){
-                break
-              }
+
+            for (var j = 0; j < u; j++) {
+                if (model.colors[j][3] <= x && model.colors[j + 1][3] >= x) {
+                    break
+                }
             }
             const x0 = model.colors[j][3];
-            const x1 = model.colors[j+1][3];
-            for (let k = 0; k < 3; k++){
-              const y0 = model.colors[j][k];
-              const y1 = model.colors[j+1][k];
-              rgba1[k] = y0 + (x - x0) * ((y1 - y0)/(x1 - x0));
-            rgba1[3] = 255;
-            
-            model.table[i * 4] = rgba1[0];
-            model.table[i * 4 + 1] = rgba1[1];
-            model.table[i * 4 + 2] = rgba1[2];
-            model.table[i * 4 + 3] = rgba1[3];
+            const x1 = model.colors[j + 1][3];
+            for (let k = 0; k < 3; k++) {
+                const y0 = model.colors[j][k];
+                const y1 = model.colors[j + 1][k];
+                rgba1[k] = y0 + (x - x0) * ((y1 - y0) / (x1 - x0));
+                rgba1[3] = 255;
 
+                model.table[i * 4] = rgba1[0];
+                model.table[i * 4 + 1] = rgba1[1];
+                model.table[i * 4 + 2] = rgba1[2];
+                model.table[i * 4 + 3] = rgba1[3];
+            }
         }
-      }
         superClass.buildSpecialColors();
 
         model.buildTime.modified();
     };
 
-    publicAPI.build = () =>{
+    publicAPI.build = () => {
         publicAPI.forceBuild();
     };
 }
@@ -75,27 +70,27 @@ function vtkNewLookupTable(publicAPI, model) {
 // ----------------------------------------------------------------------------
 const DEFAULT_VALUES = {
     colors: [
-             [37.0, 48.0, 94.0, 0.0],
-             [212.0, 221.0, 225.0, 0.5],
-             [170.0, 75.0, 65.0, 1.0]
-            ],
+        [37.0, 48.0, 94.0, 0.0],
+        [212.0, 221.0, 225.0, 0.5],
+        [170.0, 75.0, 65.0, 1.0]
+    ],
     numberOfColors: 10
 };
 
 // ----------------------------------------------------------------------------
 
 export function extend(publicAPI, model, initialValues = {}) {
-  Object.assign(model, DEFAULT_VALUES, initialValues);
+    Object.assign(model, DEFAULT_VALUES, initialValues);
 
-  macro.set(publicAPI, model, ["colors"]);
+    macro.set(publicAPI, model, ["colors"]);
 
-  macro.get(publicAPI, model, ["colors"]);
+    macro.get(publicAPI, model, ["colors"]);
 
-  // Inheritance
-  vtkParentClass.extend(publicAPI, model, initialValues);
+    // Inheritance
+    vtkParentClass.extend(publicAPI, model, initialValues);
 
-  // Object specific methods
-  vtkNewLookupTable(publicAPI, model);
+    // Object specific methods
+    vtkNewLookupTable(publicAPI, model);
 }
 
 // ----------------------------------------------------------------------------
@@ -104,4 +99,4 @@ export const newInstance = macro.newInstance(extend, 'vtkNewLookupTable');
 
 // ----------------------------------------------------------------------------
 
-export default Object.assign({ newInstance, extend }, STATIC);
+export default Object.assign({newInstance, extend}, STATIC);

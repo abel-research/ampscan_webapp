@@ -7,11 +7,18 @@ function createLUT() {
     let smn = getMaxScalar();
     let smx = getMinScalar();
     let zero_proportion = smx / (smx-smn);
-
+    console.log(zero_proportion.toFixed(3));
+    if (zero_proportion !== 0) {
+        zero_proportion = zero_proportion.toFixed(2)
+    } else {
+        zero_proportion = -0.0001;
+    }
+    // zero_proportion = Math.max(0, zero_proportion);
+    // zero_proportion = Math.min(1, zero_proportion);
     if (isAbsErrorEnabled()) {
         lookupTable.setColors([
              [212, 221, 225, 0],
-             [212, 221, 225, zero_proportion.toFixed(2)],
+             [212, 221, 225, zero_proportion],
              [37, 48, 94, 1.0]
             ]);
     } else {

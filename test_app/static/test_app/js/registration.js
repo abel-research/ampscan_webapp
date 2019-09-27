@@ -164,6 +164,7 @@ function runRegistration() {
                     document.getElementById("scalarBarContainer").style.display = "grid";
                     updateRegistrationGraph();
                     updateScalars("_regObject");
+                    updateDoubleSliders();
                     hideProcessingScreen();
                 });
             })
