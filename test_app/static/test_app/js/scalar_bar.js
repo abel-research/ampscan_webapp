@@ -104,7 +104,6 @@ function updateScalarsMaxMin() {
 function analyseScalarsRangeChanged() {
     updateScalars(getAnalyseTarget());
     updateAnalyse();
-    console.log(12);
 }
 
 function scalarsRangeChanged() {
@@ -165,13 +164,39 @@ function setMinScalar(val) {
     _minScalar = val;
     setAnalyseMinSlider(val);
     setRegisterMinSlider(val);
-    updateDoubleSliders();
+    // updateDoubleSliders();
+    for (const inp of document.getElementsByClassName("minScalarInputBox")) {
+        inp.value = getMinScalar();
+    }
+
+    if (getCurrentTab() === "Register") {
+        if ("_regObject" in objects) {
+            updateScalars("_regObject");
+        }
+    } else if (getCurrentTab() === "Analyse") {
+        updateAnalyse();
+    }
 }
 function setMaxScalar(val) {
+    if (val === getMinScalar()) {
+        // Make sure not equal
+        val += 1;
+    }
     _maxScalar = val;
     setAnalyseMaxSlider(val);
     setRegisterMaxSlider(val);
-    updateDoubleSliders();
+    // updateDoubleSliders();
+    for (const inp of document.getElementsByClassName("maxScalarInputBox")) {
+        inp.value = getMaxScalar();
+    }
+
+    if (getCurrentTab() === "Register") {
+        if ("_regObject" in objects) {
+            updateScalars("_regObject");
+        }
+    } else if (getCurrentTab() === "Analyse") {
+        updateAnalyse();
+    }
 }
 let _maxScalar=5, _minScalar=-5;
 
@@ -188,25 +213,11 @@ function getVals() {
         slide2 = slide1;
         slide1 = tmp;
     }
-    _minScalar = slide1;
-    _maxScalar = slide2;
+    setMinScalar(slide1);
+    setMaxScalar(slide2);
     var displayElement = parent.getElementsByClassName("rangeValues")[0];
-    displayElement.innerHTML = slide1 + "mm - " + slide2 + "mm";
+    displayElement.innerHTML = getMinScalar() + "mm - " + getMaxScalar() + "mm";
 
-    for (const inp of document.getElementsByClassName("minScalarInputBox")) {
-        inp.value = slide1;
-    }
-    for (const inp of document.getElementsByClassName("maxScalarInputBox")) {
-        inp.value = slide2;
-    }
-
-    if (getCurrentTab() === "Register") {
-        if ("_regObject" in objects) {
-            updateScalars("_regObject");
-        }
-    } else if (getCurrentTab() === "Analyse") {
-        updateAnalyse();
-    }
 }
 
 
