@@ -11,6 +11,9 @@
 {# Add interactive plotly graphs #}
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
+{# Add nouislider code #}
+<script src="{% static "test_app/nouislider/nouislider.js" %}"></script>
+<link href="{% static "test_app/nouislider/nouislider.css" %}" rel="stylesheet" type="text/css">
 
 {# Add program scripts #}
 <div>
@@ -158,6 +161,58 @@
                     <input oninput="scalarsRangeChanged()" class="doubleSliderPart" value="-5" min="-10" max="10" step="1" type="range">
                     <input oninput="scalarsRangeChanged()" class="doubleSliderPart" value="5" min="-10" max="10" step="1" type="range">
                 </section>
+                <div id="dslider">
+                    <script>
+                        var range = document.getElementById('dslider');
+                        noUiSlider.create(range, {
+
+                            range: {
+                                'min': -10,
+                                'max': 10
+                            },
+
+                            step: 1,
+
+                            // Handles start at ...
+                            start: [-6, 6],
+
+                            // ... must be at least 300 apart
+                            margin: 1,
+
+                            // ... but no more than 600
+                            {#limit: 600,#}
+
+                            // Display colored bars between handles
+                            {#connect: true,#}
+
+                            // Put '0' at the bottom of the slider
+                            direction: 'rtl',
+                            orientation: 'horizontal',
+
+                            // Move handle on tap, bars are draggable
+                            behaviour: 'tap-drag',
+                            tooltips: true,
+                            format: {
+                                to: function ( value ) {
+                                    return value + ',-';
+                                },
+                                from: function ( value ) {
+                                    return value.replace(',-', '');
+                                }
+                            },
+
+                            // Show a scale with the slider
+                            pips: {
+                                mode: 'steps',
+                                stepped: true,
+                                density: 4
+                            }
+                        });
+range.style.width = '400px';
+range.style.margin = '0 auto 30px';
+
+                </script>
+                </div>
                 <div class="controlOptionLineContainer">
                     <label for="nameInput">Name:</label>
                     <input type="text" id="nameInput" oninput="checkNameValid();">

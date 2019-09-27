@@ -17,6 +17,7 @@ section.range-slider input {
     height: 18px;
     margin: 0;
     padding: 0;
+    background: transparent;
 }
 
 section.range-slider input::-webkit-slider-thumb {
@@ -37,7 +38,8 @@ section.range-slider input::-moz-range-thumb {
 section.range-slider input::-moz-range-track {
     position: relative;
     z-index: -1;
-    background-color: rgba(0, 0, 0, 1);
+    /*background-color: rgba(0, 0, 0, 1);*/
+    background: none transparent;
     border: 0;
 }
 section.range-slider input:last-of-type::-moz-range-track {
