@@ -181,6 +181,13 @@ function getVals() {
     var displayElement = parent.getElementsByClassName("rangeValues")[0];
     displayElement.innerHTML = slide1 + "mm - " + slide2 + "mm";
 
+    for (const inp of document.getElementsByClassName("minScalarInputBox")) {
+        inp.value = slide1;
+    }
+    for (const inp of document.getElementsByClassName("maxScalarInputBox")) {
+        inp.value = slide2;
+    }
+
     if (getCurrentTab() === "Register") {
         if ("_regObject" in objects) {
             updateScalars("_regObject");
