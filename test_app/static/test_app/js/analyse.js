@@ -19,6 +19,11 @@ function updateAnalyse() {
     }
     dropdown.selectedIndex = si;
 
+    // Select something
+    if (getAnalyseTarget() === "" && dropdown.options.length > 1) {
+        dropdown.selectedIndex = 1;
+    }
+
     for (const i in objects) {
         if (objects[i].name === getAnalyseTarget()) {
             objects[i].actor.setVisibility(true);
@@ -31,6 +36,7 @@ function updateAnalyse() {
     fetchDataTable();
     fetchDeviationHistogram(document.getElementById("bottomRightAnalyseViewer"),
         getAnalyseRegObjects(), getNumberOfBinsAnalyse());
+
     resetCamera();
     refreshVTK();
 }
