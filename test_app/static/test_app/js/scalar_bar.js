@@ -215,8 +215,8 @@ function getVals() {
     }
     setMinScalar(slide1);
     setMaxScalar(slide2);
-    var displayElement = parent.getElementsByClassName("rangeValues")[0];
-    displayElement.innerHTML = getMinScalar() + "mm  -  " + getMaxScalar() + "mm";
+    // var displayElement = parent.getElementsByClassName("rangeValues")[0];
+    // displayElement.innerHTML = getMinScalar() + "mm  -  " + getMaxScalar() + "mm";
 
 }
 
