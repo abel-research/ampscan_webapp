@@ -89,16 +89,20 @@ function updateScalarsMaxMin() {
         var sliders = sliderSections[x].getElementsByTagName("input");
         for (var y = 0; y < sliders.length; y++) {
             if (sliders[y].type === "range") {
-                let abs = Math.max(Math.abs(minScalar), Math.abs(maxScalar)).toFixed(0);
+                let abs = getScalarAbsRange();
                 if (!isAbsErrorEnabled()) {
-                    sliders[y].min = -abs;
+                    sliders[y].min = (-abs).toFixed(0);
                 } else {
                     sliders[y].min = 0;
                 }
-                sliders[y].max = abs;
+                sliders[y].max = abs.toFixed(0);
             }
         }
     }
+}
+
+function getScalarAbsRange() {
+    return Math.max(Math.abs(minScalarRange), Math.abs(maxScalarRange));
 }
 
 function analyseScalarsRangeChanged() {
@@ -154,16 +158,24 @@ function createTicks(min, max) {
 
 
 function getMaxScalar() {
+    if (_maxScalar > getScalarAbsRange()) {
+        return getScalarAbsRange().toFixed(0);
+    }
     return _maxScalar
 }
 
 function getMinScalar() {
+    if (isAbsErrorEnabled()) {
+        _minScalar = Math.max(0, _minScalar).toFixed(0);
+    } else if (_minScalar < -getScalarAbsRange()) {
+        return -getScalarAbsRange().toFixed(0);
+    }
     return _minScalar
 }
 function setMinScalar(val) {
-    _minScalar = val;
     setAnalyseMinSlider(val);
     setRegisterMinSlider(val);
+    _minScalar = val;
     // updateDoubleSliders();
     for (const inp of document.getElementsByClassName("minScalarInputBox")) {
         inp.value = getMinScalar();

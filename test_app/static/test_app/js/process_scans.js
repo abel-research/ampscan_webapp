@@ -7,7 +7,6 @@ function createLUT() {
     let smn = getMaxScalar();
     let smx = getMinScalar();
     let zero_proportion = smx / (smx-smn);
-    console.log(zero_proportion.toFixed(3));
     if (zero_proportion !== 0) {
         zero_proportion = zero_proportion.toFixed(2)
     } else {
@@ -136,8 +135,8 @@ function downloadPolyDataAndUpdate(objID, callback) {
                     mx = Math.max(jsonResponse["scalars"][i], mx);
                 }
             }
-            maxScalar = mx;
-            minScalar = mn;
+            maxScalarRange = mx;
+            minScalarRange = mn;
             updateScalars(objID);
             const vtScalar = vtk.Common.Core.vtkDataArray.newInstance({
                 numberOfComponents: 1,

@@ -157,6 +157,7 @@ function runRegistration() {
                 }
                 downloadPolyDataAndUpdate("_regObject", function () {
                     hideAllObjects();
+
                     objects["_regObject"].setActorVisibility(true);
                     document.getElementById("registrationControls").style.display = "block";
                     updateScalarsMaxMin();
@@ -165,6 +166,10 @@ function runRegistration() {
                     updateRegistrationGraph();
                     updateScalars("_regObject");
                     updateDoubleSliders();
+
+                    // Reset scalar values (fixes bug)
+                    setMinScalar(getMinScalar());
+                    setMaxScalar(getMaxScalar());
                     hideProcessingScreen();
                 });
             })
