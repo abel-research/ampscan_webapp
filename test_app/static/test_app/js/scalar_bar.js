@@ -102,7 +102,7 @@ function updateScalarsMaxMin() {
 }
 
 function getScalarAbsRange() {
-    return Math.max(Math.abs(minScalarRange), Math.abs(maxScalarRange));
+    return Math.round(Math.max(Math.abs(minScalarRange), Math.abs(maxScalarRange)));
 }
 
 function analyseScalarsRangeChanged() {
@@ -158,17 +158,17 @@ function createTicks(min, max) {
 
 
 function getMaxScalar() {
-    if (_maxScalar > getScalarAbsRange()) {
-        return getScalarAbsRange().toFixed(0);
-    }
+    // if (_maxScalar > getScalarAbsRange()) {
+    //     return getScalarAbsRange().toFixed(0);
+    // }
     return _maxScalar
 }
 
 function getMinScalar() {
     if (isAbsErrorEnabled()) {
-        _minScalar = Math.max(0, _minScalar).toFixed(0);
+        _minScalar = Math.max(0, _minScalar);
     } else if (_minScalar < -getScalarAbsRange()) {
-        return -getScalarAbsRange().toFixed(0);
+        return -getScalarAbsRange();
     }
     return _minScalar
 }

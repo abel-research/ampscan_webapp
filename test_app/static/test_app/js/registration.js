@@ -167,9 +167,13 @@ function runRegistration() {
                     updateScalars("_regObject");
                     updateDoubleSliders();
 
+                    setAbsErrorEnabled();
+
                     // Reset scalar values (fixes bug)
                     setMinScalar(getMinScalar());
                     setMaxScalar(getMaxScalar());
+
+
                     hideProcessingScreen();
                 });
             })
@@ -181,8 +185,13 @@ function changeAbsError() {
 
 }
 
+
+var _absErrorEnabled = false;
 function isAbsErrorEnabled() {
-    return document.getElementById("absErrorCheckbox").checked;
+    return _absErrorEnabled;
+}
+function setAbsErrorEnabled() {
+    _absErrorEnabled = document.getElementById("absErrorCheckbox").checked;
 }
 
 /**
