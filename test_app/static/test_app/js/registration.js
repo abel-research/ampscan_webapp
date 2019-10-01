@@ -131,6 +131,11 @@ function runRegistration() {
     if (getRegistrationTarget() !== "" && getRegistrationBaseline() !== "" && getRegistrationTarget() !== getRegistrationBaseline()) {
         showProcessingScreen();
 
+        if (setAbsErrorEnabled() && !isAbsErrorEnabled()) {
+            // Change detected
+            setMinScalar(-5);
+        }
+
         const formData = new FormData();
 
         formData.append("session", session_id);
@@ -164,14 +169,14 @@ function runRegistration() {
                     updateRegistrationGraph();
                     document.getElementById("scalarBarContainer").style.display = "grid";
                     updateRegistrationGraph();
-                    updateScalars("_regObject");
                     updateDoubleSliders();
+                    updateScalars("_regObject");
+                    numberOfColoursChanged();
 
-                    setAbsErrorEnabled();
 
                     // Reset scalar values (fixes bug)
-                    setMinScalar(getMinScalar());
-                    setMaxScalar(getMaxScalar());
+                    // setMinScalar(getMinScalar());
+                    // setMaxScalar(getMaxScalar());
 
 
                     hideProcessingScreen();
@@ -191,7 +196,9 @@ function isAbsErrorEnabled() {
     return _absErrorEnabled;
 }
 function setAbsErrorEnabled() {
+    let change = _absErrorEnabled !== document.getElementById("absErrorCheckbox").checked;
     _absErrorEnabled = document.getElementById("absErrorCheckbox").checked;
+    return change;
 }
 
 /**

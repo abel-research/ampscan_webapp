@@ -72,6 +72,7 @@ function updateScalars(objID) {
     // document.getElementById("scalarMaxLabel").innerHTML = scalarMax.value/1 + "mm";
     let lowerRange = getMinScalar();
     let upperRange = getMaxScalar();
+    objects[objID].actor.getMapper().setLookupTable(lookupTable);
     objects[objID].actor.getMapper().setScalarRange(lowerRange, upperRange);
     // document.getElementById("scalarMin").max = getMaxScalar()-1;
     // document.getElementById("scalarMax").min = getMinScalar();
@@ -91,11 +92,11 @@ function updateScalarsMaxMin() {
             if (sliders[y].type === "range") {
                 let abs = getScalarAbsRange();
                 if (!isAbsErrorEnabled()) {
-                    sliders[y].min = (-abs).toFixed(0);
+                    sliders[y].min = -abs;
                 } else {
                     sliders[y].min = 0;
                 }
-                sliders[y].max = abs.toFixed(0);
+                sliders[y].max = abs;
             }
         }
     }
@@ -167,8 +168,6 @@ function getMaxScalar() {
 function getMinScalar() {
     if (isAbsErrorEnabled()) {
         _minScalar = Math.max(0, _minScalar);
-    } else if (_minScalar < -getScalarAbsRange()) {
-        return -getScalarAbsRange();
     }
     return _minScalar
 }
