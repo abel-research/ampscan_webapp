@@ -5,7 +5,7 @@ from django.conf import settings
 from django.http import JsonResponse
 
 import os
-from AmpScan import AmpObject, registration, align, analyse, output
+from ampscan import AmpObject, registration, align, analyse
 from random import randrange
 import vtk
 import numpy as np

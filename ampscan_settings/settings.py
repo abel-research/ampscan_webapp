@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'ampscan.urls'
+ROOT_URLCONF = 'ampscan_settings.urls'
 
 TEMPLATES = [
     {
@@ -72,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ampscan.wsgi.application'
+WSGI_APPLICATION = 'ampscan_settings.wsgi.application'
 
 
 WEBPACK_LOADER = {
