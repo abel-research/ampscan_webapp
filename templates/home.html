@@ -3,30 +3,30 @@
 
 {% block content %}
 
-<link href="{% static "test_app/css/style.css" %}" rel="stylesheet" type="text/css">
-<link href="{% static "test_app/css/slider.css" %}" rel="stylesheet" type="text/css">
-<link href="{% static "test_app/css/double_slider.css" %}" rel="stylesheet" type="text/css">
-<link href="{% static "test_app/css/processingScreen.css" %}" rel="stylesheet" type="text/css">
+<link type="text/css" href="{% static "test_app/css/style.css" %}" rel="stylesheet">
+<link type="text/css" href="{% static "test_app/css/slider.css" %}" rel="stylesheet">
+<link type="text/css" href="{% static "test_app/css/double_slider.css" %}" rel="stylesheet">
+<link type="text/css" href="{% static "test_app/css/processingScreen.css" %}" rel="stylesheet">
 
 {# Add interactive plotly graphs #}
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 {# Add program scripts #}
 <div>
-    <script src="{% static "test_app/js/AmpObjectContainer.js" %}"></script>
-    <script src="{% static "test_app/js/process_scans.js" %}"></script>
-    <script src="{% static "test_app/js/registration.js" %}"></script>
-    <script src="{% static "test_app/js/tabs.js" %}"></script>
-    <script src="{% static "test_app/js/drop_down.js" %}"></script>
-    <script src="{% static "test_app/js/align.js" %}"></script>
-    <script src="{% static "test_app/js/object_table.js" %}"></script>
-    <script src="{% static "test_app/js/home.js" %}"></script>
-    <script src="{% static "test_app/js/scalar_bar.js" %}"></script>
-    <script src="{% static "test_app/js/graphs.js" %}"></script>
-    <script src="{% static "test_app/js/analyse.js" %}"></script>
-    <script src="{% static "test_app/js/picking.js" %}"></script>
-    <script src="{% static "test_app/js/dynamicTable.js" %}"></script>
-    <script type="module">import newLookupTable from "{% static "test_app/js/lut.js" %}"; window.vtkNewLookupTable = newLookupTable;</script>
+    <script type="text/javascript" src="{% static "test_app/js/AmpObjectContainer.js" %}"></script>
+    <script type="text/javascript" src="{% static "test_app/js/process_scans.js" %}"></script>
+    <script type="text/javascript" src="{% static "test_app/js/registration.js" %}"></script>
+    <script type="text/javascript" src="{% static "test_app/js/tabs.js" %}"></script>
+    <script type="text/javascript" src="{% static "test_app/js/drop_down.js" %}"></script>
+    <script type="text/javascript" src="{% static "test_app/js/align.js" %}"></script>
+    <script type="text/javascript" src="{% static "test_app/js/object_table.js" %}"></script>
+    <script type="text/javascript" src="{% static "test_app/js/home.js" %}"></script>
+    <script type="text/javascript" src="{% static "test_app/js/scalar_bar.js" %}"></script>
+    <script type="text/javascript" src="{% static "test_app/js/graphs.js" %}"></script>
+    <script type="text/javascript" src="{% static "test_app/js/analyse.js" %}"></script>
+    <script type="text/javascript" src="{% static "test_app/js/picking.js" %}"></script>
+    <script type="text/javascript" src="{% static "test_app/js/dynamicTable.js" %}"></script>
+    <script type="text/javascript" type="module">import newLookupTable from "{% static "test_app/js/lut.js" %}"; window.vtkNewLookupTable = newLookupTable;</script>
 </div>
 
 
