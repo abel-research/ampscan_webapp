@@ -89,6 +89,13 @@ function updateObject(polyData, objID) {
 }
 
 
+/**
+ * Create a fetch request and downloads the model data inc verts, faces etc
+ * Updates the scalar bar, and object tables with new object
+ * @param objID
+ * @param callback
+ * @returns {Readonly<*>}
+ */
 function downloadPolyDataAndUpdate(objID, callback) {
     polyData = vtk.Common.DataModel.vtkPolyData.newInstance();
 

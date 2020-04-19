@@ -1,12 +1,19 @@
 
 document.documentElement.style.setProperty("--rowHeight", window.outerHeight/2);
 
+/**
+ * Hides all the object actors
+ */
 function hideAllObjects() {
     for (objID in objects) {
         objects[objID].setActorVisibility(false);
     }
 }
 
+/**
+ * Removes an object from the object table and makes a server call to remove object from server
+ * @param objID
+ */
 function removeObject(objID) {
     for (var renderObject of Object.values(renderers)) {
         renderObject["renderer"].removeActor(objects[objID].actor);
@@ -51,7 +58,9 @@ function setSessionID(id) {
 // ----------------------------------------------------------------------------
 const renderers = {};
 
-// Create renderer and add to list of renderers
+/**
+ * Create renderer and add to list of global renderers
+ */
 function addRenderer(name, parentNode, interactive=false, bg=[0.97, 0.97, 0.97]) {
     const renderWindow = vtk.Rendering.Core.vtkRenderWindow.newInstance();
     const renderer = vtk.Rendering.Core.vtkRenderer.newInstance({ background: bg });
@@ -76,7 +85,9 @@ function addRenderer(name, parentNode, interactive=false, bg=[0.97, 0.97, 0.97])
     renderers[name] = {"renderer":renderer, "container":container, "openglRenderWindow":openglRenderWindow, "interactor": interactor};
 }
 
-
+/**
+ * Show the alignment render views
+ */
 function showAlignViews() {
     const alignViews = document.getElementsByClassName("alignViewContainer");
     for (let view of alignViews) {
@@ -90,6 +101,9 @@ function showAlignViews() {
     updateWindowSize();
 }
 
+/**
+ * Show the main render view
+ */
 function showMainView() {
     const alignViews = document.getElementsByClassName("alignViewContainer");
     for (let view of alignViews) {
@@ -103,6 +117,9 @@ function showMainView() {
     updateWindowSize();
 }
 
+/**
+ * Show the alingment render view
+ */
 function showAnalyseViews() {
     const alignViews = document.getElementsByClassName("alignViewContainer");
     for (let view of alignViews) {
@@ -140,6 +157,9 @@ var minScalarRange = 0;
 
 showMainView();
 
+/**
+ * Make the window fit into the div container
+ */
 function updateWindowSize() {
     // Update window size when window size changes
     for (var renderObject of Object.values(renderers)) {
@@ -161,6 +181,10 @@ updateWindowSize();
 // Add scans
 // ----------------------------------------------------------------------------
 var rolled = false;
+
+/**
+ * Reset the view so that the objects all fit in the view window
+ */
 function resetCamera() {
     for (var renderObject of Object.values(renderers)) {
         renderObject["renderer"].resetCamera();
@@ -188,6 +212,10 @@ function sliceToggle() {
     resetCamera();
 }
 
+/**
+ * For the analyse slicing
+ * Update the distance to the slice
+ */
 function updateSlices() {
     // If slicing is enabled
     if (document.getElementById("sliceToggle").checked) {
@@ -218,12 +246,19 @@ function updateSlices() {
 
 var lookupTable;
 
+/**
+ * Rerender the vtk window
+ */
 function refreshVTK() {
     for (var renderObject of Object.values(renderers)) {
         renderObject["renderer"].getRenderWindow().render(); // Rerender
     }
 }
 
+/**
+ *
+ * @param objID
+ */
 function hideObject(objID) {
     objects[objID].display = false;
     objects[objID].actor.setVisibility(false);
