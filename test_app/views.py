@@ -371,14 +371,16 @@ def upload_view(request):
         # File system adds %20s instead of whitespace which causes problems
         uploaded_file_url = uploaded_file_url.replace("%20", " ")
 
+        # print(settings.BASE_DIR)
+
         # Read in AmpObject from uploaded file
         try:
-            obj = AmpObject(settings.BASE_DIR + uploaded_file_url)
+            obj = AmpObject(os.path.join(settings.BASE_DIR, os.path.abspath(uploaded_file_url[1:])))
         except ValueError:
             return JsonResponse({"corrupted": "true"})
 
         # Delete uploaded file
-        fs.delete(settings.BASE_DIR + uploaded_file_url)
+        fs.delete(os.path.join(settings.BASE_DIR, uploaded_file_url[1:]))
 
         # Get vtk actor (may be obsolete now)
         obj.addActor()

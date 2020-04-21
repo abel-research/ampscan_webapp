@@ -2,7 +2,7 @@
 {% load render_bundle from webpack_loader %}
 <html>
 <head>
-    {% render_bundle 'main' %}
+    {% render_bundle 'main' config="DEFAULT" %}
     <title>AmpScan</title>
     {% load static %}
     <link type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
