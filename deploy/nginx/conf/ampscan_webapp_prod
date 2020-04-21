@@ -1,0 +1,40 @@
+server {
+    listen 80 default;
+    server_name www.ampscan.com ampscan.com;  # Change for new instances!
+
+    access_log /var/log/nginx/ampscan_webapp_prod.access.log;
+    error_log /var/log/nginx/ampscan_webapp_prod.error.log;
+
+    client_max_body_size 100M;
+
+    location /static/ {
+        alias /var/www/ampscan_webapp_prod/static/;
+    }
+
+    location / {
+        include     uwsgi_params;
+        uwsgi_pass  unix:/run/uwsgi/ampscan_webapp_prod.sock;
+    }
+}
+
+server {
+    listen 443 ssl default;
+    server_name www.ampscan.com ampscan.com;  # Change this, and the first entry, for each new clinic!
+
+    ssl_certificate /etc/tls/certs/entca_srv02827.soton.ac.uk.crt;
+    ssl_certificate_key     /etc/tls/private/entca_srv02827.soton.ac.uk.key;
+
+    access_log /var/log/nginx/ampscan_webapp_prod.access.log;
+    error_log /var/log/nginx/ampscan_webapp_prod.error.log;
+
+    client_max_body_size 100M;
+
+    location /static/ {
+        alias /var/www/ampscan_webapp_prod/static/;
+    }
+
+    location / {
+        include     uwsgi_params;
+        uwsgi_pass  unix:/run/uwsgi/ampscan_webapp_prod.sock;
+    }
+}
