@@ -374,13 +374,14 @@ def upload_view(request):
         # print(settings.BASE_DIR)
 
         # Read in AmpObject from uploaded file
+        file_loc = os.path.join(settings.BASE_DIR, os.path.abspath(uploaded_file_url[1:]))
         try:
-            obj = AmpObject(os.path.join(settings.BASE_DIR, os.path.abspath(uploaded_file_url[1:])))
+            obj = AmpObject(file_loc)
         except ValueError:
             return JsonResponse({"corrupted": "true"})
 
-        # Delete uploaded file
-        fs.delete(os.path.join(settings.BASE_DIR, uploaded_file_url[1:]))
+        # Delete uploaded file once it's read in
+        fs.delete(file_loc)
 
         # Get vtk actor (may be obsolete now)
         obj.addActor()
