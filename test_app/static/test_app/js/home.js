@@ -108,8 +108,37 @@ function getTrimHeight() {
 }
 function setTrimHeight(val) {
     trimHeight = val;
+    planeSource.setOrigin(0, 0, val);
+
 }
 
 function toggleSlicePlane() {
+    let checked = document.getElementById("showSlicePlane").checked;
+    planeSourceActor.setVisibility(checked);
+    refreshVTK();
+}
 
+
+
+const planeSource = vtk.Filters.Sources.vtkPlaneSource.newInstance();
+const planeSourceMapper = vtk.Rendering.Core.vtkMapper.newInstance();
+const planeSourceActor = vtk.Rendering.Core.vtkActor.newInstance();
+
+function addSlicePlane() {
+    // vtk.js/Sources/Filters/Sources
+
+    planeSourceActor.getProperty().setRepresentationToWireframe();
+    planeSourceActor.getProperty().setColor(0, 255, 0);
+
+    // actor.SetScale(100, 100, 100);
+    // TODO Needs to scale
+
+    planeSourceMapper.setInputConnection(planeSource.getOutputPort());
+    planeSourceActor.setMapper(planeSourceMapper);
+
+    renderers["primaryRenderer"]["renderer"].addActor(planeSourceActor);
+    renderers["primaryRenderer"]["renderer"].resetCamera();
+    renderers["primaryRenderer"]["renderer"].getRenderWindow().render();
+
+    toggleSlicePlane();
 }
