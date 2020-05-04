@@ -108,7 +108,8 @@ function getTrimHeight() {
 }
 
 // origin (xMin, yMin, height), Point1 (xMax, yMin, height), Point2(xMin, yMax, height)
-function setTrimHeight(height) {
+function setTrimHeight(val) {
+    let height = val / 1000.0;
     planeSource.setPoint1(
         100, -100, height
     );
