@@ -60,6 +60,19 @@
              <div class="controlOptionLineContainer" id="resetCameraContainer">
                 <button onclick="resetCamera();">Reset Camera</button>
              </div>
+             <div style="height: 50px">
+{#                 Gap for spacing #}
+             </div>
+             <div class="controlOptionLineContainer" style="height: 25px;">
+                Object: <select class="targetDropdown" id="homeDropdown" onchange="updateDropdown()"></select>
+             </div>
+             <div class="controlOptionLineContainer">
+                <button onclick="smoothObject();">Smooth</button>
+             </div>
+             <div class="controlOptionLineContainer">
+                Height:<input type="number" onchange="setTrimHeight(this.value)">
+                <button onclick="trimObjectButtonPressed();">Trim</button>
+             </div>
         </div>
 
         <div id="Align" class="tabcontent">
