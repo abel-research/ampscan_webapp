@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,15 +20,28 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '%3fz!1!z4-dm8&rk8co*@b04j6npj_krgl3-d^t3!405)8$0g0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+
+def generate_secret_key(file_name):
+    with open(file_name, "w") as f:
+        f.write("SECRET_KEY = '%s'".format(get_random_secret_key()))
+
+
+# Generate security key
+try:
+    from .secret_key import SECRET_KEY
+except ImportError:
+    SETTINGS_DIR = os.path.abspath(os.path.dirname(__file__))
+    generate_secret_key(os.path.join(SETTINGS_DIR, 'secret_key.py'))
+    from .secret_key import SECRET_KEY
 
 CSRF_USE_SESSIONS = False
 CSRF_COOKIE_HTTPONLY = False
 
+
+# THIS SHOULD BE CHANGED WHEN HOSTED
 ALLOWED_HOSTS = ['192.168.0.15', 'localhost', '127.0.0.1', 'srv02827.soton.ac.uk',]
 
 
