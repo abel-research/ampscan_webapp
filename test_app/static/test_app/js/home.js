@@ -84,7 +84,6 @@ function trimObject(height) {
     const formData = new FormData();
     formData.append("session", session_id);
     formData.append("objID", getHomeTarget());
-    console.log(height);
     formData.append("height", height);
 
     fetch("home/trim", {
