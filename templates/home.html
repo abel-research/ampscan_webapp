@@ -70,8 +70,14 @@
                 <button onclick="smoothObject();">Smooth</button>
              </div>
              <div class="controlOptionLineContainer">
-                Height:<input type="number" onchange="setTrimHeight(this.value)">
+                Height: <input type="number" onchange="setTrimHeight(this.value)">
                 <button onclick="trimObjectButtonPressed();">Trim</button>
+             </div>
+             <div class="controlOptionLineContainer">
+                Display Slice Plane: <label class="switch">
+                    <input type="checkbox" id="showSlicePlane" onclick="toggleSlicePlane()">
+                    <span class="toggleSlider"></span>
+                </label>
              </div>
         </div>
 

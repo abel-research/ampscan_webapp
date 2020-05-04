@@ -109,3 +109,7 @@ function getTrimHeight() {
 function setTrimHeight(val) {
     trimHeight = val;
 }
+
+function toggleSlicePlane() {
+
+}

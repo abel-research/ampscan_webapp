@@ -356,3 +356,27 @@ function hideProcessingScreen() {
 }
 
 var currentPickingObject = "";
+
+
+function addSlicePlane() {
+    // vtk.js/Sources/Filters/Sources
+    const planeSource = vtk.Filters.Sources.vtkPlaneSource.newInstance();
+    const mapper = vtk.Rendering.Core.vtkMapper.newInstance();
+    const actor = vtk.Rendering.Core.vtkActor.newInstance();
+
+    actor.getProperty().setRepresentationToWireframe();
+    actor.getProperty().setColor(0, 255, 0);
+
+    actor.SetScale(100, 100, 100);
+    // TODO Needs to scale
+
+    mapper.setInputConnection(planeSource.getOutputPort());
+    actor.setMapper(mapper);
+
+    renderers["primaryRenderer"]["renderer"].addActor(actor);
+    renderers["primaryRenderer"]["renderer"].resetCamera();
+    renderers["primaryRenderer"]["renderer"].getRenderWindow().render();
+
+    planeSource.set({ [propertyName]: value });
+}
+addSlicePlane();
