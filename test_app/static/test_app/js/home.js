@@ -106,10 +106,20 @@ let trimHeight = 0;
 function getTrimHeight() {
     return trimHeight;
 }
-function setTrimHeight(val) {
-    trimHeight = val;
-    planeSource.setOrigin(0, 0, val);
 
+// origin (xMin, yMin, height), Point1 (xMax, yMin, height), Point2(xMin, yMax, height)
+function setTrimHeight(height) {
+    planeSource.setPoint1(
+        100, -100, height
+    );
+    planeSource.setPoint2(
+        -100, 100, height
+    );
+    planeSource.setOrigin(
+        -100, -100, height
+    );
+    trimHeight = height;
+    refreshVTK();
 }
 
 function toggleSlicePlane() {
@@ -140,5 +150,6 @@ function addSlicePlane() {
     renderers["primaryRenderer"]["renderer"].resetCamera();
     renderers["primaryRenderer"]["renderer"].getRenderWindow().render();
 
+    setTrimHeight(0);
     toggleSlicePlane();
 }
