@@ -422,6 +422,13 @@ button {
     box-shadow: 0 2px 4px 0 rgba(100,100,100,0.1);
     text-align: center;
 }
+button:active {
+  background: #e5e5e5;
+  -webkit-box-shadow: inset 0 0 5px #c1c1c1;
+     -moz-box-shadow: inset 0 0 5px #c1c1c1;
+          box-shadow: inset 0 0 5px #c1c1c1;
+   outline: none;
+}
 button:hover {
     /*background-color: lightgray;*/
     color: seagreen;
@@ -543,3 +550,4 @@ button[disabled]{
     overflow: auto;
     visibility: visible;
 }
+

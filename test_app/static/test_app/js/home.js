@@ -73,6 +73,12 @@ function smoothObject() {
     });
 }
 
+//
+function trimObjectSelectButtonPressed(point) {
+    document.getElementById("trimButton"+point).;
+
+}
+
 
 // TRIM OBJECT
 function trimObjectButtonPressed() {
