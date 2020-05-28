@@ -77,6 +77,7 @@ function smoothObject() {
 let selectedPoint = -1;
 //
 function trimObjectSelectButtonPressed(point) {
+    // Toggle showing trim button
     if (selectedPoint !== point) {
         document.getElementById("trimButton" + point).style.background = "#e5e5e5";
         selectedPoint = point;
@@ -84,13 +85,17 @@ function trimObjectSelectButtonPressed(point) {
         document.getElementById("trimButton" + point).style.background = "transparent";
         selectedPoint = -1;
     }
+    // Make all other backgrounds transparent
     for (let i = 1; i <= 3; i ++) {
         if (point !== i) {
             document.getElementById("trimButton" + i).style.background = "transparent";
-            console.log(i);
         }
     }
 
+}
+
+function pointTrim() {
+    // TODO implement
 }
 
 

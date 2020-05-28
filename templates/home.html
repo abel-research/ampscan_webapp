@@ -73,6 +73,12 @@
                 Height(mm): <input type="number" onchange="setTrimHeight(this.value)">
                 <button onclick="trimObjectButtonPressed();">Trim</button>
              </div>
+             <div class="controlOptionLineContainer">
+                Display Slice Plane: <label class="switch">
+                    <input type="checkbox" id="showSlicePlane" onclick="toggleSlicePlane()">
+                    <span class="toggleSlider"></span>
+                </label>
+             </div>
              <div style="height: 50px">
 {#                 Gap for spacing #}
              </div>
@@ -80,12 +86,7 @@
                 <button id="trimButton1" onclick="trimObjectSelectButtonPressed(1);">Point 1</button>
                 <button id="trimButton2" onclick="trimObjectSelectButtonPressed(2);">Point 2</button>
                 <button id="trimButton3" onclick="trimObjectSelectButtonPressed(3);">Point 3</button>
-             </div>
-             <div class="controlOptionLineContainer">
-                Display Slice Plane: <label class="switch">
-                    <input type="checkbox" id="showSlicePlane" onclick="toggleSlicePlane()">
-                    <span class="toggleSlider"></span>
-                </label>
+                <button id="doPointTrimButton" onclick="pointTrim();">Trim</button>
              </div>
         </div>
 
