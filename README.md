@@ -9,7 +9,7 @@ Clone the repo using: `git clone https://github.com/abel-research/ampscan_webapp
 
 CD into directory using `cd ampscan_webapp`
 
-(Optional) create new conda environment `conda create -n ampscan_environment python=3.6 pip --no-default-packages` and activate conda environment `conda activate ampsan_environment`
+(Optional) create new conda environment `conda create -n ampscan_environment python=3.6 pip --no-default-packages` and activate conda environment `conda activate ampscan_environment`
 
 Install requirements with pip: `pip install -r requirements.txt`
 
