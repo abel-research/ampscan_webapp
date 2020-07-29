@@ -15,7 +15,7 @@ from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+#BASE_DIR = "/var/www/ampscan_webapp_prod/"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -42,7 +42,7 @@ CSRF_COOKIE_HTTPONLY = False
 
 
 # THIS SHOULD BE CHANGED WHEN HOSTED
-ALLOWED_HOSTS = ['192.168.0.15', 'localhost', '127.0.0.1', 'srv02827.soton.ac.uk',]
+ALLOWED_HOSTS = ['192.168.0.15', 'localhost', '127.0.0.1', 'srv02827.soton.ac.uk','ampscan.io']
 
 
 # Application definition
@@ -173,7 +173,7 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-STATIC_URL = '/staticfiles/'
+STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
