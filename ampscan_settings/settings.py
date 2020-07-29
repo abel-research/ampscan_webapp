@@ -24,6 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+
 def generate_secret_key(file_name):
     with open(file_name, "w") as f:
         f.write("SECRET_KEY = '%s'".format(get_random_secret_key()))

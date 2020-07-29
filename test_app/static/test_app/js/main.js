@@ -356,3 +356,7 @@ function hideProcessingScreen() {
 }
 
 var currentPickingObject = "";
+
+
+
+addSlicePlane();
