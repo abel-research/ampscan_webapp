@@ -220,6 +220,33 @@ def centre_relative_view(request):
     return JsonResponse({"success": True})
 
 
+def trim_view(request):
+    """
+    View for aligning
+    """
+
+    # AmpScan ICP alignment
+    obj = get_session(request).get_obj(request.POST.get("objID"))
+    height = float(request.POST.get("height"))
+
+    obj.planarTrim(height)
+
+    return JsonResponse({"success": True})
+
+
+def smooth_view(request):
+    """
+    View for aligning
+    """
+
+    # AmpScan ICP alignment
+    obj = get_session(request).get_obj(request.POST.get("objID"))
+
+    obj.lp_smooth()
+
+    return JsonResponse({"success": True})
+
+
 def csa_view(request):
     axis = 2
     if request.method == "POST":
@@ -318,7 +345,7 @@ def reg_bins_csv(request):
     if request.method == "POST":
         fs = FileSystemStorage()
         f = open(os.path.join(settings.MEDIA_ROOT, request.POST["session"]+".csv"), "w", newline="")
-        output.generateRegBinsCsv(f, get_session(request).get_obj(request.POST.get("objID")),
+        analyse.generateRegBinsCsv(f, get_session(request).get_obj(request.POST.get("objID")),
                                   int(request.POST["numBins"]), float(request.POST["scalarMin"]), float(request.POST["scalarMax"]))
         f.close()
         return FileResponse(fs.open(request.POST["session"]+".csv"))
@@ -328,7 +355,7 @@ def reg_csv(request):
     if request.method == "POST":
         fs = FileSystemStorage()
         f = open(os.path.join(settings.MEDIA_ROOT, request.POST["session"]+".csv"), "w", newline="")
-        output.generateRegCsv(f, get_session(request).get_obj(request.POST.get("objID")))
+        analyse.generateRegCsv(f, get_session(request).get_obj(request.POST.get("objID")))
         f.close()
         return FileResponse(fs.open(request.POST["session"]+".csv"))
 

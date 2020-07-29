@@ -1,13 +1,4 @@
 
-function resetPickingObject() {
-    setPickingObject("");
-    document.getElementById("pickingText").innerHTML = ""
-}
-
-function setPickingObject(val) {
-    currentPickingObject = val;
-    document.getElementById("pickingText").innerHTML = "Right click to select mid-patella on scan"
-}
 
 function addPicker(actor, renderer, objID) {
     const picker = vtk.Rendering.Core.vtkPointPicker.newInstance();
@@ -17,12 +8,15 @@ function addPicker(actor, renderer, objID) {
 
     // Pick on mouse right click
     renderer.getRenderWindow().getInteractor().onRightButtonPress((callData) => {
-        if (currentPickingObject !== objID) {
-            return
-        }
-        if (renderer !== callData.pokedRenderer) {
-            return;
-        }
+
+        // console.log(currentPickingObject)
+        // console.log(objID)
+        // if (currentPickingObject !== objID) {
+        //     return
+        // }
+        // if (renderer !== callData.pokedRenderer) {
+        //     return;
+        // }
 
         const pos = callData.position;
         const point = [pos.x, pos.y, 0.0];
@@ -89,6 +83,5 @@ function addPicker(actor, renderer, objID) {
             }
         }
         renderer.getRenderWindow().render();
-        resetPickingObject();
     });
 }

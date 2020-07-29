@@ -39,6 +39,11 @@ function updateDropdown() {
         updateAnalyse();
         // fetchAnalysisGraph();
     }
+
+    if (getCurrentTab() === "Home") {
+        updateHome();
+        // fetchAnalysisGraph();
+    }
     updateScalarVisiblity();
 }
 
@@ -73,4 +78,9 @@ function setupAlignViewProperties () {
             objects[getAlignMoving()].changeOpacityTemp(newOpacity);
         }
     });
+}
+
+
+function getHomeTarget() {
+    return document.getElementById("homeDropdown").value;
 }

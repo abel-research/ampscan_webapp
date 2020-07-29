@@ -312,7 +312,7 @@ function updateAlignButtons () {
 
 
 function updateAlign() {
-    for (i in objects) {
+    for (const i in objects) {
         if (objects[i].name === getAlignMoving()) {
             objects[i].actor.setVisibility(true);
             if (alignMovingColour != null) {
