@@ -18,14 +18,14 @@
   },
   "homepage": "https://github.com/abel-research/ampscan_webapp#readme",
   "devDependencies": {
+    "autoprefixer": "^9.6.1",
+    "nouislider": "^14.0.2",
+    "require": "^2.4.20",
+    "uglify-js": ">=2.6.0",
     "vtk.js": "^11.1.3",
     "webpack": "^4.40.2",
     "webpack-bundle-tracker": "^0.4.2-beta",
-    "webpack-cli": "^3.2.3",
-    "autoprefixer": "^9.6.1",
-    "require": "^2.4.20",
-    "nouislider": "^14.0.2",
-    "uglify-js": ">=2.6.0"
+    "webpack-cli": "^3.3.12"
   },
   "dependencies": {
     "nouislider": "^14.0.2",
