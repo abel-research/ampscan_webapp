@@ -30,6 +30,7 @@ class AmpObjectView:
             "colour": self.colour,
             "type": self.obj_type,
         }
+    
 
 
 class AmpEnv:
@@ -438,6 +439,10 @@ def upload_view(request):
         # Add object to session
         ampEnv = get_session(request)
         ampEnv.add_obj(obj, basename)
+        views = ampEnv.get_obj_views()
+        outViews = {}
+        for view in views:
+            outViews[view] = views[view].property_response()
         request.session["obj_views"] = ampEnv.get_obj_views()
         # raise Exception(get_session(request).get_obj_views())
 
