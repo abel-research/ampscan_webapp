@@ -86,7 +86,6 @@ def get_session(request):
     #         return sessions[sid]
     # else:
     #     raise ValueError("request does not have session id")
-    raise Exception(request.session["obj_views"])
     return AmpEnv(request.session["obj_views"])
 
 
@@ -428,6 +427,8 @@ def upload_view(request):
 
         # Add object to session
         get_session(request).add_obj(obj, basename)
+        request.session["obj_views"] = get_session(request).get_object_views()
+        raise Exception(get_session(request))
 
         # Check file extension
         if os.path.splitext(uploaded_file_url)[1] == ".stl":
