@@ -39,12 +39,13 @@ class AmpEnv:
             self.obj_views = {}
         else:
             outViews = {}
-            outViews1 = {}
+            
             for view in obj_views:
+                outViews1 = {}
                 for array in obj_views[view]["amp_obj"]:
                     if array != "values":
-                        outViews1[view]["amp_obj"][array] = np.asarray(obj_views[view]["amp_obj"][array]).reshape([-1,3])
-                outViews[view] = AmpObjectView(AmpObject(outViews1[view]["amp_obj"]), obj_views[view]["name"], obj_views[view]["display"], obj_views[view]["colour"], obj_views[view]["type"])
+                        outViews1[array] = np.asarray(obj_views[view]["amp_obj"][array]).reshape([-1,3])
+                outViews[view] = AmpObjectView(AmpObject(outViews1), obj_views[view]["name"], obj_views[view]["display"], obj_views[view]["colour"], obj_views[view]["type"])
             self.obj_views = outViews
 
     def add_obj(self, ob, name, display=True, colour=(20, 20, 20), obj_type="scan"):
