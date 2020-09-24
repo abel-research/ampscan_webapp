@@ -45,6 +45,10 @@ class AmpEnv:
                 for array in obj_views[view]["amp_obj"]:
                     if array != "values":
                         outViews1[array] = np.asarray(obj_views[view]["amp_obj"][array]).reshape([-1,3])
+                    
+                if "values" not in outViews1:
+                    outViews["values"] = None
+
                 outViews[view] = AmpObjectView(AmpObject(outViews1), obj_views[view]["name"], obj_views[view]["display"], obj_views[view]["colour"], obj_views[view]["type"])
             self.obj_views = outViews
 
@@ -454,7 +458,7 @@ def upload_view(request):
             amp_obj = {
                 "vert": list(obj.vert.flatten().tolist()),
                 "faces": list(obj.faces.flatten().tolist()),
-                # "values": obj.values.flatten().tolist()
+                "values": list(obj.values.flatten().tolist())
             }
             outViews[view]["amp_obj"] = amp_obj
             # raise Exception(type(outViews[view]["amp_obj"]))
