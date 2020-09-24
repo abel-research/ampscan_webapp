@@ -10,6 +10,7 @@ from random import randrange
 import vtk
 import numpy as np
 import math
+import logging
 
 sessions = {}
 
@@ -85,7 +86,7 @@ def get_session(request):
     #         return sessions[sid]
     # else:
     #     raise ValueError("request does not have session id")
-    print(request.session)
+    raise Exception(request.session)
     return AmpEnv(request.session["obj_views"])
 
 
