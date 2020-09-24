@@ -47,7 +47,7 @@ class AmpEnv:
                         outViews1[array] = np.asarray(obj_views[view]["amp_obj"][array]).reshape([-1,3])
                     
                 if "values" not in outViews1:
-                    outViews1["values"] = None
+                    outViews1["values"] = np.zeros(len(outViews1["vert"]))
 
                 outViews[view] = AmpObjectView(AmpObject(outViews1), obj_views[view]["name"], obj_views[view]["display"], obj_views[view]["colour"], obj_views[view]["type"])
             self.obj_views = outViews
