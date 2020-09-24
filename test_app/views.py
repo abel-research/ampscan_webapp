@@ -428,7 +428,7 @@ def upload_view(request):
         # Add object to session
         get_session(request).add_obj(obj, basename)
         request.session["obj_views"] = get_session(request).get_object_views()
-        raise Exception(get_session(request))
+        raise Exception(get_session(request).get_object_views())
 
         # Check file extension
         if os.path.splitext(uploaded_file_url)[1] == ".stl":
