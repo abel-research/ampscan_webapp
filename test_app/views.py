@@ -449,7 +449,7 @@ def upload_view(request):
             amp_obj = {
                 "vert": obj.vert,
                 "faces": obj.faces,
-                "norms": obj.norms
+                "values": obj.values
             }
             outViews[view]["amp_obj"] = amp_obj
         request.session["obj_views"] = outViews
