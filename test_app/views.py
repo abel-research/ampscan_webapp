@@ -443,7 +443,7 @@ def upload_view(request):
         outViews = {}
         for view in views:
             outViews[view] = views[view].property_response()
-        request.session["obj_views"] = ampEnv.get_obj_views()
+        request.session["obj_views"] = outViews
         # raise Exception(get_session(request).get_obj_views())
 
         # Check file extension
