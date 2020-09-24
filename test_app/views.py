@@ -35,7 +35,7 @@ class AmpObjectView:
 
 class AmpEnv:
     def __init__(self, obj_views=None):
-        if obj_views == None and obj_views == {}:
+        if obj_views == None or obj_views == {}:
             self.obj_views = {}
         else:
             raise Exception(obj_views)
