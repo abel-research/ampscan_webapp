@@ -455,7 +455,7 @@ def upload_view(request):
                 # "values": obj.values.flatten().tolist()
             }
             outViews[view]["amp_obj"] = amp_obj
-            raise Exception(outViews)
+            # raise Exception(outViews)
         request.session["obj_views"] = outViews
         # raise Exception(get_session(request).get_obj_views())
 
