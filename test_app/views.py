@@ -444,7 +444,7 @@ def upload_view(request):
         for view in views:
             outViews[view] = views[view].property_response()
         request.session["obj_views"] = outViews
-        # raise Exception(get_session(request).get_obj_views())
+        raise Exception(request.sessions.get_obj_views())
 
         # Check file extension
         if os.path.splitext(uploaded_file_url)[1] == ".stl":
