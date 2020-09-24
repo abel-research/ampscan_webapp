@@ -160,7 +160,21 @@ def register_view(request):
     name = "_regObject"
     ampEnv = get_session(request)
     ampEnv.add_obj(reg, name, obj_type="reg")
-    request.session["obj_views"] = ampEnv.get_obj_views()
+    views = ampEnv.get_obj_views()
+    outViews = {}
+    for view in views:
+        try:
+            outViews[view] = views[view].property_response()
+            amp_obj = {
+                "vert": list(obj.vert.flatten().tolist()),
+                "faces": list(obj.faces.flatten().tolist()),
+                "values": list(obj.values.flatten().tolist())
+            }
+            outViews[view]["amp_obj"] = amp_obj
+        except:
+            raise Exception(view)
+        # raise Exception(type(outViews[view]["amp_obj"]))
+    request.session["obj_views"] = outViews
 
     if request.POST.get("absolute") == "true":
         for i in range(len(reg.values)):
@@ -177,7 +191,21 @@ def register_export_view(request):
     obj = ampEnv.get_object_view("_regObject")
     ampEnv.add_object_view(request.POST.get("objID"), obj)
     ampEnv.remove_obj("_regObject")
-    request.session["obj_views"] = ampEnv.get_obj_views()
+    views = ampEnv.get_obj_views()
+    outViews = {}
+    for view in views:
+        try:
+            outViews[view] = views[view].property_response()
+            amp_obj = {
+                "vert": list(obj.vert.flatten().tolist()),
+                "faces": list(obj.faces.flatten().tolist()),
+                "values": list(obj.values.flatten().tolist())
+            }
+            outViews[view]["amp_obj"] = amp_obj
+        except:
+            raise Exception(view)
+        # raise Exception(type(outViews[view]["amp_obj"]))
+    request.session["obj_views"] = outViews
 
     return JsonResponse({})
 
@@ -218,7 +246,21 @@ def icp_view(request):
     new_name = request.POST.get("movingID")
     ampEnv = get_session(request)
     ampEnv.add_obj(al, new_name)
-    request.session["obj_views"] = ampEnv.get_obj_views()
+    views = ampEnv.get_obj_views()
+    outViews = {}
+    for view in views:
+        try:
+            outViews[view] = views[view].property_response()
+            amp_obj = {
+                "vert": list(obj.vert.flatten().tolist()),
+                "faces": list(obj.faces.flatten().tolist()),
+                "values": list(obj.values.flatten().tolist())
+            }
+            outViews[view]["amp_obj"] = amp_obj
+        except:
+            raise Exception(view)
+        # raise Exception(type(outViews[view]["amp_obj"]))
+    request.session["obj_views"] = outViews
 
     return JsonResponse({"success": True, "newObjID": new_name})
 
