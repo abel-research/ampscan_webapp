@@ -46,8 +46,8 @@ class AmpEnv:
         if name in self.obj_views.keys():
             return self.obj_views.get(name).ampObject
         else:
-            raise ValueError("Obj not found: %s \nCan be %s \nCurrent Sessions: %s\nCurrent Files: %s" % (str(name), str(self.obj_views.keys()), str([str(a.obj_views.keys()) for a in sessions.values()]), str(sessions.keys())))
-
+            # raise ValueError("Obj not found: %s \nCan be %s \nCurrent Sessions: %s\nCurrent Files: %s" % (str(name), str(self.obj_views.keys()), str([str(a.obj_views.keys()) for a in sessions.values()]), str(sessions.keys())))
+            raise ValueError("Object not found")
     def remove_obj(self, name):
         del self.obj_views[name]
 
