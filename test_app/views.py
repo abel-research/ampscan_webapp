@@ -40,7 +40,7 @@ class AmpEnv:
         else:
             outViews = {}
             for view in obj_views:
-                outViews[view] = AmpObjectView(None, obj_views[view]["name"], obj_views[view]["display"], obj_views[view]["colour"], obj_views[view]["type"])
+                outViews[view] = AmpObjectView(AmpObject(obj_views[view]["amp_obj"]), obj_views[view]["name"], obj_views[view]["display"], obj_views[view]["colour"], obj_views[view]["type"])
             self.obj_views = outViews
 
     def add_obj(self, ob, name, display=True, colour=(20, 20, 20), obj_type="scan"):
@@ -446,6 +446,12 @@ def upload_view(request):
         outViews = {}
         for view in views:
             outViews[view] = views[view].property_response()
+            amp_obj = {
+                verts: obj.verts,
+                faces: obj.faces,
+                norms: obj.norms
+            }
+            outViews[view]["amp_obj"] = amp_obj
         request.session["obj_views"] = outViews
         # raise Exception(get_session(request).get_obj_views())
 
