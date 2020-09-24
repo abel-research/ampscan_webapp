@@ -164,6 +164,7 @@ def register_view(request):
     outViews = {}
     for view in views:
         try:
+            obj = ampEnv.get_object_view(view).ampObject
             outViews[view] = views[view].property_response()
             amp_obj = {
                 "vert": list(obj.vert.flatten().tolist()),
@@ -195,6 +196,7 @@ def register_export_view(request):
     outViews = {}
     for view in views:
         try:
+            obj = ampEnv.get_object_view(view).ampObject
             outViews[view] = views[view].property_response()
             amp_obj = {
                 "vert": list(obj.vert.flatten().tolist()),
