@@ -38,7 +38,10 @@ class AmpEnv:
         if obj_views == None:
             self.obj_views = {}
         else:
-            self.obj_views = obj_views
+            outViews = {}
+            for view in obj_views:
+                outViews[view] = AmpObjectView(None, view.name, view.display, view.colour, view.type)
+            self.obj_views = outViews
 
     def add_obj(self, ob, name, display=True, colour=(20, 20, 20), obj_type="scan"):
         self.obj_views[name] = (AmpObjectView(ob, name, display, colour, obj_type))
@@ -444,7 +447,7 @@ def upload_view(request):
         for view in views:
             outViews[view] = views[view].property_response()
         request.session["obj_views"] = outViews
-        raise Exception(get_session(request).get_obj_views())
+        # raise Exception(get_session(request).get_obj_views())
 
         # Check file extension
         if os.path.splitext(uploaded_file_url)[1] == ".stl":
