@@ -40,6 +40,9 @@ class AmpEnv:
         else:
             outViews = {}
             for view in obj_views:
+                for array in obj_views[view]["amp_obj"]:
+                    if array != "values":
+                        obj_views[view]["amp_obj"][array] = np.asarray(obj_views[view]["amp_obj"][array]).reshape([-1,3])
                 outViews[view] = AmpObjectView(AmpObject(obj_views[view]["amp_obj"]), obj_views[view]["name"], obj_views[view]["display"], obj_views[view]["colour"], obj_views[view]["type"])
             self.obj_views = outViews
 
@@ -447,9 +450,9 @@ def upload_view(request):
         for view in views:
             outViews[view] = views[view].property_response()
             amp_obj = {
-                "vert": obj.vert,
-                "faces": obj.faces,
-                "values": obj.values
+                "vert": obj.vert.flatten().toList(),
+                "faces": obj.faces.flatten().toList(),
+                "values": obj.values.flatten().toList()
             }
             outViews[view]["amp_obj"] = amp_obj
         request.session["obj_views"] = outViews
