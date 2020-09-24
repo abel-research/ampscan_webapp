@@ -145,7 +145,9 @@ def register_view(request):
     reg.addActor(CMap=CMapN2P)
 
     name = "_regObject"
-    get_session(request).add_obj(reg, name, obj_type="reg")
+    ampEnv = get_session(request)
+    ampEnv.add_obj(reg, name, obj_type="reg")
+    request.session["obj_views"] = ampEnv.get_obj_views()
 
     if request.POST.get("absolute") == "true":
         for i in range(len(reg.values)):
@@ -158,9 +160,12 @@ def register_export_view(request):
     """
     Export reg object to new object with
     """
-    obj = get_session(request).get_object_view("_regObject")
-    get_session(request).add_object_view(request.POST.get("objID"), obj)
-    get_session(request).remove_obj("_regObject")
+    ampEnv = get_session(request)
+    obj = ampEnv.get_object_view("_regObject")
+    ampEnv.add_object_view(request.POST.get("objID"), obj)
+    ampEnv.remove_obj("_regObject")
+    request.session["obj_views"] = ampEnv.get_obj_views()
+
     return JsonResponse({})
 
 
@@ -198,7 +203,9 @@ def icp_view(request):
     al = align(moving, static, maxiter=10, method='linPoint2Plane').m
 
     new_name = request.POST.get("movingID")
-    get_session(request).add_obj(al, new_name)
+    ampEnv = get_session(request)
+    ampEnv.add_obj(al, new_name)
+    request.session["obj_views"] = ampEnv.get_obj_views()
 
     return JsonResponse({"success": True, "newObjID": new_name})
 
@@ -432,7 +439,7 @@ def upload_view(request):
         ampEnv = get_session(request)
         ampEnv.add_obj(obj, basename)
         request.session["obj_views"] = ampEnv.get_obj_views()
-        raise Exception(get_session(request).get_obj_views())
+        # raise Exception(get_session(request).get_obj_views())
 
         # Check file extension
         if os.path.splitext(uploaded_file_url)[1] == ".stl":
