@@ -450,9 +450,9 @@ def upload_view(request):
         for view in views:
             outViews[view] = views[view].property_response()
             amp_obj = {
-                "vert": obj.vert.flatten().toList(),
-                "faces": obj.faces.flatten().toList(),
-                "values": obj.values.flatten().toList()
+                "vert": obj.vert.flatten().tolist(),
+                "faces": obj.faces.flatten().tolist(),
+                "values": obj.values.flatten().tolist()
             }
             outViews[view]["amp_obj"] = amp_obj
         request.session["obj_views"] = outViews
