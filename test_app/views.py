@@ -40,7 +40,7 @@ class AmpEnv:
         else:
             outViews = {}
             for view in obj_views:
-                outViews[view] = AmpObjectView(None, obj_views[view].name, obj_views[view].display, obj_views[view].colour, obj_views[view].type)
+                outViews[view] = AmpObjectView(None, obj_views[view]["name"], obj_views[view]["display"], obj_views[view]["colour"], obj_views[view]["type"])
             self.obj_views = outViews
 
     def add_obj(self, ob, name, display=True, colour=(20, 20, 20), obj_type="scan"):
