@@ -73,15 +73,17 @@ def get_session(request):
     """
     Retrieves the AmpEnv session from request
     """
-    if "session" in request.POST:
-        sid = request.POST["session"]
-        if sid in sessions:
-            return sessions[sid]
-        else:
-            sessions[sid] = AmpEnv()
-            return sessions[sid]
-    else:
-        raise ValueError("request does not have session id")
+    # if "session" in request.POST:
+    #     sid = request.POST["session"]
+    #     if sid in sessions:
+    #         return sessions[sid]
+    #     else:
+    #         sessions[sid] = AmpEnv()
+    #         return sessions[sid]
+    # else:
+    #     raise ValueError("request does not have session id")
+
+    return request.session
 
 
 def polydata_view(request):
