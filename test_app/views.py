@@ -82,7 +82,7 @@ def get_session(request):
     #         return sessions[sid]
     # else:
     #     raise ValueError("request does not have session id")
-
+    print(request.session)
     return request.session["AmpEnv"]
 
 
@@ -373,6 +373,7 @@ def home_view(request):
     context["session_id"] = sid
 
     request.session["AmpEnv"] = AmpEnv()
+    print(request.session["AmpEnv"])
             
     if request.method == "GET":
         from django.middleware.csrf import get_token
