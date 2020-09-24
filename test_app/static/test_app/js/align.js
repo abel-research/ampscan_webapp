@@ -74,7 +74,7 @@ function runICP() {
     formData.append("session", session_id);
     formData.append("movingID", getAlignMoving());
     formData.append("staticID", getAlignStatic());
-
+    console.log(session_id);
     // Submit the request to run icp
     fetch("process/align/icp", {
         method: 'POST',

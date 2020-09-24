@@ -37,12 +37,13 @@ class AmpEnv:
 
     def add_obj(self, ob, name, display=True, colour=(20, 20, 20), obj_type="scan"):
         self.obj_views[name] = (AmpObjectView(ob, name, display, colour, obj_type))
+        print(list(self.obj_views.keys()))
 
     def get_obj(self, name):
         if name in self.obj_views.keys():
             return self.obj_views.get(name).ampObject
         else:
-            raise ValueError("Obj not found: {}".format(name))
+            raise ValueError("Obj not found: %s \nCan be %s \nCurrent Sessions: %s\nCurrent Files: %s" % (str(name), str(self.obj_views.keys()), str([str(a.obj_views.keys()) for a in sessions.values()]), str(sessions.keys())))
 
     def remove_obj(self, name):
         del self.obj_views[name]

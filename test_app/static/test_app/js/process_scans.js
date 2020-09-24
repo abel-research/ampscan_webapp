@@ -103,6 +103,7 @@ function downloadPolyDataAndUpdate(objID, callback) {
     formData.append("norms", isNormsSelected());
     formData.append("session", session_id);
     formData.append("objID", objID);
+    console.log(session_id);
 
     fetch("download/polydata", {
         method: 'POST',
