@@ -32,8 +32,11 @@ class AmpObjectView:
 
 
 class AmpEnv:
-    def __init__(self):
-        self.obj_views = {}
+    def __init__(self, obj_views=None):
+        if obj_views == None:
+            self.obj_views = {}
+        else:
+            self.obj_views = obj_views
 
     def add_obj(self, ob, name, display=True, colour=(20, 20, 20), obj_type="scan"):
         self.obj_views[name] = (AmpObjectView(ob, name, display, colour, obj_type))
@@ -83,7 +86,7 @@ def get_session(request):
     # else:
     #     raise ValueError("request does not have session id")
     print(request.session)
-    return request.session["AmpEnv"]
+    return AmpEnv(request.session["obj_views"])
 
 
 def polydata_view(request):
@@ -372,8 +375,8 @@ def home_view(request):
     sid = generate_next_session()
     context["session_id"] = sid
 
-    request.session["AmpEnv"] = AmpEnv()
-    print(request.session["AmpEnv"])
+    request.session["obj_views"] = {}
+    print(request.session["obj_views"])
             
     if request.method == "GET":
         from django.middleware.csrf import get_token
