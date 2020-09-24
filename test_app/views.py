@@ -449,13 +449,13 @@ def upload_view(request):
         outViews = {}
         for view in views:
             outViews[view] = views[view].property_response()
-            amp_obj = {
-                "vert": obj.vert.flatten().tolist(),
-                "faces": obj.faces.flatten().tolist(),
-                # "values": obj.values.flatten().tolist()
-            }
-            outViews[view]["amp_obj"] = amp_obj
-            # raise Exception(outViews)
+            # amp_obj = {
+            #     "vert": obj.vert.flatten().tolist(),
+            #     "faces": obj.faces.flatten().tolist(),
+            #     # "values": obj.values.flatten().tolist()
+            # }
+            # outViews[view]["amp_obj"] = amp_obj
+        
         request.session["obj_views"] = outViews
         # raise Exception(get_session(request).get_obj_views())
 
