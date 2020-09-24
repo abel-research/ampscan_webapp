@@ -11,7 +11,7 @@ import vtk
 import numpy as np
 import math
 
-# sessions = {}
+sessions = {}
 
 
 class AmpObjectView:
@@ -32,11 +32,8 @@ class AmpObjectView:
 
 
 class AmpEnv:
-    def __init__(self, obj_views=None):
-        if obj_views == None:
-            self.obj_views = {}
-        else:
-            self.obj_views = obj_views
+    def __init__(self):
+        self.obj_views = {}
 
     def add_obj(self, ob, name, display=True, colour=(20, 20, 20), obj_type="scan"):
         self.obj_views[name] = (AmpObjectView(ob, name, display, colour, obj_type))
@@ -46,8 +43,7 @@ class AmpEnv:
         if name in self.obj_views.keys():
             return self.obj_views.get(name).ampObject
         else:
-            # raise ValueError("Obj not found: %s \nCan be %s \nCurrent Sessions: %s\nCurrent Files: %s" % (str(name), str(self.obj_views.keys()), str([str(a.obj_views.keys()) for a in sessions.values()]), str(sessions.keys())))
-            raise ValueError("Object not found")
+            raise ValueError("Obj not found: %s \nCan be %s \nCurrent Sessions: %s\nCurrent Files: %s" % (str(name), str(self.obj_views.keys()), str([str(a.obj_views.keys()) for a in sessions.values()]), str(sessions.keys())))
 
     def remove_obj(self, name):
         del self.obj_views[name]
@@ -60,18 +56,17 @@ class AmpEnv:
 
     def add_object_view(self, name, view):
         self.obj_views[name] = view
-    
 
 
 def generate_next_session():
     """
     Generate session id randomly
     """
-    # i = randrange(2**31)
-    # while str(i) in sessions:
-    #     i = randrange(2**31)
-    # sessions[str(i)] = AmpEnv()
-    # return str(i)
+    i = randrange(2**31)
+    while str(i) in sessions:
+        i = randrange(2**31)
+    sessions[str(i)] = AmpEnv()
+    return str(i)
 
 
 def get_session(request):
@@ -87,9 +82,8 @@ def get_session(request):
     #         return sessions[sid]
     # else:
     #     raise ValueError("request does not have session id")
-    # print(request.session)
-    
-    return AmpEnv(request.session['obj_views'])
+    print(request.session)
+    return request.session["AmpEnv"]
 
 
 def polydata_view(request):
@@ -146,7 +140,6 @@ def register_view(request):
 
     name = "_regObject"
     get_session(request).add_obj(reg, name, obj_type="reg")
-    request.session['obj_views'] = get_session(request).get_object_views()
 
     if request.POST.get("absolute") == "true":
         for i in range(len(reg.values)):
@@ -162,7 +155,6 @@ def register_export_view(request):
     obj = get_session(request).get_object_view("_regObject")
     get_session(request).add_object_view(request.POST.get("objID"), obj)
     get_session(request).remove_obj("_regObject")
-    request.session['obj_views'] = get_session(request).get_object_views()
     return JsonResponse({})
 
 
@@ -201,7 +193,6 @@ def icp_view(request):
 
     new_name = request.POST.get("movingID")
     get_session(request).add_obj(al, new_name)
-    request.session['obj_views'] = get_session(request).get_object_views()
 
     return JsonResponse({"success": True, "newObjID": new_name})
 
@@ -378,11 +369,11 @@ def home_view(request):
     """
     context = {}
 
-    # sid = generate_next_session()
-    context["session_id"] = 0
+    sid = generate_next_session()
+    context["session_id"] = sid
 
-    request.session['obj_views'] = {}
-    print(request.session["obj_views"])
+    request.session["AmpEnv"] = AmpEnv()
+    print(request.session["AmpEnv"])
             
     if request.method == "GET":
         from django.middleware.csrf import get_token
@@ -433,7 +424,6 @@ def upload_view(request):
 
         # Add object to session
         get_session(request).add_obj(obj, basename)
-        request.session['obj_views'] = get_session(request).get_object_views()
 
         # Check file extension
         if os.path.splitext(uploaded_file_url)[1] == ".stl":
