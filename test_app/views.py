@@ -58,6 +58,9 @@ class AmpEnv:
     def get_object_view(self, name):
         return self.obj_views[name]
 
+    def get_obj_views(self):
+        return self.obj_views
+
     def add_object_view(self, name, view):
         self.obj_views[name] = view
 
@@ -426,9 +429,10 @@ def upload_view(request):
         basename = os.path.splitext(filename)[0]
 
         # Add object to session
-        get_session(request).add_obj(obj, basename)
-        request.session["obj_views"] = get_session(request).get_object_views()
-        raise Exception(get_session(request).get_object_views())
+        ampEnv = get_session(request)
+        ampEnv.add_obj(obj, basename)
+        request.session["obj_views"] = ampEnv.get_obj_views()
+        raise Exception(get_session(request).get_obj_views())
 
         # Check file extension
         if os.path.splitext(uploaded_file_url)[1] == ".stl":
