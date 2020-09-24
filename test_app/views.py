@@ -83,7 +83,7 @@ def get_session(request):
     # else:
     #     raise ValueError("request does not have session id")
 
-    return request.session
+    return request.session["AmpEnv"]
 
 
 def polydata_view(request):
@@ -371,6 +371,8 @@ def home_view(request):
 
     sid = generate_next_session()
     context["session_id"] = sid
+
+    request.session["AmpEnv"] = AmpEnv()
             
     if request.method == "GET":
         from django.middleware.csrf import get_token
