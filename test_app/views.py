@@ -86,7 +86,7 @@ def get_session(request):
     #         return sessions[sid]
     # else:
     #     raise ValueError("request does not have session id")
-    raise Exception(request.session)
+    raise Exception(request.session["obj_views"])
     return AmpEnv(request.session["obj_views"])
 
 
