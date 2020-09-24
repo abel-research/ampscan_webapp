@@ -35,9 +35,10 @@ class AmpObjectView:
 
 class AmpEnv:
     def __init__(self, obj_views=None):
-        if obj_views == None:
+        if obj_views == None and obj_views == {}:
             self.obj_views = {}
         else:
+            raise Exception(obj_views)
             outViews = {}
             for view in obj_views:
                 for array in obj_views[view]["amp_obj"]:
