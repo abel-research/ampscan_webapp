@@ -454,13 +454,16 @@ def upload_view(request):
         views = ampEnv.get_obj_views()
         outViews = {}
         for view in views:
-            outViews[view] = views[view].property_response()
-            amp_obj = {
-                "vert": list(obj.vert.flatten().tolist()),
-                "faces": list(obj.faces.flatten().tolist()),
-                "values": list(obj.values.flatten().tolist())
-            }
-            outViews[view]["amp_obj"] = amp_obj
+            try:
+                outViews[view] = views[view].property_response()
+                amp_obj = {
+                    "vert": list(obj.vert.flatten().tolist()),
+                    "faces": list(obj.faces.flatten().tolist()),
+                    "values": list(obj.values.flatten().tolist())
+                }
+                outViews[view]["amp_obj"] = amp_obj
+            except:
+                raise Exception(view)
             # raise Exception(type(outViews[view]["amp_obj"]))
         request.session["obj_views"] = outViews
         # raise Exception(get_session(request).get_obj_views())
