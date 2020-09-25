@@ -10,6 +10,7 @@ from random import randrange
 import vtk
 import numpy as np
 import math
+import logging
 
 sessions = {}
 
@@ -29,21 +30,38 @@ class AmpObjectView:
             "colour": self.colour,
             "type": self.obj_type,
         }
+    
 
 
 class AmpEnv:
-    def __init__(self):
-        self.obj_views = {}
+    def __init__(self, obj_views=None):
+        if obj_views == None or obj_views == {}:
+            self.obj_views = {}
+        else:
+            outViews = {}
+            
+            for view in obj_views:
+                outViews1 = {}
+                for array in obj_views[view]["amp_obj"]:
+                    if array != "values":
+                        outViews1[array] = np.asarray(obj_views[view]["amp_obj"][array]).reshape([-1,3])
+                    
+                if "values" not in outViews1:
+                    outViews1["values"] = np.zeros(len(outViews1["vert"]))
+
+                outViews[view] = AmpObjectView(AmpObject(outViews1), obj_views[view]["name"], obj_views[view]["display"], obj_views[view]["colour"], obj_views[view]["type"])
+            self.obj_views = outViews
 
     def add_obj(self, ob, name, display=True, colour=(20, 20, 20), obj_type="scan"):
         self.obj_views[name] = (AmpObjectView(ob, name, display, colour, obj_type))
+        print(list(self.obj_views.keys()))
 
     def get_obj(self, name):
         if name in self.obj_views.keys():
             return self.obj_views.get(name).ampObject
         else:
-            raise ValueError("Obj not found: {}".format(name))
-
+            # raise ValueError("Obj not found: %s \nCan be %s \nCurrent Sessions: %s\nCurrent Files: %s" % (str(name), str(self.obj_views.keys()), str([str(a.obj_views.keys()) for a in sessions.values()]), str(sessions.keys())))
+            raise ValueError("Object not found")
     def remove_obj(self, name):
         del self.obj_views[name]
 
@@ -52,6 +70,9 @@ class AmpEnv:
 
     def get_object_view(self, name):
         return self.obj_views[name]
+
+    def get_obj_views(self):
+        return self.obj_views
 
     def add_object_view(self, name, view):
         self.obj_views[name] = view
@@ -72,15 +93,16 @@ def get_session(request):
     """
     Retrieves the AmpEnv session from request
     """
-    if "session" in request.POST:
-        sid = request.POST["session"]
-        if sid in sessions:
-            return sessions[sid]
-        else:
-            sessions[sid] = AmpEnv()
-            return sessions[sid]
-    else:
-        raise ValueError("request does not have session id")
+    # if "session" in request.POST:
+    #     sid = request.POST["session"]
+    #     if sid in sessions:
+    #         return sessions[sid]
+    #     else:
+    #         sessions[sid] = AmpEnv()
+    #         return sessions[sid]
+    # else:
+    #     raise ValueError("request does not have session id")
+    return AmpEnv(request.session["obj_views"])
 
 
 def polydata_view(request):
@@ -136,7 +158,24 @@ def register_view(request):
     reg.addActor(CMap=CMapN2P)
 
     name = "_regObject"
-    get_session(request).add_obj(reg, name, obj_type="reg")
+    ampEnv = get_session(request)
+    ampEnv.add_obj(reg, name, obj_type="reg")
+    views = ampEnv.get_obj_views()
+    outViews = {}
+    for view in views:
+        try:
+            obj = ampEnv.get_object_view(view).ampObject
+            outViews[view] = views[view].property_response()
+            amp_obj = {
+                "vert": list(obj.vert.flatten().tolist()),
+                "faces": list(obj.faces.flatten().tolist()),
+                "values": list(obj.values.flatten().tolist())
+            }
+            outViews[view]["amp_obj"] = amp_obj
+        except:
+            raise Exception(view)
+        # raise Exception(type(outViews[view]["amp_obj"]))
+    request.session["obj_views"] = outViews
 
     if request.POST.get("absolute") == "true":
         for i in range(len(reg.values)):
@@ -149,9 +188,27 @@ def register_export_view(request):
     """
     Export reg object to new object with
     """
-    obj = get_session(request).get_object_view("_regObject")
-    get_session(request).add_object_view(request.POST.get("objID"), obj)
-    get_session(request).remove_obj("_regObject")
+    ampEnv = get_session(request)
+    obj = ampEnv.get_object_view("_regObject")
+    ampEnv.add_object_view(request.POST.get("objID"), obj)
+    ampEnv.remove_obj("_regObject")
+    views = ampEnv.get_obj_views()
+    outViews = {}
+    for view in views:
+        try:
+            obj = ampEnv.get_object_view(view).ampObject
+            outViews[view] = views[view].property_response()
+            amp_obj = {
+                "vert": list(obj.vert.flatten().tolist()),
+                "faces": list(obj.faces.flatten().tolist()),
+                "values": list(obj.values.flatten().tolist())
+            }
+            outViews[view]["amp_obj"] = amp_obj
+        except:
+            raise Exception(view)
+        # raise Exception(type(outViews[view]["amp_obj"]))
+    request.session["obj_views"] = outViews
+
     return JsonResponse({})
 
 
@@ -189,7 +246,24 @@ def icp_view(request):
     al = align(moving, static, maxiter=10, method='linPoint2Plane').m
 
     new_name = request.POST.get("movingID")
-    get_session(request).add_obj(al, new_name)
+    ampEnv = get_session(request)
+    ampEnv.add_obj(al, new_name)
+    views = ampEnv.get_obj_views()
+    outViews = {}
+    for view in views:
+        try:
+            obj = ampEnv.get_object_view(view).ampObject
+            outViews[view] = views[view].property_response()
+            amp_obj = {
+                "vert": list(obj.vert.flatten().tolist()),
+                "faces": list(obj.faces.flatten().tolist()),
+                "values": list(obj.values.flatten().tolist())
+            }
+            outViews[view]["amp_obj"] = amp_obj
+        except:
+            raise Exception(view)
+        # raise Exception(type(outViews[view]["amp_obj"]))
+    request.session["obj_views"] = outViews
 
     return JsonResponse({"success": True, "newObjID": new_name})
 
@@ -368,6 +442,9 @@ def home_view(request):
 
     sid = generate_next_session()
     context["session_id"] = sid
+
+    request.session["obj_views"] = {}
+    print(request.session["obj_views"])
             
     if request.method == "GET":
         from django.middleware.csrf import get_token
@@ -417,7 +494,24 @@ def upload_view(request):
         basename = os.path.splitext(filename)[0]
 
         # Add object to session
-        get_session(request).add_obj(obj, basename)
+        ampEnv = get_session(request)
+        ampEnv.add_obj(obj, basename)
+        views = ampEnv.get_obj_views()
+        outViews = {}
+        for view in views:
+            try:
+                outViews[view] = views[view].property_response()
+                amp_obj = {
+                    "vert": list(obj.vert.flatten().tolist()),
+                    "faces": list(obj.faces.flatten().tolist()),
+                    "values": list(obj.values.flatten().tolist())
+                }
+                outViews[view]["amp_obj"] = amp_obj
+            except:
+                raise Exception(view)
+            # raise Exception(type(outViews[view]["amp_obj"]))
+        request.session["obj_views"] = outViews
+        # raise Exception(get_session(request).get_obj_views())
 
         # Check file extension
         if os.path.splitext(uploaded_file_url)[1] == ".stl":
