@@ -158,6 +158,7 @@ def register_view(request):
     reg = registration(baseline, target, steps=3, smooth=1).reg
     # reg.addActor(CMap = self.CMap02P)
     reg.addActor(CMap=CMapN2P)
+    raise Exception(reg.values)
     if request.POST.get("absolute") == "true":
         for i in range(len(reg.values)):
             reg.values[i] = abs(reg.values[i])
