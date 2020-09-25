@@ -3,6 +3,16 @@
 
 {% block content %}
 
+
+<div id="terms-overlay">
+    <img src="{% static "test_app/res/AmpScanLogo.png" %}">
+    <div>
+        By entering this site you agree to our terms?
+        <a href="https://github.com/abel-research/ampscan_webapp/blob/master/terms.md">View our Terms</a>
+        <button id="continue" onclick="document.getElementById('terms-overlay').style.display = 'none'">Continue</div>
+    </div>
+</div>
+
 <link type="text/css" href="{% static "test_app/css/style.css" %}" rel="stylesheet">
 <link type="text/css" href="{% static "test_app/css/slider.css" %}" rel="stylesheet">
 <link type="text/css" href="{% static "test_app/css/double_slider.css" %}" rel="stylesheet">

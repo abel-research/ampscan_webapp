@@ -21,6 +21,41 @@
 
 body {font-family: 'Montserrat', sans-serif;}
 
+
+#terms-overlay{
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    width: 30%;
+    left: 35%;
+    background-color: white;
+    z-index: 10;
+    height: 20%;
+}
+
+#terms-overlay > img{
+    height: 30%;
+    margin: auto;
+}
+
+#terms-overlay > div {
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+}
+
+#terms-overlay > div > a{
+    height: 20%;
+    margin: 5% 0;
+    text-align: center;
+}
+
+#terms-overlay > div > #continue{
+    text-align: center;
+    margin: auto;
+    height: 25%;
+}
+
 /* Style the grid */
 .wrapper {
     display: grid;
