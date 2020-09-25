@@ -155,7 +155,7 @@ def register_view(request):
     CMap = np.c_[CMap1[:, :-1], CMap2]
     CMapN2P = np.transpose(CMap) / 255.0
     ampEnv = get_session(request)
-    raise Exception([a.ampObject.vert.shape for a in ampEnv.get_obj_views().values()])
+    # raise Exception([a.ampObject.vert.shape for a in ampEnv.get_obj_views().values()])
     # CMap02P = np.flip(np.transpose(CMap1) / 255.0, axis=0)
     reg = registration(baseline, target, steps=3, smooth=1).reg
 
