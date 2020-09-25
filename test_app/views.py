@@ -169,7 +169,7 @@ def register_view(request):
     
     views = ampEnv.get_obj_views()
     outViews = {}
-    Exception(ampEnv.get_object_view(name).ampObject.values)
+    raise Exception(ampEnv.get_object_view(name).ampObject.values)
     for view in views:
         try:
             obj = ampEnv.get_object_view(view).ampObject
