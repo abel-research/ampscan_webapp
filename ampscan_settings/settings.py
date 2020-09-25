@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 def generate_secret_key(file_name):
@@ -101,24 +101,24 @@ WEBPACK_LOADER = {
     }
 }
 
-LOGGING = {
-	'version': 1,
-	'disable_existing_loggers': False,
-	'handlers': {
-		'file': {
-			'level': 'DEBUG',
-			'class': 'logging.FileHandler',
-			'filename': '/var/log/django/ampscan_webapp_prod.log'
-		}
-	},
-	'loggers': {
-		'django': {
-			'handlers': ['file'],
-			'level': 'DEBUG',
-			'propagate': True,
-		}
-	}
-}
+# LOGGING = {
+# 	'version': 1,
+# 	'disable_existing_loggers': False,
+# 	'handlers': {
+# 		'file': {
+# 			'level': 'DEBUG',
+# 			'class': 'logging.FileHandler',
+# 			'filename': '/var/log/django/ampscan_webapp_prod.log'
+# 		}
+# 	},
+# 	'loggers': {
+# 		'django': {
+# 			'handlers': ['file'],
+# 			'level': 'DEBUG',
+# 			'propagate': True,
+# 		}
+# 	}
+# }
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -174,7 +174,7 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-STATIC_URL = '/static/'
+STATIC_URL = '/staticfiles/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
