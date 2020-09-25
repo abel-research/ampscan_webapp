@@ -27,7 +27,7 @@ body {font-family: 'Montserrat', sans-serif;}
     position: absolute;
     flex-direction: column;
     width: 40%;
-    left: 25%;
+    left: 30%;
     background-color: white;
     z-index: 10;
     height: 40%;
