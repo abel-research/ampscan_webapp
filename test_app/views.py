@@ -154,9 +154,10 @@ def register_view(request):
     CMap2 = np.c_[[np.linspace(st, en) for (st, en) in zip(c2, c3)]]
     CMap = np.c_[CMap1[:, :-1], CMap2]
     CMapN2P = np.transpose(CMap) / 255.0
+    raise Exception([baseline.vert.shape, target.vert.shape])
     # CMap02P = np.flip(np.transpose(CMap1) / 255.0, axis=0)
     reg = registration(baseline, target, steps=3, smooth=1).reg
-    raise Exception(reg.values)
+
     # reg.addActor(CMap = self.CMap02P)
     reg.addActor(CMap=CMapN2P)
     
@@ -171,7 +172,7 @@ def register_view(request):
     
     views = ampEnv.get_obj_views()
     outViews = {}
-    raise Exception(ampEnv.get_object_view(name).ampObject.values)
+
     for view in views:
         try:
             obj = ampEnv.get_object_view(view).ampObject
