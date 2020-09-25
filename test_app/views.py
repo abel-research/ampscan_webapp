@@ -47,7 +47,6 @@ class AmpEnv:
                         outViews1[array] = np.asarray(obj_views[view]["amp_obj"][array]).reshape([-1,3])
                     else:
                         outViews1[array] = np.asarray(obj_views[view]["amp_obj"][array]).flatten()
-                        Exception(outViews1[array])
                     
                 if "values" not in outViews1:
                     outViews1["values"] = np.zeros(len(outViews1["vert"]))
@@ -159,12 +158,18 @@ def register_view(request):
     reg = registration(baseline, target, steps=3, smooth=1).reg
     # reg.addActor(CMap = self.CMap02P)
     reg.addActor(CMap=CMapN2P)
+    if request.POST.get("absolute") == "true":
+        for i in range(len(reg.values)):
+            reg.values[i] = abs(reg.values[i])
+
 
     name = "_regObject"
     ampEnv = get_session(request)
     ampEnv.add_obj(reg, name, obj_type="reg")
+    
     views = ampEnv.get_obj_views()
     outViews = {}
+    Exception(ampEnv.get_object_view(name).ampObject.values)
     for view in views:
         try:
             obj = ampEnv.get_object_view(view).ampObject
@@ -180,9 +185,6 @@ def register_view(request):
         # raise Exception(type(outViews[view]["amp_obj"]))
     request.session["obj_views"] = outViews
 
-    if request.POST.get("absolute") == "true":
-        for i in range(len(reg.values)):
-            reg.values[i] = abs(reg.values[i])
 
     return JsonResponse({"newObjID": name})
 
