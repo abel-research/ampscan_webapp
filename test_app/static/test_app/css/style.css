@@ -30,11 +30,11 @@ body {font-family: 'Montserrat', sans-serif;}
     left: 30%;
     background-color: white;
     z-index: 10;
-    height: 40%;
+    height: 45%;
 }
 
 #terms-overlay > img{
-    height: 50%;
+    height: 40%;
     margin: auto;
 }
 
@@ -46,7 +46,7 @@ body {font-family: 'Montserrat', sans-serif;}
 }
 
 #terms-overlay > div > a{
-    height: 20%;
+    height: 25%;
     margin: 5% 0;
     text-align: center;
 }
@@ -54,7 +54,7 @@ body {font-family: 'Montserrat', sans-serif;}
 #terms-overlay > div > #continue{
     text-align: center;
     margin: auto;
-    height: 25%;
+    height: 20%;
 }
 
 /* Style the grid */
