@@ -156,9 +156,10 @@ def register_view(request):
     CMapN2P = np.transpose(CMap) / 255.0
     # CMap02P = np.flip(np.transpose(CMap1) / 255.0, axis=0)
     reg = registration(baseline, target, steps=3, smooth=1).reg
+    raise Exception(reg.values)
     # reg.addActor(CMap = self.CMap02P)
     reg.addActor(CMap=CMapN2P)
-    raise Exception(reg.values)
+    
     if request.POST.get("absolute") == "true":
         for i in range(len(reg.values)):
             reg.values[i] = abs(reg.values[i])
