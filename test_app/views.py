@@ -42,7 +42,7 @@ class AmpEnv:
             
             for view in obj_views:
                 outViews1 = {}
-                for array in obj_views[view]["amp_obj"]:
+                for array in obj_views[view]["amp_obj"].keys():
                     if array != "values":
                         outViews1[array] = np.asarray(obj_views[view]["amp_obj"][array]).reshape([-1,3])
                     else:
