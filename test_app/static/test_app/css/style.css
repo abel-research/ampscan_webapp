@@ -26,15 +26,15 @@ body {font-family: 'Montserrat', sans-serif;}
     display: flex;
     position: absolute;
     flex-direction: column;
-    width: 30%;
-    left: 35%;
+    width: 40%;
+    left: 25%;
     background-color: white;
     z-index: 10;
-    height: 20%;
+    height: 40%;
 }
 
 #terms-overlay > img{
-    height: 30%;
+    height: 50%;
     margin: auto;
 }
 
@@ -42,6 +42,7 @@ body {font-family: 'Montserrat', sans-serif;}
     display: flex;
     margin: auto;
     flex-direction: column;
+    text-align: center;
 }
 
 #terms-overlay > div > a{
