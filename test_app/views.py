@@ -47,6 +47,7 @@ class AmpEnv:
                         outViews1[array] = np.asarray(obj_views[view]["amp_obj"][array]).reshape([-1,3])
                     else:
                         outViews1[array] = np.asarray(obj_views[view]["amp_obj"][array]).flatten()
+                        Exception(outViews1[array])
                     
                 if "values" not in outViews1:
                     outViews1["values"] = np.zeros(len(outViews1["vert"]))
