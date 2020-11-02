@@ -82,7 +82,7 @@ function updateObject(polyData, objID) {
         objects[objID].resetVisibility();
         updateEdges();
         addPicker(actor, renderers["primaryRenderer"]["renderer"], objID);
-    }
+        }
     addActor();
 
     return actor;
@@ -103,7 +103,7 @@ function downloadPolyDataAndUpdate(objID, callback) {
     formData.append("norms", isNormsSelected());
     formData.append("session", session_id);
     formData.append("objID", objID);
-    console.log(session_id);
+    // console.log(session_id);
 
     fetch("download/polydata", {
         method: 'POST',

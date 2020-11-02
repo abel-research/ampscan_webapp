@@ -313,6 +313,65 @@ def trim_view(request):
     height = float(request.POST.get("height"))
 
     obj.planarTrim(height)
+    new_name = request.POST.get("objID")
+    ampEnv = get_session(request)
+    ampEnv.add_obj(obj, new_name)
+    views = ampEnv.get_obj_views()
+    outViews = {}
+    for view in views:
+        try:
+            obj = ampEnv.get_object_view(view).ampObject
+            outViews[view] = views[view].property_response()
+            amp_obj = {
+                "vert": list(obj.vert.flatten().tolist()),
+                "faces": list(obj.faces.flatten().tolist()),
+                "values": list(obj.values.flatten().tolist())
+            }
+            outViews[view]["amp_obj"] = amp_obj
+        except:
+            raise Exception(view)
+        # raise Exception(type(outViews[view]["amp_obj"]))
+    request.session["obj_views"] = outViews
+
+    return JsonResponse({"success": True})
+
+def threeP_trim_view(request):
+    """
+    View for aligning
+    """
+
+    # AmpScan ICP alignment
+    obj = get_session(request).get_obj(request.POST.get("objID"))
+    p00 = float(request.POST.get("p00"))
+    p01 = float(request.POST.get("p01"))
+    p02 = float(request.POST.get("p02"))
+    p10 = float(request.POST.get("p10"))
+    p11 = float(request.POST.get("p11"))
+    p12 = float(request.POST.get("p12"))
+    p20 = float(request.POST.get("p20"))
+    p21 = float(request.POST.get("p21"))
+    p22 = float(request.POST.get("p22"))
+
+    obj.threePointTrim([p00, p01, p02], [p10, p11, p12], [p20, p21, p22])
+    new_name = request.POST.get("objID")
+    ampEnv = get_session(request)
+    ampEnv.add_obj(obj, new_name)
+    views = ampEnv.get_obj_views()
+    outViews = {}
+    for view in views:
+        try:
+            obj = ampEnv.get_object_view(view).ampObject
+            outViews[view] = views[view].property_response()
+            amp_obj = {
+                "vert": list(obj.vert.flatten().tolist()),
+                "faces": list(obj.faces.flatten().tolist()),
+                "values": list(obj.values.flatten().tolist())
+            }
+            outViews[view]["amp_obj"] = amp_obj
+        except:
+            raise Exception(view)
+        # raise Exception(type(outViews[view]["amp_obj"]))
+    request.session["obj_views"] = outViews
 
     return JsonResponse({"success": True})
 
@@ -326,6 +385,25 @@ def smooth_view(request):
     obj = get_session(request).get_obj(request.POST.get("objID"))
 
     obj.lp_smooth()
+    new_name = request.POST.get("objID")
+    ampEnv = get_session(request)
+    ampEnv.add_obj(obj, new_name)
+    views = ampEnv.get_obj_views()
+    outViews = {}
+    for view in views:
+        try:
+            obj = ampEnv.get_object_view(view).ampObject
+            outViews[view] = views[view].property_response()
+            amp_obj = {
+                "vert": list(obj.vert.flatten().tolist()),
+                "faces": list(obj.faces.flatten().tolist()),
+                "values": list(obj.values.flatten().tolist())
+            }
+            outViews[view]["amp_obj"] = amp_obj
+        except:
+            raise Exception(view)
+        # raise Exception(type(outViews[view]["amp_obj"]))
+    request.session["obj_views"] = outViews
 
     return JsonResponse({"success": True})
 
