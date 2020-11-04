@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 def generate_secret_key(file_name):
@@ -108,7 +108,8 @@ LOGGING = {
 		'file': {
 			'level': 'DEBUG',
 			'class': 'logging.FileHandler',
-			'filename': '/var/log/django/ampscan_webapp_prod.log'
+            'filename': os.path.join(BASE_DIR, "ampscan_webapp.log")
+			# 'filename': '/var/log/django/ampscan_webapp_prod.log'
 		}
 	},
 	'loggers': {

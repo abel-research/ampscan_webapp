@@ -53,7 +53,9 @@ function updateHome() {
 }
 
 // SMOOTH OBJECT
-function smoothObject() {
+function smoothObject(global) {
+    showProcessingScreen();
+    console.log('Smoothing');
     const formData = new FormData();
     formData.append("session", session_id);
     formData.append("objID", getHomeTarget());
@@ -69,18 +71,22 @@ function smoothObject() {
         return response.json();
     })
     .then(function (jsonresponse) {
-        downloadPolyDataAndUpdate(getHomeTarget());
+        downloadPolyDataAndUpdate(getHomeTarget(), function(){
+            hideProcessingScreen();
+        });
     });
 }
 
 
-let selectedPoint = -1;
+
+var selectedPoints = [0, 0, 0];
+var selectedPoint = -1;
 //
 function trimObjectSelectButtonPressed(point) {
     // Toggle showing trim button
     if (selectedPoint !== point) {
         document.getElementById("trimButton" + point).style.background = "#e5e5e5";
-        selectedPoint = point;
+        selectedPoint = point - 1;
     } else {
         document.getElementById("trimButton" + point).style.background = "transparent";
         selectedPoint = -1;
@@ -95,7 +101,39 @@ function trimObjectSelectButtonPressed(point) {
 }
 
 function pointTrim() {
-    // TODO implement
+    if (selectedPoints[0] === 0 || selectedPoints[1] === 0 || selectedPoints[2] === 0){
+        return;
+    }
+    showProcessingScreen();
+    const formData = new FormData();
+    formData.append("session", session_id);
+    formData.append("objID", getHomeTarget());
+    formData.append("p00", selectedPoints[0][0]);
+    formData.append("p01", selectedPoints[0][1]);
+    formData.append("p02", selectedPoints[0][2]);
+    formData.append("p10", selectedPoints[1][0]);
+    formData.append("p11", selectedPoints[1][1]);
+    formData.append("p12", selectedPoints[1][2]);
+    formData.append("p20", selectedPoints[2][0]);
+    formData.append("p21", selectedPoints[2][1]);
+    formData.append("p22", selectedPoints[2][2]);
+    
+    fetch("home/trimP", {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': csrftoken
+        }
+    })
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (jsonresponse) {
+        downloadPolyDataAndUpdate(getHomeTarget(), function(){
+            hideProcessingScreen();
+        });
+        
+    });
 }
 
 
@@ -105,12 +143,14 @@ function trimObjectButtonPressed() {
 }
 
 function trimObject(height) {
-
+    console.log('Trimming');
+    console.log(trimHeight);
+    showProcessingScreen();
     const formData = new FormData();
     formData.append("session", session_id);
     formData.append("objID", getHomeTarget());
     formData.append("height", height);
-
+    
     fetch("home/trim", {
         method: 'POST',
         body: formData,
@@ -122,7 +162,10 @@ function trimObject(height) {
         return response.json();
     })
     .then(function (jsonresponse) {
-        downloadPolyDataAndUpdate(getHomeTarget());
+        downloadPolyDataAndUpdate(getHomeTarget(), function(){
+            hideProcessingScreen();
+        });
+        
     });
 }
 
@@ -134,7 +177,8 @@ function getTrimHeight() {
 
 // origin (xMin, yMin, height), Point1 (xMax, yMin, height), Point2(xMin, yMax, height)
 function setTrimHeight(val) {
-    let height = val / 100.0;
+    console.log(val)
+    let height = val / 1.0;
     planeSource.setPoint1(
         100, -100, height
     );
