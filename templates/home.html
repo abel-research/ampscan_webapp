@@ -143,6 +143,19 @@
                 </div>
 
             </div>
+            <div class="controlOptionLineContainer">
+                <button id="staticButton1" onclick="staticObjectSelectButtonPressed(1);">Static Point 1</button>
+                <button id="staticButton2" onclick="staticObjectSelectButtonPressed(2);">Static Point 2</button>
+                <button id="staticButton3" onclick="staticObjectSelectButtonPressed(3);">Static Point 3</button>
+             </div>
+             <div class="controlOptionLineContainer">
+                <button id="movingButton1" onclick="movingObjectSelectButtonPressed(1);">Moving Point 1</button>
+                <button id="movingButton2" onclick="movingObjectSelectButtonPressed(2);">Moving Point 2</button>
+                <button id="movingButton3" onclick="movingObjectSelectButtonPressed(3);">Moving Point 3</button>
+             </div>
+             <div class="controlOptionLineContainer">
+                <button id="doPointAlignButton" onclick="runThreePAlign();">Three Point Align</button>
+             </div>
              <div class="controlOptionLineContainer" id="resetCameraContainer">
                 <button onclick="resetCamera();">Reset Cameras</button>
              </div>
@@ -319,26 +332,22 @@
     <div class="viewer" id="viewer">
         <div id="mainViewer"></div>
 
-        <div class="alignViewContainer" id="topLeftViewer">
-            <div style="text-align: right;">
-                3D Viewer
-            </div> 
-        </div>
+        <div class="alignViewContainer" id="topLeftViewer"></div>
  
         <div class="alignViewContainer" id="topRightViewer">
-            <div style="text-align: right;">
+            <div style="text-align: right; margin-right: 4px; margin-top: 4px;">
                 Transverse
             </div> 
         </div>
 
         <div class="alignViewContainer" id="bottomLeftViewer">
-            <div style="text-align: right;">
+            <div style="text-align: right; margin-right: 4px; margin-top: 4px;">
                 Sagittal
             </div> 
         </div>
 
         <div class="alignViewContainer" id="bottomRightViewer">
-            <div style="text-align: right;">
+            <div style="text-align: right; margin-right: 4px; margin-top: 4px;">
                 Coronal
             </div> 
         </div>

@@ -281,6 +281,71 @@ def translate_view(request):
     return JsonResponse({"success": True})
 
 
+def threeP_align_view(request):
+    """
+    View for aligning
+    """
+    # TODO add options to adjust settings
+
+    # AmpScan ICP alignment
+    static = get_session(request).get_obj(request.POST.get("staticID"))
+    moving = get_session(request).get_obj(request.POST.get("movingID"))
+    s00 = float(request.POST.get("s00"))
+    s01 = float(request.POST.get("s01"))
+    s02 = float(request.POST.get("s02"))
+    s10 = float(request.POST.get("s10"))
+    s11 = float(request.POST.get("s11"))
+    s12 = float(request.POST.get("s12"))
+    s20 = float(request.POST.get("s20"))
+    s21 = float(request.POST.get("s21"))
+    s22 = float(request.POST.get("s22"))
+
+    m00 = float(request.POST.get("m00"))
+    m01 = float(request.POST.get("m01"))
+    m02 = float(request.POST.get("m02"))
+    m10 = float(request.POST.get("m10"))
+    m11 = float(request.POST.get("m11"))
+    m12 = float(request.POST.get("m12"))
+    m20 = float(request.POST.get("m20"))
+    m21 = float(request.POST.get("m21"))
+    m22 = float(request.POST.get("m22"))
+
+    mv = [
+        [m00, m01, m02],
+        [m10, m11, m21],
+        [m20, m12, m22]
+    ]
+
+    sv = [
+        [s00, s01, s02],
+        [s10, s11, s21],
+        [s20, s12, s22]
+    ]
+
+    al = align(moving, static, maxiter=10, mv=mv, sv=sv, method='contPoints').m
+
+    new_name = request.POST.get("movingID")
+    ampEnv = get_session(request)
+    ampEnv.add_obj(al, new_name)
+    views = ampEnv.get_obj_views()
+    outViews = {}
+    for view in views:
+        try:
+            obj = ampEnv.get_object_view(view).ampObject
+            outViews[view] = views[view].property_response()
+            amp_obj = {
+                "vert": list(obj.vert.flatten().tolist()),
+                "faces": list(obj.faces.flatten().tolist()),
+                "values": list(obj.values.flatten().tolist())
+            }
+            outViews[view]["amp_obj"] = amp_obj
+        except:
+            raise Exception(view)
+        # raise Exception(type(outViews[view]["amp_obj"]))
+    request.session["obj_views"] = outViews
+
+    return JsonResponse({"success": True, "newObjID": new_name})
+
 def icp_view(request):
     """
     View for aligning

@@ -14,11 +14,24 @@ class AmpObjectContainer {
         this.values = null;
         this.checkbox = null;
         this.actor = null;
+        this.trimPoints = [0, 0, 0];
+        this.trimActors = [0, 0, 0];
+        this.alignPoints = [0, 0, 0];
+        this.alignActors = [0, 0, 0];
+        this.picker = null;
         // Note actor is set during polyUpdate
     }
 
     setActorVisibility(display) {
         this.actor.setVisibility(display);
+        for (let i = 0; i < 3; i++){
+            if (this.trimActors[i] != 0){
+                this.trimActors[i].setVisibility(display);
+            }
+            if (this.alignActors[i] != 0){
+                this.alignActors[i].setVisibility(display);
+            }
+        }
         this.display = display;
         if (this.checkbox != null)
             this.checkbox.checked = display;
@@ -94,5 +107,83 @@ class AmpObjectContainer {
         this.resetOpacity();
         this.resetColour();
         this.resetVisibility();
+    }
+
+    addPicker(renderer) {
+        this.picker = vtk.Rendering.Core.vtkPointPicker.newInstance();
+        this.picker.setPickFromList(1);
+        this.picker.initializePickList();
+        this.picker.addPickList(this.actor);
+        renderer.getRenderWindow().getInteractor().onRightButtonPress((callData) => {
+            if (this.display === false) {return};
+            if (selectedPoint === -1) {return};
+            if (pickerRenderID === 0 && getHomeTarget() != this.name ){
+                return;
+            }
+            if (pickerRenderID === 1 && getAlignStatic() != this.name ){
+                return;
+            }
+            if (pickerRenderID === 2 && getAlignMoving() != this.name ){
+                return;
+            }
+            const pos = callData.position;
+            const point = [pos.x, pos.y, 0.0];
+            this.picker.pick(point, renderer);
+            if (this.picker.getActors().length === 0) {return};
+            const pickedPoint = this.picker.getPickedPositions()[0];
+            if (pickerRenderID === 0){
+                this.trimPoints[selectedPoint] = pickedPoint;
+                if (this.trimActors[selectedPoint] === 0){
+                    const sphere = vtk.Filters.Sources.vtkSphereSource.newInstance();
+                    sphere.setCenter(pickedPoint);
+                    sphere.setRadius(5);
+                    const sphereMapper = vtk.Rendering.Core.vtkMapper.newInstance();
+                    sphereMapper.setInputData(sphere.getOutputData());
+                    const sphereActor = vtk.Rendering.Core.vtkActor.newInstance();
+                    sphereActor.setMapper(sphereMapper);
+                    this.trimActors[selectedPoint] = sphereActor
+                    let color = [0.0, 0.0, 0.0];
+                    color[selectedPoint] = 1;
+                    sphereActor.getProperty().setColor(color[0], color[1], color[2]);
+                    renderer.addActor(sphereActor);
+                }
+                else{
+                    const sphere = vtk.Filters.Sources.vtkSphereSource.newInstance();
+                    sphere.setCenter(pickedPoint);
+                    sphere.setRadius(5);
+                    const sphereMapper = vtk.Rendering.Core.vtkMapper.newInstance();
+                    sphereMapper.setInputData(sphere.getOutputData());
+                    this.trimActors[selectedPoint].setMapper(sphereMapper);
+                }
+            }
+            else {
+                this.alignPoints[selectedPoint] = pickedPoint;
+                if (this.alignActors[selectedPoint] === 0){
+                    const sphere = vtk.Filters.Sources.vtkSphereSource.newInstance();
+                    sphere.setCenter(pickedPoint);
+                    sphere.setRadius(5);
+                    const sphereMapper = vtk.Rendering.Core.vtkMapper.newInstance();
+                    sphereMapper.setInputData(sphere.getOutputData());
+                    const sphereActor = vtk.Rendering.Core.vtkActor.newInstance();
+                    sphereActor.setMapper(sphereMapper);
+                    this.alignActors[selectedPoint] = sphereActor
+                    let color = [0.0, 0.0, 0.0];
+                    color[selectedPoint] = 1;
+                    sphereActor.getProperty().setColor(color[0], color[1], color[2]);
+                    renderer.addActor(sphereActor);
+                }
+                else{
+                    const sphere = vtk.Filters.Sources.vtkSphereSource.newInstance();
+                    sphere.setCenter(pickedPoint);
+                    sphere.setRadius(5);
+                    const sphereMapper = vtk.Rendering.Core.vtkMapper.newInstance();
+                    sphereMapper.setInputData(sphere.getOutputData());
+                    this.alignActors[selectedPoint].setMapper(sphereMapper);
+                }
+            }
+            renderer.getRenderWindow().render();
+
+
+        });
     }
 }
