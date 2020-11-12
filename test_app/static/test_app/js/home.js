@@ -80,12 +80,16 @@ function smoothObject(global) {
 
 
 var selectedPoint = -1;
+
+// 0 for main window, 1 for static, 2 for moving
+var pickerRenderID = -1;
 //
 function trimObjectSelectButtonPressed(point) {
     // Toggle showing trim button
     if (selectedPoint !== point) {
         document.getElementById("trimButton" + point).style.background = "#e5e5e5";
         selectedPoint = point - 1;
+        pickerRenderID = 0;
     } else {
         document.getElementById("trimButton" + point).style.background = "transparent";
         selectedPoint = -1;
@@ -96,7 +100,42 @@ function trimObjectSelectButtonPressed(point) {
             document.getElementById("trimButton" + i).style.background = "transparent";
         }
     }
+}
 
+function staticObjectSelectButtonPressed(point) {
+    // Toggle showing trim button
+    if (selectedPoint !== point) {
+        document.getElementById("staticButton" + point).style.background = "#e5e5e5";
+        selectedPoint = point - 1;
+        pickerRenderID = 1;
+    } else {
+        document.getElementById("staticButton" + point).style.background = "transparent";
+        selectedPoint = -1;
+    }
+    // Make all other backgrounds transparent
+    for (let i = 1; i <= 3; i ++) {
+        if (point !== i) {
+            document.getElementById("staticButton" + i).style.background = "transparent";
+        }
+    }
+}
+
+function movingObjectSelectButtonPressed(point) {
+    // Toggle showing trim button
+    if (selectedPoint !== point) {
+        document.getElementById("movingButton" + point).style.background = "#e5e5e5";
+        selectedPoint = point - 1;
+        pickerRenderID = 2;
+    } else {
+        document.getElementById("movingButton" + point).style.background = "transparent";
+        selectedPoint = -1;
+    }
+    // Make all other backgrounds transparent
+    for (let i = 1; i <= 3; i ++) {
+        if (point !== i) {
+            document.getElementById("movingButton" + i).style.background = "transparent";
+        }
+    }
 }
 
 function pointTrim() {
@@ -105,7 +144,7 @@ function pointTrim() {
     const formData = new FormData();
     formData.append("session", session_id);
     formData.append("objID", getHomeTarget());
-    let selectedPoints = objects[getHomeTarget()].pickedPoints
+    let selectedPoints = objects[getHomeTarget()].trimPoints
     if (selectedPoints[0] === 0 || selectedPoints[1] === 0 || selectedPoints[2] === 0){
         return;
     }

@@ -98,6 +98,65 @@ function runICP() {
     })
 }
 
+function runThreePAlign() {
+    const formData = new FormData();
+    showProcessingScreen();
+
+    formData.append("session", session_id);
+    formData.append("movingID", getAlignMoving());
+    let selectedPoints = objects[getAlignMoving()].alignPoints
+    if (selectedPoints[0] === 0 || selectedPoints[1] === 0 || selectedPoints[2] === 0){
+        return;
+    }
+    formData.append("m00", selectedPoints[0][0]);
+    formData.append("m01", selectedPoints[0][1]);
+    formData.append("m02", selectedPoints[0][2]);
+    formData.append("m10", selectedPoints[1][0]);
+    formData.append("m11", selectedPoints[1][1]);
+    formData.append("m12", selectedPoints[1][2]);
+    formData.append("m20", selectedPoints[2][0]);
+    formData.append("m21", selectedPoints[2][1]);
+    formData.append("m22", selectedPoints[2][2]);
+
+    formData.append("staticID", getAlignStatic());
+    selectedPoints = objects[getAlignStatic()].alignPoints
+    if (selectedPoints[0] === 0 || selectedPoints[1] === 0 || selectedPoints[2] === 0){
+        return;
+    }
+    formData.append("s00", selectedPoints[0][0]);
+    formData.append("s01", selectedPoints[0][1]);
+    formData.append("s02", selectedPoints[0][2]);
+    formData.append("s10", selectedPoints[1][0]);
+    formData.append("s11", selectedPoints[1][1]);
+    formData.append("s12", selectedPoints[1][2]);
+    formData.append("s20", selectedPoints[2][0]);
+    formData.append("s21", selectedPoints[2][1]);
+    formData.append("s22", selectedPoints[2][2]);
+    console.log(formData);
+
+    // Submit the request to run icp
+    fetch("process/align/threePalign", {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': csrftoken
+        }
+    })
+    .then(function(response) {
+        // Convert response to json
+        return response.json();
+    })
+    .then(function (jsonResponse) {
+        // objects[jsonResponse["newObjID"]] = new AmpObjectContainer(jsonResponse["newObjID"], true, "align");
+        downloadPolyDataAndUpdate(getAlignMoving(), function() {
+            // Change the moving object to the new object
+            setAlignMoving(getAlignMoving());
+            updateAlign();
+            hideProcessingScreen();
+        });
+    })
+}
+
 
 
 function runCentre(global) {
