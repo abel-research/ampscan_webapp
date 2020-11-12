@@ -135,6 +135,7 @@ function runCentre(global) {
 }
 
 function rotate(objID, x, y, z) {
+    showProcessingScreen();
     // Add the data
     var formData  = new FormData();
     formData.append("x", String(x));
@@ -152,6 +153,7 @@ function rotate(objID, x, y, z) {
         'X-CSRFToken': csrftoken
         }
     }).then(function (reponse) {
+        hideProcessingScreen();
         // downloadPolyDataAndUpdate(objID);
     });
     objects[objID].actor.rotateX (x*57.2958);
@@ -163,6 +165,7 @@ function rotate(objID, x, y, z) {
 
 function translate(objID, x, y, z) {
     // Add the data
+    showProcessingScreen();
     var formData  = new FormData();
     formData.append("x", String(x));
     formData.append("y", String(y));
@@ -179,6 +182,7 @@ function translate(objID, x, y, z) {
         'X-CSRFToken': csrftoken
         }
     }).then(function (reponse) {
+        hideProcessingScreen();
         // downloadPolyDataAndUpdate(objID);
     });
     objects[objID].actor.addPosition ([x, y, z]);
