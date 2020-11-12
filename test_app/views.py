@@ -228,6 +228,25 @@ def rotate_view(request):
     # AmpScan rotation
     obj = get_session(request).get_obj(request.POST.get("objID"))
     obj.rotateAng([float(request.POST["x"]), float(request.POST["y"]), float(request.POST["z"])])
+    new_name = request.POST.get("objID")
+    ampEnv = get_session(request)
+    ampEnv.add_obj(obj, new_name)
+    views = ampEnv.get_obj_views()
+    outViews = {}
+    for view in views:
+        try:
+            obj = ampEnv.get_object_view(view).ampObject
+            outViews[view] = views[view].property_response()
+            amp_obj = {
+                "vert": list(obj.vert.flatten().tolist()),
+                "faces": list(obj.faces.flatten().tolist()),
+                "values": list(obj.values.flatten().tolist())
+            }
+            outViews[view]["amp_obj"] = amp_obj
+        except:
+            raise Exception(view)
+        # raise Exception(type(outViews[view]["amp_obj"]))
+    request.session["obj_views"] = outViews
 
     return JsonResponse({"success": True})
 
@@ -239,6 +258,25 @@ def translate_view(request):
     # AmpScan translation
     obj = get_session(request).get_obj(request.POST.get("objID"))
     obj.translate([float(request.POST["x"]), float(request.POST["y"]), float(request.POST["z"])])
+    new_name = request.POST.get("objID")
+    ampEnv = get_session(request)
+    ampEnv.add_obj(obj, new_name)
+    views = ampEnv.get_obj_views()
+    outViews = {}
+    for view in views:
+        try:
+            obj = ampEnv.get_object_view(view).ampObject
+            outViews[view] = views[view].property_response()
+            amp_obj = {
+                "vert": list(obj.vert.flatten().tolist()),
+                "faces": list(obj.faces.flatten().tolist()),
+                "values": list(obj.values.flatten().tolist())
+            }
+            outViews[view]["amp_obj"] = amp_obj
+        except:
+            raise Exception(view)
+        # raise Exception(type(outViews[view]["amp_obj"]))
+    request.session["obj_views"] = outViews
 
     return JsonResponse({"success": True})
 
