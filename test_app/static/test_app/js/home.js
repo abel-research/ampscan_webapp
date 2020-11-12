@@ -79,7 +79,6 @@ function smoothObject(global) {
 
 
 
-var selectedPoints = [0, 0, 0];
 var selectedPoint = -1;
 //
 function trimObjectSelectButtonPressed(point) {
@@ -101,13 +100,15 @@ function trimObjectSelectButtonPressed(point) {
 }
 
 function pointTrim() {
-    if (selectedPoints[0] === 0 || selectedPoints[1] === 0 || selectedPoints[2] === 0){
-        return;
-    }
+
     showProcessingScreen();
     const formData = new FormData();
     formData.append("session", session_id);
     formData.append("objID", getHomeTarget());
+    let selectedPoints = objects[getHomeTarget()].pickedPoints
+    if (selectedPoints[0] === 0 || selectedPoints[1] === 0 || selectedPoints[2] === 0){
+        return;
+    }
     formData.append("p00", selectedPoints[0][0]);
     formData.append("p01", selectedPoints[0][1]);
     formData.append("p02", selectedPoints[0][2]);
