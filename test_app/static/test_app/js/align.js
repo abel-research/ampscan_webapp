@@ -270,20 +270,32 @@ function createIncrementButton(text, parentNode, callback, tooltipValue, classTy
     parentNode.appendChild(buttonContainer);
 }
 
+// Trim height box
+let increment = 5;
+function getIncrement() {
+    return increment;
+}
+
+function setIncrement(val) {
+    increment = val;
+}
+
 function getTranslationSpeed() {
-    if (document.getElementById("adjustPrecision").checked) {
-        return 0.5;
-    } else {
-        return 5;
-    }
+    return getIncrement();
+    // if (document.getElementById("adjustPrecision").checked) {
+    //     return 0.5;
+    // } else {
+    //     return 5;
+    // }
 }
 function getRotationSpeed() {
     // Convert to radians
-    if (document.getElementById("adjustPrecision").checked) {
-        return 0.5 *  0.0174533;
-    } else {
-        return 5 *  0.0174533;
-    }
+    return getIncrement() * 0.0174533;
+    // if (document.getElementById("adjustPrecision").checked) {
+    //     return 0.5 *  0.0174533;
+    // } else {
+    //     return 5 *  0.0174533;
+    // }
 }
 
 function addAlignButtons() {

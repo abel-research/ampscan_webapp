@@ -118,11 +118,7 @@
                 <input type="range" class="targetOpacity slider" id="alignMovingOpacity" value="75" min="0" max="100">
             </div>
             <div class="controlOptionLineContainer">
-                <label for="adjustPrecision">Course/Fine adjust (5mm/0.5mm) and (5°/0.5°)</label>
-                <label class="switch">
-                    <input type="checkbox" id="adjustPrecision">
-                    <span class="toggleSlider"></span>
-                </label>
+                Adjustment Increment (mm/°) <input type="number" onchange="setIncrement(this.value)" value=5>
             </div>
             <div class="controlOptionLineContainer" id="transformationContainer">
                 {# Where all the controls rotation and translation go #}
