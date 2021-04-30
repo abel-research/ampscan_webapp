@@ -12,7 +12,7 @@ python3-openid==3.1.0
 pytz==2018.9
 requests==2.22.0
 requests-oauthlib==1.2.0
-urllib3==1.25.3
+urllib3==1.25.8
 django-webpack-loader
 git+https://github.com/abel-research/ampscan
 uwsgi
